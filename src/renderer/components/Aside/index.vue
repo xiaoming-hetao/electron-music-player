@@ -1,22 +1,23 @@
 <template>
-    <div class="wrap">
-        <user-info/>
-        <menus/>
-    </div>
+  <div class="wrap">
+    <logo />
+    <menus />
+  </div>
 </template>
 <script>
-import UserInfo from './UserInfo'
-import menus from './menu'
+import Logo from "./Logo";
+import Menus from "./Menu";
 export default {
-    components: {
-        UserInfo,
-        menus,
-    }
-}
+  components: {
+    Logo,
+    Menus
+  }
+};
 </script>
 <style lang="scss" scoped>
-    .wrap{
-        flex: 1;
-        display: flex;flex-direction: column;
-    }
+.wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 </style>

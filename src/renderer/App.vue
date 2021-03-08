@@ -5,9 +5,19 @@
 </template>
 
 <script>
+const { ipcRenderer } = require("electron");
 export default {
-  name: 'dog-music'
-}
+  name: "clound-music",
+  mounted() {
+    ipcRenderer.on("reply_likelist", (event, data) => {
+      let res = {
+        songs: data
+      };
+      this.$store.commit("SET_LIKELIST_DATA", res);
+      console.log(data, "ipcrender");
+    });
+  }
+};
 </script>
 
 <style lang="scss">
@@ -18,6 +28,22 @@ body {
   -webkit-user-select: none;
   height: 800px;
   overflow: hidden;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+/*滚动条的整体部分*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+  background-color: #fff;
+}
+/*定义滚动条轨道*/
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background: #fff;
+}
+/*定义滑块*/
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: #ddd;
 }
 </style>

@@ -45,28 +45,30 @@ const { createWebAPIRequest, request } = require("./util/util");
 const Wrap = fn => (req, res) => fn(req, res, createWebAPIRequest, request);
 
 // 同步读取 router 目录中的js文件, 根据命名规则, 自动注册路由
-fs.readdirSync("./router/").reverse().forEach(file => {
-  if (/\.js$/i.test(file) === false) {
-    return;
-  }
+fs.readdirSync("./router/")
+  .reverse()
+  .forEach(file => {
+    if (/\.js$/i.test(file) === false) {
+      return;
+    }
 
-  let route;
+    let route;
 
-  if (typeof UnusualRouteFileMap[file] !== "undefined") {
-    route = UnusualRouteFileMap[file];
-  } else {
-    route =
-      "/" +
-      file
-        .replace(/\.js$/i, "")
-        .replace(/_/g, "/")
-        .replace(/[A-Z]/g, a => {
-          return "/" + a.toLowerCase();
-        });
-  }
+    if (typeof UnusualRouteFileMap[file] !== "undefined") {
+      route = UnusualRouteFileMap[file];
+    } else {
+      route =
+        "/" +
+        file
+          .replace(/\.js$/i, "")
+          .replace(/_/g, "/")
+          .replace(/[A-Z]/g, a => {
+            return "/" + a.toLowerCase();
+          });
+    }
 
-  app.use(route, Wrap(require("./router/" + file)));
-});
+    app.use(route, Wrap(require("./router/" + file)));
+  });
 
 const port = process.env.PORT || 3000;
 

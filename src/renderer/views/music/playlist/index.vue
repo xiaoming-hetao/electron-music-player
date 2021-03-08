@@ -5,25 +5,25 @@
 </template>
 
 <script>
-    import HotView from './components/hot'
+import HotView from "./components/hot";
 
-    export default {
-        components: {
-            HotView
-        }
-    }
+export default {
+  components: {
+    HotView
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-    .scroll-page {
-        overflow: hidden;
-        /deep/ .el-scrollbar__wrap {
-            overflow-x: hidden;
-        }
-    }
+.scroll-page {
+  overflow: hidden;
+  /deep/ .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+}
 
-    .playlist-hot-view {
-        flex: 1;
-        overflow: hidden;
-    }
+.playlist-hot-view {
+  flex: 1;
+  overflow: hidden;
+}
 </style>

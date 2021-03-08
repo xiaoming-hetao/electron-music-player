@@ -28,7 +28,10 @@
           }
         "
       >
-        <div class="left"><i class="iconfont icon-shoucang hot" style="color: #666"></i>我喜欢</div>
+        <div class="left"><i
+            class="iconfont icon-shoucang hot"
+            style="color: #666"
+          ></i>我喜欢</div>
       </div>
       <div class="menu-item">
         <div class="left"><i class="iconfont icon-screen"></i>本地和下载</div>
@@ -41,15 +44,23 @@
     <div class="menu-group">
       <div class="menu-title">
         <div class="left">我创建的歌单</div>
-        <div class="right"><i class="iconfont icon-jia-copy" @click="createPlaylist"></i><i class="iconfont icon-xiangxia"></i></div>
+        <div class="right"><i
+            class="iconfont icon-jia-copy"
+            @click="createPlaylist"
+          ></i><i class="iconfont icon-xiangxia"></i></div>
       </div>
-      
-      <div class="menu-item"  v-for="(item,index) of userPlaylist" :key="index" @click="showUserPlaylist(item.id)">
+
+      <div
+        class="menu-item"
+        v-for="(item,index) of userPlaylist"
+        :key="index"
+        @click="showUserPlaylist(item.id)"
+      >
         <div class="left">
           <i class="iconfont icon-yinyue"></i>
           <span>{{item.name}}
-            </span>
-            </div>
+          </span>
+        </div>
       </div>
     </div>
 
@@ -58,7 +69,10 @@
         <div class="left">我收藏的歌单</div>
         <div class="right"><i class="iconfont icon-xiangxia"></i></div>
       </div>
-      <div class="menu-item" v-if="user.is_login">
+      <div
+        class="menu-item"
+        v-if="user.is_login"
+      >
         <div class="left"><i class="iconfont icon-yinyue"></i>Convoy</div>
       </div>
     </div>
@@ -68,9 +82,11 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  inject: ["reloadRouterView"],
   methods: {
     showUserPlaylist(id) {
       this.$router.push({ name: "userplaylist-detail", query: { id } });
+      this.reloadRouterView();
       console.log(id, "UserPlaylist id");
       // this.$store.dispatch("SET_PLAYLIST", id);
     },

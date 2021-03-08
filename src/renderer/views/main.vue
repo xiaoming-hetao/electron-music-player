@@ -1,12 +1,22 @@
 <template>
   <div>
-    <el-container class="container" id="main">
+    <el-container
+      class="container"
+      id="main"
+    >
       <el-container style="position: relative;">
-        <el-aside width="230px" class="aside">
+        <el-aside
+          width="230px"
+          class="aside"
+        >
           <aside-view />
         </el-aside>
         <el-container>
-          <el-header class="header" height="70px" style="-webkit-app-region: drag">
+          <el-header
+            class="header"
+            height="70px"
+            style="-webkit-app-region: drag"
+          >
             <header-view height="70px" />
           </el-header>
           <el-main class="main">
@@ -15,9 +25,12 @@
             </keep-alive>
           </el-main>
         </el-container>
-        <!--<playlist/>-->
+
       </el-container>
-      <el-footer class="footer" height="70px">
+      <el-footer
+        class="footer"
+        height="70px"
+      >
         <footer-view height="70px" />
       </el-footer>
     </el-container>

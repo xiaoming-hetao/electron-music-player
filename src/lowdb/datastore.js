@@ -9,6 +9,7 @@ import { remote, app } from "electron";
 
 const APP = process.type === "renderer" ? remote.app : app;
 const STORE_PATH = APP.getPath("userData");
+console.log(STORE_PATH);
 
 if (process.type !== "renderer") {
   if (!fs.pathExistsSync(STORE_PATH)) {
@@ -16,7 +17,7 @@ if (process.type !== "renderer") {
   }
 }
 
-const adapter = new FileSync(path.join(STORE_PATH, "/data.json"));
+const adapter = new FileSync(path.join(STORE_PATH, "/database.json"));
 
 // 初始化lodash-id，让每条记录都有一个唯一id
 const db = Datastore(adapter);

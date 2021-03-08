@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-if="isRouteActive"></router-view>
   </div>
 </template>
 
@@ -8,6 +8,24 @@
 const { ipcRenderer } = require("electron");
 export default {
   name: "clound-music",
+  provide() {
+    return {
+      reloadRouterView: this.reloadRouterView
+    };
+  },
+  data() {
+    return {
+      isRouteActive: true
+    };
+  },
+  methods: {
+    reloadRouterView() {
+      this.isRouteActive = false;
+      this.$nextTick(() => {
+        this.isRouteActive = true;
+      });
+    }
+  },
   mounted() {
     ipcRenderer.on("reply_likelist", (event, data) => {
       let res = {

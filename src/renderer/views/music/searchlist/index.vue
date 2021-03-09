@@ -1,8 +1,10 @@
 <template>
-  <div class="search-music" ref="searchlist">
+  <div
+    class="search-music"
+    ref="searchlist"
+  >
     <p style="font-size: 20px; font-weight: bold; margin-left: 20px">
-      找到<span style="color: #1296db">{{ singer ? "歌手&nbsp;" + singer : "" }}{{ album ? "专辑&nbsp;" + album : "" }}</span
-      >&nbsp;{{ songCount }}&nbsp;首单曲
+      找到<span style="color: #1296db">{{ singer ? "歌手&nbsp;" + singer : "" }}{{ album ? "专辑&nbsp;" + album : "" }}</span>&nbsp;{{ songCount }}&nbsp;首单曲
     </p>
     <p style="font-size: 16px; font-weight: bold; margin-left: 20px">歌曲列表</p>
 
@@ -39,11 +41,11 @@ export default {
   },
   computed: {
     ...mapState({
-      list: state => state.player.list,
-      song: state => state.player.song,
-      songCount: state => state.player.songCount,
-      singer: state => state.player.singer,
-      album: state => state.player.albumName
+      list: state => state.search.list,
+      song: state => state.search.song,
+      songCount: state => state.search.songCount,
+      singer: state => state.search.singer,
+      album: state => state.search.albumName
     })
   },
   mounted() {

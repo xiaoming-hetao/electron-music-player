@@ -1,18 +1,40 @@
 <template>
-  <div class="header-view" :style="{ height: height }">
+  <div
+    class="header-view"
+    :style="{ height: height }"
+  >
     <div class="left flex-c-l">
-      <el-button class="no-drag" size="mini" type="text" @click="back">
+      <el-button
+        class="no-drag"
+        size="mini"
+        type="text"
+        @click="back"
+      >
         <i class="btn el-icon-arrow-left"></i>
       </el-button>
-      <el-button class="no-drag" size="mini" type="text" @click="advance">
+      <el-button
+        class="no-drag"
+        size="mini"
+        type="text"
+        @click="advance"
+      >
         <i class="btn el-icon-arrow-right"></i>
       </el-button>
-      <el-button class="no-drag hover-color" size="mini" type="text" @click="refresh">
+      <el-button
+        class="no-drag hover-color"
+        size="mini"
+        type="text"
+        @click="refresh"
+      >
         <i class="btn el-icon-refresh"></i>
       </el-button>
 
       <div class="search no-drag">
-        <el-popover width="350" trigger="click" :disabled="hotVisible">
+        <el-popover
+          width="350"
+          trigger="click"
+          :disabled="hotVisible"
+        >
           <el-input
             size="mini"
             prefix-icon="el-icon-search"
@@ -23,20 +45,36 @@
             slot="reference"
           ></el-input>
           <!-- 输入搜索 -->
-          <div v-if="searchContent" class="input-search">
+          <div
+            v-if="searchContent"
+            class="input-search"
+          >
             <div v-if="searchInputData.songs">
               <p><img src="../../assets/images/song.png" />&nbsp;&nbsp;单曲</p>
-              <div v-for="(song, index) of searchInputData.songs" :key="index" class="search-item" @click="handleHotSearch(song.name)">
+              <div
+                v-for="(song, index) of searchInputData.songs"
+                :key="index"
+                class="search-item"
+                @click="handleHotSearch(song.name)"
+              >
                 {{ song.name }}-{{ song.artists[0].name }}
               </div>
             </div>
             <div v-if="searchInputData.albums">
               <p><img src="../../assets/images/album.png" />&nbsp;&nbsp;专辑</p>
-              <div v-for="(album, index) of searchInputData.albums" :key="index" class="search-item" @click="handleAlbumSearch(album)">
+              <div
+                v-for="(album, index) of searchInputData.albums"
+                :key="index"
+                class="search-item"
+                @click="handleAlbumSearch(album)"
+              >
                 {{ album.name }}-{{ album.artist.name }}
               </div>
             </div>
-            <div class="palylists" v-if="searchInputData.playlists">
+            <div
+              class="palylists"
+              v-if="searchInputData.playlists"
+            >
               <p><img src="../../assets/images/playlist.png" />&nbsp;&nbsp;歌单</p>
               <div
                 v-for="(playlist, index) of searchInputData.playlists"
@@ -49,15 +87,30 @@
             </div>
             <div v-if="searchInputData.artists">
               <p><img src="../../assets/images/user.png" />&nbsp;&nbsp;歌手</p>
-              <div v-for="(artist, index) of searchInputData.artists" :key="index" class="search-item" @click="handleArtistSearch(artist)">
+              <div
+                v-for="(artist, index) of searchInputData.artists"
+                :key="index"
+                class="search-item"
+                @click="handleArtistSearch(artist)"
+              >
                 {{ artist.name }}
               </div>
             </div>
           </div>
           <!-- 热搜榜 -->
-          <div style="height: 500px; overflow-y: auto" v-if="!searchContent">
-            <div class="search-history" v-if="searchHistory.length">
-              <p>搜索历史&nbsp;&nbsp;<i class="el-icon-delete" style="cursor: pointer" @click="delHistory"></i></p>
+          <div
+            style="height: 500px; overflow-y: auto"
+            v-if="!searchContent"
+          >
+            <div
+              class="search-history"
+              v-if="searchHistory.length"
+            >
+              <p>搜索历史&nbsp;&nbsp;<i
+                  class="el-icon-delete"
+                  style="cursor: pointer"
+                  @click="delHistory"
+                ></i></p>
               <el-tag
                 v-for="(songName, index) of searchHistory"
                 :key="index"
@@ -96,17 +149,37 @@
       </div>
     </div>
     <div class="center">
-      <div class="avatar" @click="login">
-        <img v-if="user.is_login" :src="user.profile.avatarUrl || initAvatar" />
-        <img v-else src="../../assets/images/user.png" />
+      <div
+        class="avatar"
+        @click="login"
+      >
+        <img
+          v-if="user.is_login"
+          :src="user.profile.avatarUrl || initAvatar"
+        />
+        <img
+          v-else
+          src="../../assets/images/user.png"
+        />
       </div>
 
-      <el-popover width="70" trigger="click" :disabled="visible">
+      <el-popover
+        width="70"
+        trigger="click"
+        :disabled="visible"
+      >
         <div @click="handleLogout">
           <i class="el-icon-switch-button"></i>
           <span style="pointer: cursor">退出</span>
         </div>
-        <el-button style="color: #555" type="text" class="no-drag" size="mini" @click="login" slot="reference">
+        <el-button
+          style="color: #555"
+          type="text"
+          class="no-drag"
+          size="mini"
+          @click="login"
+          slot="reference"
+        >
           {{ user.is_login ? user.profile.nickname : "未登录" }}
           <span style="font-size: 16px; color: bfbfbf"><i class="el-icon-caret-bottom"></i></span>
         </el-button>
@@ -114,10 +187,20 @@
     </div>
 
     <div class="right">
-      <el-button @click="minimize" class="no-drag" size="mini" type="text">
+      <el-button
+        @click="minimize"
+        class="no-drag"
+        size="mini"
+        type="text"
+      >
         <i class="btn el-icon-minus"></i>
       </el-button>
-      <el-button @click="close" class="no-drag hover-color" size="mini" type="text">
+      <el-button
+        @click="close"
+        class="no-drag hover-color"
+        size="mini"
+        type="text"
+      >
         <i class="btn el-icon-close"></i>
       </el-button>
     </div>
@@ -161,7 +244,7 @@ export default {
     },
     handlePlaylistSearch(id) {},
     handleArtistSearch(artist) {
-      this.$router.push({ name: "show-searchlist" });
+      this.$router.push({ name: "show-singerdetail" });
       localStorage.setItem("artistID", artist.id);
       this.$store.dispatch("handleArtistSearch", { id: artist.id });
       this.hotVisible = true;

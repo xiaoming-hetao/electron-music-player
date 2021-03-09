@@ -27,6 +27,11 @@ export default new Router({
           component: () => import("../views/music/searchlist")
         },
         {
+          path: "show-singerdetail",
+          name: "show-singerdetail",
+          component: () => import("../views/music/singerdetail")
+        },
+        {
           path: "show-likelist",
           name: "show-likelist",
           component: () => import("../views/music/likelist")

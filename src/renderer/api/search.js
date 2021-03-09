@@ -24,3 +24,18 @@ export function getAlbumContent(id) {
 export function getArtistSongs(id, limit = 100, offset = 0) {
   return http.get(`/artist/songs?id=${id}&limit=${limit}&offset=${offset}&order=hot`);
 }
+
+// 获取歌手专辑
+export function getArtistAlbum(id, limit = 50, offset = 0) {
+  return http.get(`/artist/album?id=${id}&limit=${limit}&offset=${offset}&order=hot`);
+}
+
+// 获取歌手MV
+export function getArtistMV(id) {
+  return http.get(`/artist/mv?id=${id}`);
+}
+
+// 获取歌手描述
+export function getArtistDesc(id) {
+  return http.get(`/artist/desc?id=${id}`);
+}

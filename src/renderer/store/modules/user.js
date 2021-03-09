@@ -7,7 +7,8 @@ export default {
     is_login: locs.get("profile") ? true : false,
     profile: locs.get("profile"),
     likelist: [],
-    userPlaylist: []
+    userCreatePlaylist: [],
+    userLikePlaylist: []
   },
   mutations: {
     SET_USER_DATA: (state, data) => {
@@ -24,7 +25,8 @@ export default {
       state.likelist = data.songs;
     },
     SET_PLAYLIST_DATA: (state, data) => {
-      state.userPlaylist = data;
+      state.userCreatePlaylist = data.userCreatePlaylist;
+      state.userLikePlaylist = data.userLikePlaylist;
     }
   },
   actions: {
@@ -35,6 +37,7 @@ export default {
       };
       locs.set("profile", res.profile);
       commit("SET_USER_DATA", data);
+
       // 登录之后获取用户喜欢歌曲列表，用户创建的歌单，用户收藏的歌单等
       dispatch("SET_LIKELIST", res.profile.userId);
       dispatch("SET_PLAYLIST", res.profile.userId);
@@ -72,10 +75,24 @@ export default {
     },
     SET_PLAYLIST({ commit, state, dispatch }, uid) {
       getUserPlayList(uid).then(res => {
+        console.log(res, "userplaylist");
         // 去掉歌单我喜欢（处于返回的数据中的第一条）
         const handleData = res.playlist.splice(1);
-        commit("SET_PLAYLIST_DATA", handleData);
-        console.log(res, "userplaylist");
+        // 区分用户创建的歌单和用户收藏的歌单
+        let userCreatePlaylist = [];
+        let userLikePlaylist = [];
+        for (let item of handleData) {
+          if (item.userId === uid) {
+            userCreatePlaylist.push(item);
+          } else {
+            userLikePlaylist.push(item);
+          }
+        }
+        let handleRes = {
+          userCreatePlaylist,
+          userLikePlaylist
+        };
+        commit("SET_PLAYLIST_DATA", handleRes);
       });
     }
   }

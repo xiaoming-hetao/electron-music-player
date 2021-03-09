@@ -52,14 +52,13 @@
 
       <div
         class="menu-item"
-        v-for="(item,index) of userPlaylist"
+        v-for="(item,index) of userCreatePlaylist"
         :key="index"
-        @click="showUserPlaylist(item.id)"
+        @click="showUserCreatePlaylist(item.id)"
       >
         <div class="left">
           <i class="iconfont icon-yinyue"></i>
-          <span>{{item.name}}
-          </span>
+          <span>{{ item.name}}</span>
         </div>
       </div>
     </div>
@@ -71,9 +70,14 @@
       </div>
       <div
         class="menu-item"
-        v-if="user.is_login"
+        v-for="(item,index) of userLikePlaylist"
+        :key="index"
+        @click="showUserLikePlaylist(item.id)"
       >
-        <div class="left"><i class="iconfont icon-yinyue"></i>Convoy</div>
+        <div class="left">
+          <i class="iconfont icon-yinyue"></i>
+          <span>{{ item.name}}</span>
+        </div>
       </div>
     </div>
   </el-scrollbar>
@@ -84,11 +88,13 @@ import { mapState } from "vuex";
 export default {
   inject: ["reloadRouterView"],
   methods: {
-    showUserPlaylist(id) {
-      this.$router.push({ name: "userplaylist-detail", query: { id } });
+    showUserCreatePlaylist(id) {
+      this.$router.push({ name: "userplaylist-detail", query: { id, isLike: false } });
       this.reloadRouterView();
-      console.log(id, "UserPlaylist id");
-      // this.$store.dispatch("SET_PLAYLIST", id);
+    },
+    showUserLikePlaylist(id) {
+      this.$router.push({ name: "userplaylist-detail", query: { id, isLike: true } });
+      this.reloadRouterView();
     },
     createPlaylist() {
       console.log(this.user.profile.nickname);
@@ -97,7 +103,8 @@ export default {
   computed: {
     ...mapState({
       user: state => state.user,
-      userPlaylist: state => state.user.userPlaylist
+      userCreatePlaylist: state => state.user.userCreatePlaylist,
+      userLikePlaylist: state => state.user.userLikePlaylist
     })
   }
 };

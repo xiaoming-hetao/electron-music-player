@@ -25,9 +25,18 @@ export function getUserPlayHistory(uid) {
 export function getUserLikelist(uid) {
   return http.get(`/likelist?uid=${uid}`);
 }
+
 // 获取用户歌单
 export function getUserPlaylist(uid) {
-  return http.get(`/user/playlist?uid==${uid}`);
+  return http.get(`/user/playlist?uid=${uid}`);
+}
+
+// 收藏，取消歌单t : 类型,1:收藏,2:取消收藏
+export function likePlaylist(id) {
+  return http.get(`/playlist/subscribe?t=1&id=${id}`);
+}
+export function dislikePlaylist(id) {
+  return http.get(`/playlist/subscribe?t=&id=${id}`);
 }
 
 /* 注册 */

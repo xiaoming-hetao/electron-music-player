@@ -17,6 +17,12 @@ export function getPlaylistDetail(id) {
 export function getmvDetail(mvid) {
   return http.get(`/mv/detail?mvid=${mvid}`);
 }
+
+//获取歌词
+export function getSongLyric(id) {
+  return http.get(`/lyric?id=${id}`);
+}
+
 export function getmvUrl(mvid) {
   return http.get(`/mv/url?id=${mvid}`);
 }

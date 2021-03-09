@@ -1,5 +1,8 @@
 <template>
-  <el-scrollbar class="playlist-detail scroll-page" v-loading="loading">
+  <el-scrollbar
+    class="playlist-detail scroll-page"
+    v-loading="loading"
+  >
     <template v-if="playlist && show">
       <div class="top">
         <div class="cover">
@@ -11,8 +14,8 @@
               type="danger"
               effect="plain"
               size="small"
-              >
-            歌单
+            >
+              歌单
             </el-tag>{{ playlist.name }}
           </div>
           <div class="author">
@@ -22,9 +25,35 @@
           <div class="desc line-1">{{ playlist.description }}</div>
           <div class="desc line-1">歌曲：{{ playlist.tracks.length }}</div>
           <div class="actions">
-            <el-button @click="playAll" size="mini" round type="primary" icon="iconfont icon-bofangsanjiaoxing">播放全部</el-button>
-            <el-button size="mini" round icon="iconfont icon-shoucang">收藏</el-button>
-            <el-button size="mini" round icon="iconfont icon-xiazai2">下载</el-button>
+            <el-button
+              @click="playAll"
+              size="mini"
+              round
+              type="primary"
+              icon="iconfont icon-bofangsanjiaoxing"
+            >播放全部</el-button>
+            <el-button
+              v-if="isLike"
+              size="mini"
+              round
+              @click="handleCancelShoucang"
+            ><i
+                class="iconfont icon-shoucang"
+                style="color: red"
+              ></i>已收藏</el-button>
+            <el-button
+              v-else
+              size="mini"
+              round
+              icon="iconfont icon-shoucang"
+              @click="handleShoucang"
+            >收藏</el-button>
+
+            <el-button
+              size="mini"
+              round
+              icon="iconfont icon-xiazai2"
+            >下载</el-button>
           </div>
         </div>
       </div>
@@ -37,6 +66,7 @@
 
 <script>
 import { getPlaylistDetail, like } from "../../api";
+import { likePlaylist, dislikePlaylist } from "../../api/user";
 import songlist from "../../components/Songlist";
 export default {
   components: {
@@ -45,6 +75,7 @@ export default {
   data() {
     return {
       id: "",
+      isLike: false,
       loading: true,
       show: false,
       playlist: []
@@ -59,6 +90,7 @@ export default {
   },
   activated() {
     let id = this.$route.query.id;
+    this.isLike = this.$route.query.isLike;
     if (id !== this.id) {
       this.id = id;
       this.getData();
@@ -70,11 +102,19 @@ export default {
     this.show = false;
   },
   methods: {
+    handleShoucang() {
+      likePlaylist(this.id).then(res => {
+        console.log(res, "likePlaylist");
+      });
+    },
+    handleCancelShoucang() {
+      dislikePlaylist(this.id).then(res => {
+        console.log(res, "dislikePlaylist");
+      });
+    },
     getData() {
       this.loading = true;
       getPlaylistDetail(this.id).then(res => {
-        console.log(res, "playlist");
-
         this.playlist = res.playlist;
         this.show = true;
         this.loading = false;

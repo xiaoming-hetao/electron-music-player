@@ -1,52 +1,112 @@
 <template>
   <div class="player">
     <div class="control">
-      <el-button type="text" @click="playBefore" :disabled="!before_song">
+      <el-button
+        type="text"
+        @click="playBefore"
+        :disabled="!before_song"
+      >
         <i class="iconfont icon-kuaitui"></i>
       </el-button>
-      <el-button class="play-btn" type="text" @click="playClick">
-        <i class="iconfont icon-zanting" v-if="!is_play"></i>
-        <i class="iconfont icon-bofang" v-else></i>
+      <el-button
+        class="play-btn"
+        type="text"
+        @click="playClick"
+      >
+        <i
+          class="iconfont icon-zanting"
+          v-if="!is_play"
+        ></i>
+        <i
+          class="iconfont icon-bofang"
+          v-else
+        ></i>
       </el-button>
-      <el-button type="text" @click="playAfter" :disabled="!after_song">
+      <el-button
+        type="text"
+        @click="playAfter"
+        :disabled="!after_song"
+      >
         <i class="iconfont icon-kuaijin"></i>
       </el-button>
     </div>
     <div class="cover">
-      <img class="cover-image" :src="cover" />
-      <audio v-show="false" ref="audio" v-if="play_url" :src="play_url.url" preload />
+      <img
+        class="cover-image"
+        :src="cover"
+        @click="showSongLyric(song.id)"
+      />
+      <audio
+        v-show="false"
+        ref="audio"
+        v-if="play_url"
+        :src="play_url.url"
+        preload
+      />
     </div>
     <div class="tone">
-      <el-dropdown trigger="click" placement="top">
+      <el-dropdown
+        trigger="click"
+        placement="top"
+      >
         <span class="tone-dropdown">标准<i class="el-icon-arrow-up el-icon--right"></i></span>
-        <el-dropdown-menu slot="dropdown" style="width: 220px">
+        <el-dropdown-menu
+          slot="dropdown"
+          style="width: 220px"
+        >
           <el-dropdown-item>
             <div class="flex-c-l">
-              <div class="check" style="width: 30px">
-                <i class="el-icon-check" style="color: #31c27c"></i>
+              <div
+                class="check"
+                style="width: 30px"
+              >
+                <i
+                  class="el-icon-check"
+                  style="color: #31c27c"
+                ></i>
               </div>
               <span>标准品质</span>
             </div>
           </el-dropdown-item>
           <el-dropdown-item>
             <div class="flex-c-l">
-              <div class="check" style="width: 30px"></div>
+              <div
+                class="check"
+                style="width: 30px"
+              ></div>
               <span>HQ高品质</span>
             </div>
           </el-dropdown-item>
           <el-dropdown-item>
             <div class="flex-c-l">
-              <div class="check" style="width: 30px"></div>
+              <div
+                class="check"
+                style="width: 30px"
+              ></div>
               <span>SQ无损品质</span>
-              <img src="../../assets/images/svip.png" style="margin-left: 5px; width: 22px" />
-              <img src="../../assets/images/sui.png" style="margin-left: 5px; width: 22px" />
+              <img
+                src="../../assets/images/svip.png"
+                style="margin-left: 5px; width: 22px"
+              />
+              <img
+                src="../../assets/images/sui.png"
+                style="margin-left: 5px; width: 22px"
+              />
             </div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-dropdown class="mt-10" trigger="click" placement="top" size="medium">
+      <el-dropdown
+        class="mt-10"
+        trigger="click"
+        placement="top"
+        size="medium"
+      >
         <span class="tone-dropdown">音效<i class="el-icon-arrow-up el-icon--right"></i></span>
-        <el-dropdown-menu slot="dropdown" style="width: 200px">
+        <el-dropdown-menu
+          slot="dropdown"
+          style="width: 200px"
+        >
           <el-dropdown-item>关闭</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -56,7 +116,10 @@
         <div class="names">
           <div>
             <span class="name">{{ name }}</span>
-            <span class="ar_name" v-if="ar_name"> - {{ ar_name }}</span>
+            <span
+              class="ar_name"
+              v-if="ar_name"
+            > - {{ ar_name }}</span>
           </div>
         </div>
         <div class="time">{{ (play_time * 1000) | formatDuring }} / {{ song.dt | formatDuring }}</div>
@@ -83,18 +146,39 @@
         <i class="iconfont icon-shengyin"></i>
       </el-button>
     </div>
+
+    <el-dialog
+      :visible.sync="dialogTableVisible"
+      :fullscreen="true"
+      :modal="false"
+      width="720"
+    >
+      <songdetail
+        :songdetail="song"
+        :lyric="lyric"
+      />
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import songdetail from "../Songdetail";
+
+import { getSongLyric } from "../../api";
 export default {
+  components: {
+    songdetail
+  },
   data() {
     return {
       audio: null,
       play_time: 0,
       max_time: 0,
       interval: null,
-      play_type: 1 //播放次序 0单曲循环 1列表循环 2随机播放
+      play_type: 1, //播放次序 0单曲循环 1列表循环 2随机播放
+      lyric: "", //歌词
+      dialogTableVisible: false
     };
   },
   mounted() {},
@@ -137,7 +221,7 @@ export default {
       try {
         return this.song.al.picUrl;
       } catch (e) {
-        return "http://p1.music.126.net/dPn_6T9d5VUuCDvhJdZ_8A==/109951163399691488.jpg";
+        return "http://p3.music.126.net/4MweH6c68gCe893Xk3vIQA==/109951165605589048.jpg?param=140y140";
       }
     },
     name() {
@@ -183,8 +267,19 @@ export default {
     }
   },
   methods: {
+    // 展示歌词
+    showSongLyric(id) {
+      getSongLyric(id).then(res => {
+        this.lyric = res.lrc.lyric;
+        this.dialogTableVisible = true;
+        console.log(res, "歌词");
+
+        console.log(this.lyric);
+      });
+    },
     //播放/暂停按钮点击
     playClick() {
+      console.log(this.song);
       this.$store.commit("SET_PLAYER_DATA", { is_play: !this.is_play });
     },
     //获取当前已播放时间

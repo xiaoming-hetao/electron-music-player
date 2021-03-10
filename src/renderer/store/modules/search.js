@@ -4,9 +4,8 @@ export default {
   state: {
     list: [],
     song: {},
-    singer: "",
-    albumName: "",
     songCount: 0,
+    album: {},
     artistInfo: {},
     hotAlbumsList: [],
     mvs: [],
@@ -20,12 +19,11 @@ export default {
     SET_ALBUM_SEARCH_LIST: (state, data) => {
       state.list = data.songs;
       state.songCount = data.songs.length;
-      state.albumName = data.album.name;
+      state.album = data.album;
     },
     SET_ARTIST_SEARCH_LIST: (state, data) => {
       state.list = data.songs;
       state.songCount = data.total;
-      state.singer = data.songs[1].ar[0].name;
     },
     SET_ARTIST_ALBUM: (state, data) => {
       state.hotAlbumsList = data.hotAlbums;
@@ -36,10 +34,6 @@ export default {
     },
     SET_ARTIST_DESC: (state, data) => {
       state.desc = data;
-    },
-    SER_SINGER_ALBUM: state => {
-      state.singer = "";
-      state.albumName = "";
     }
   },
   actions: {
@@ -48,7 +42,6 @@ export default {
       search(res.keywords, res.limit, res.offset).then(res => {
         dispatch("showSearchlist", res.result);
       });
-      commit("SER_SINGER_ALBUM");
     },
     handleAlbumSearch({ commit, state, dispatch }, res) {
       getAlbumContent(res.album.id).then(res => {

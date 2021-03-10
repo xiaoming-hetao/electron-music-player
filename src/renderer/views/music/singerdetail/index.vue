@@ -100,20 +100,30 @@
           label="MV"
           name="mv"
         >
-          <div
-            class="mv-flex-container"
-            v-for="(item, index) of mvs"
-            :key="index"
-          >
-            <div class="mv-item">
-              <img
-                :src="item.imgurl"
-                width="260"
-                height="120"
-              />
+          <el-row :gutter="15">
+            <el-col
+              class="mv-item"
+              v-for="(item, index) of mvs"
+              :key="index"
+              :span="8"
+            >
+              <div class="container">
+                <img
+                  @click="playmv(item.id)"
+                  :src="item.imgurl"
+                  width="260"
+                  height="140"
+                />
+                <div class="center">
+                  <i class="iconfont icon-iconset0481"></i>&nbsp;&nbsp;{{Math.floor(item.playCount/10000)}}万
+                  <div style="margin-top:20px">{{item.duration | formatDuring }}</div>
+                </div>
+              </div>
+
               <p style="font-size:14px">{{item.name}}</p>
-            </div>
-          </div>
+            </el-col>
+
+          </el-row>
         </el-tab-pane>
         <!-- 歌手详情 -->
         <el-tab-pane
@@ -131,7 +141,11 @@
             <p class="desc-title">{{item.ti}}</p>
             <p
               class="desc-content"
-              v-html="item.txt.replace(/\r\n/g, '<br/>&emsp;&emsp;').replace(/\n\r/g, '<br>&emsp;&emsp;').replace(/\r/g, '<br/>&emsp;&emsp;').replace(/\n/g, '<br>&emsp;&emsp;').replace(/ /g, '&nbsp;')"
+              v-html="item.txt.replace(/\r\n/g, '<br/>&emsp;&emsp;')
+              .replace(/\n\r/g, '<br>&emsp;&emsp;')
+              .replace(/\r/g, '<br/>&emsp;&emsp;')
+              .replace(/\n/g, '<br>&emsp;&emsp;')
+              .replace(/ /g, '&nbsp;')"
             ></p>
           </div>
         </el-tab-pane>
@@ -193,11 +207,27 @@ export default {
     display: flex;
     margin-top: 50px;
   }
-  .mv-flex-container {
-    display: flex;
-    .mv-item {
-      margin: 20px 10px;
-      cursor: pointer;
+  .mv-item {
+    cursor: pointer;
+    margin-top: 10px;
+    .container {
+      position: relative;
+      width: 260px;
+      height: 140px;
+      img {
+        background: #999;
+        border-radius: 7px;
+      }
+      .center {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        margin-top: -9px;
+        color: #fff;
+      }
     }
   }
   .desc-title {
@@ -214,13 +244,13 @@ export default {
   padding: 25px 30px;
   display: flex;
   .cover {
-    width: 147px;
-    height: 147px;
+    width: 175px;
+    height: 175px;
     position: relative;
     flex-shrink: 0;
     img {
-      width: 147px;
-      height: 147px;
+      width: 175px;
+      height: 175px;
     }
   }
   .info {

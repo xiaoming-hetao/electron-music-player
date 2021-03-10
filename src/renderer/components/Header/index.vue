@@ -238,7 +238,7 @@ export default {
       }
     },
     handleAlbumSearch(album) {
-      this.$router.push({ name: "show-searchlist" });
+      this.$router.push({ name: "show-albumdetail" });
       this.$store.dispatch("handleAlbumSearch", { album });
       this.hotVisible = true;
     },

@@ -3,10 +3,10 @@
     class="search-music"
     ref="searchlist"
   >
-    <p style="font-size: 20px; font-weight: bold; margin-left: 20px">
-      找到<span style="color: #1296db">{{ singer ? "歌手&nbsp;" + singer : "" }}{{ album ? "专辑&nbsp;" + album : "" }}</span>&nbsp;{{ songCount }}&nbsp;首单曲
+    <p style="font-size: 16px; font-weight: bold; margin-left: 20px">
+      找到<span>&nbsp;{{ songCount }}&nbsp;首单曲</span>
     </p>
-    <p style="font-size: 16px; font-weight: bold; margin-left: 20px">歌曲列表</p>
+    <p style="font-size: 14px; font-weight: bold; margin-left: 20px">歌曲列表</p>
 
     <songlist :songlist="list" />
 
@@ -43,9 +43,7 @@ export default {
     ...mapState({
       list: state => state.search.list,
       song: state => state.search.song,
-      songCount: state => state.search.songCount,
-      singer: state => state.search.singer,
-      album: state => state.search.albumName
+      songCount: state => state.search.songCount
     })
   },
   mounted() {
@@ -69,21 +67,13 @@ export default {
   methods: {
     handleCurrentChange(currentPage) {
       // 单曲，专辑，歌手搜索分别对应不同的action
-      if (this.singer.length) {
-        this.$store.dispatch("handleArtistSearch", {
-          id: localStorage.getItem("artistID"),
-          limit: this.pageSize,
-          offset: currentPage - 1
-        });
-      } else {
-        const keywords = localStorage.getItem("keywords");
-        console.log(currentPage, "当前页");
-        this.$store.dispatch("handleHotSearch", {
-          keywords,
-          limit: this.pageSize,
-          offset: currentPage - 1
-        });
-      }
+      const keywords = localStorage.getItem("keywords");
+      console.log(currentPage, "当前页");
+      this.$store.dispatch("handleHotSearch", {
+        keywords,
+        limit: this.pageSize,
+        offset: currentPage - 1
+      });
 
       //   this.currentPage = currentPage;
       //   每次切换页面让滚动条回到顶部

@@ -37,6 +37,7 @@ export default {
     },
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {
+        console.log(res, "playlistdetail");
         commit("SET_PLAYER_LIST", res.playlist.tracks);
         dispatch("playMusic", res.playlist.tracks[0].id);
       });

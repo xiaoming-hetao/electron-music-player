@@ -211,7 +211,9 @@
 import { logout } from "../../api/user";
 import { search, searchHot, searchSuggest } from "../../api/search";
 const { ipcRenderer } = require("electron");
+
 export default {
+  inject: ["reloadRouterView"],
   data() {
     return {
       visible: true,
@@ -242,7 +244,10 @@ export default {
       this.$store.dispatch("handleAlbumSearch", { album });
       this.hotVisible = true;
     },
-    handlePlaylistSearch(id) {},
+    handlePlaylistSearch(id) {
+      this.$router.push({ name: "playlist-detail", query: { id } });
+      this.reloadRouterView();
+    },
     handleArtistSearch(artist) {
       this.$router.push({ name: "show-singerdetail" });
       localStorage.setItem("artistID", artist.id);

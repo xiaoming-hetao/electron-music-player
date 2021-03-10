@@ -20,10 +20,17 @@
           </div>
           <div class="author">
             <img :src="playlist.creator.avatarUrl" />
-            <span>{{ playlist.creator.nickname }}</span>
+            <span>{{ playlist.creator.nickname }} &emsp;{{ getDate(playlist.createTime) }}创建</span>
+
           </div>
-          <div class="desc line-1">{{ playlist.description }}</div>
-          <div class="desc line-1">歌曲：{{ playlist.tracks.length }}</div>
+          <div class="desc line-1">
+            标签：<span
+              v-for="(item, index) of playlist.tags"
+              :key="index"
+            >{{item}}&emsp;</span>
+          </div>
+          <div class="desc line-1">歌曲：{{ playlist.tracks.length }}&emsp;&emsp;播放：{{Math.floor(playlist.playCount/10000)}}万</div>
+          <div class="desc line-1">简介：{{ playlist.description }}</div>
           <div class="actions">
             <el-button
               @click="playAll"
@@ -68,6 +75,7 @@
 import { getPlaylistDetail, like } from "../../api";
 import { likePlaylist, dislikePlaylist } from "../../api/user";
 import songlist from "../../components/Songlist";
+import { getFormatDate } from "../../utils/date";
 export default {
   components: {
     songlist
@@ -102,6 +110,9 @@ export default {
     this.show = false;
   },
   methods: {
+    getDate(time) {
+      return getFormatDate(new Date(time));
+    },
     handleShoucang() {
       likePlaylist(this.id).then(res => {
         console.log(res, "likePlaylist");
@@ -145,8 +156,8 @@ export default {
     padding: 25px 30px;
     display: flex;
     .cover {
-      width: 147px;
-      height: 147px;
+      width: 175px;
+      height: 175px;
       position: relative;
       flex-shrink: 0;
       img {
@@ -187,10 +198,12 @@ export default {
         font-size: 13px;
         color: #555;
         line-height: 20px;
+        margin-top: 5px;
       }
       /deep/ .actions {
         button {
           min-width: 90px;
+          margin-top: 10px;
           i {
             font-size: 13px;
             margin-right: 3px;

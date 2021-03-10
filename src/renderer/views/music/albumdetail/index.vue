@@ -72,7 +72,7 @@
 <script>
 import songlist from "../../../components/Songlist";
 import { mapState } from "vuex";
-import getFormatDate from "../../../utils/date";
+import { getFormatDate } from "../../../utils/date";
 export default {
   components: {
     songlist

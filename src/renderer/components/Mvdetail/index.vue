@@ -1,10 +1,17 @@
 <template>
   <div class="mv-div">
-    <div class="back"><i class="el-icon-arrow-left"></i>&nbsp;MV详情</div>
-    <!-- <video width="520" height="400" controls style="cursor: pointer" autoplay >
-      <source :src="mvUrl" type="video/mp4" />
-    </video> -->
-    <video width="520" height="400" controls style="cursor: pointer" autoplay ref="video">
+    <div
+      class="back"
+      @click="()=>{handleBack()}"
+    ><i class="el-icon-arrow-left"></i>&nbsp;MV详情</div>
+    <video
+      width="520"
+      height="320"
+      controls
+      style="cursor: pointer;margin-top:20px;"
+      autoplay
+      ref="video"
+    >
       <source type="video/mp4" />
     </video>
 
@@ -15,12 +22,17 @@
           <span>{{ mvDetail.artistName }}</span>
         </div>
         <p style="font-size: 20px; font-weight: bold; margin-bottom: 5px">
-          {{ mvDetail.name }}<i class="el-icon-caret-bottom" ref="descIcon" @click="handleShowDesc"></i>
+          {{ mvDetail.name }}<i
+            class="el-icon-caret-bottom"
+            ref="descIcon"
+            @click="handleShowDesc"
+          ></i>
         </p>
-        <span style="font-size: 14px; color: #cdcdcd"
-          >发布：{{ mvDetail.publishTime }}&nbsp;&nbsp;播放{{ Math.floor(mvDetail.playCount / 10000) }}万次</span
-        >
-        <div class="desc" v-if="showDesc">{{ mvDetail.desc }}</div>
+        <span style="font-size: 14px; color: #cdcdcd">发布：{{ mvDetail.publishTime }}&nbsp;&nbsp;播放{{ Math.floor(mvDetail.playCount / 10000) }}万次</span>
+        <div
+          class="desc"
+          v-if="showDesc"
+        >{{ mvDetail.desc }}</div>
       </div>
     </div>
   </div>
@@ -34,6 +46,9 @@ export default {
     };
   },
   methods: {
+    handleBack() {
+      this.$router.go(-1);
+    },
     handleShowDesc() {
       this.showDesc = !this.showDesc;
       // 进来前先清除之前添加的类
@@ -106,8 +121,7 @@ export default {
   margin-left: 20px;
   overflow-y: auto;
   .back {
-    margin-bottom: -30px;
-    margin-top: 10px;
+    margin-top: 20px;
     font-size: 18px;
     font-weight: blod;
     cursor: pointer;

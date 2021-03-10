@@ -1,5 +1,5 @@
 // 格式化时间
-function getFormatDate(nowTimeStamp) {
+export function getFormatDate(nowTimeStamp) {
   let defaultYear = nowTimeStamp.getFullYear();
   let defaultMonth = nowTimeStamp.getMonth() + 1;
   let defaultDay = nowTimeStamp.getDate();
@@ -13,5 +13,3 @@ function getFormatDate(nowTimeStamp) {
 
   return defaultYear + "-" + defaultMonth + "-" + defaultDay;
 }
-
-export default getFormatDate;

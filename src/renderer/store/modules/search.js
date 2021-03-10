@@ -27,7 +27,7 @@ export default {
     },
     SET_ARTIST_ALBUM: (state, data) => {
       state.hotAlbumsList = data.hotAlbums;
-      state.artistInfo = data.singerDesc;
+      state.artistInfo = data.artist;
     },
     SET_ARTIST_MV: (state, data) => {
       state.mvs = data.mvs;
@@ -52,23 +52,26 @@ export default {
     handleArtistSearch({ commit, state, dispatch }, res) {
       getArtistAlbum(res.id, res.limit, res.offset).then(res => {
         console.log(res, "artistAlbum");
-
-        let album = res.hotAlbums;
         let handleAlbum = [];
 
-        // 遍历每一个专辑，获取每个专辑包含的歌曲
-        for (let item of album) {
-          getAlbumContent(item.id).then(res => {
-            item["songlist"] = res.songs;
+        async function handleAlbumRes(res) {
+          let albumdata = res.hotAlbums;
+
+          // 遍历每一个专辑，获取每个专辑包含的歌曲
+          for (let item of albumdata) {
+            const albumRes = await getAlbumContent(item.id);
+            item["songlist"] = albumRes.songs;
             handleAlbum.push(item);
-          });
+          }
         }
-        let data = {
-          singerDesc: res.artist,
-          hotAlbums: handleAlbum
-        };
-        console.log(data, "handleAlbum");
-        commit("SET_ARTIST_ALBUM", data);
+        // handleAlbumRes(res);
+
+        // let data = {
+        //   singerDesc: res.artist,
+        //   hotAlbums: handleAlbum
+        // };
+
+        commit("SET_ARTIST_ALBUM", res);
       });
       getArtistMV(res.id).then(res => {
         commit("SET_ARTIST_MV", res);

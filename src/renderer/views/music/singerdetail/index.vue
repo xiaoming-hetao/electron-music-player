@@ -36,6 +36,8 @@
                 :src="item.picUrl"
                 width="100"
                 height="100"
+                style="cursor:pointer"
+                @click="toAlbumDetail(item)"
               />
               <p style="font-size:12px;text-align:center">{{getDate(item.publishTime)}}</p>
             </div>
@@ -43,53 +45,7 @@
 
               <div class="list">
                 <p style="font-weight:bold;">{{item.name}}</p>
-                <el-table
-                  size="small"
-                  :stripe="true"
-                  :data="item.songlist"
-                >
-                  <el-table-column>
-                    <template slot-scope="scope">
-                      <div class="name-row">
-                        <div class="left">
-                          <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
-                          <div style="display: inline-block; margin-left: 20px">
-                            <i
-                              @click="likeMusic(scope.row)"
-                              class="shoucang iconfont icon-shoucang"
-                            ></i>
-                            <span>{{ scope.row.name }}</span>
-                            <img
-                              class="tag"
-                              src="../../../assets/images/sq.png"
-                            />
-                            <img
-                              v-if="scope.row.mv > 0"
-                              class="tag"
-                              src="../../../assets/images/mv.png"
-                              @click="playmv(scope.row.mv)"
-                            />
-                          </div>
-                        </div>
-                        <div class="btns">
-                          <i
-                            class="iconfont icon-zanting play"
-                            @click="play(scope.row)"
-                          ></i>
-                          <i class="iconfont icon-gengduo more"></i>
-                        </div>
-                      </div>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    width="60"
-                    prop="dt"
-                  >
-                    <template slot-scope="scope">
-                      <span>{{ scope.row.dt | formatDuring }}</span>
-                    </template>
-                  </el-table-column>
-                </el-table>
+                <album-song :albumId="item.id" />
               </div>
 
             </div>
@@ -100,16 +56,21 @@
           label="MV"
           name="mv"
         >
-          <el-row :gutter="15">
+          <el-row
+            :gutter="15"
+            v-if="mvs.length"
+          >
             <el-col
               class="mv-item"
               v-for="(item, index) of mvs"
               :key="index"
               :span="8"
             >
-              <div class="container">
+              <div
+                class="container"
+                @click="playmv(item.id)"
+              >
                 <img
-                  @click="playmv(item.id)"
                   :src="item.imgurl"
                   width="260"
                   height="140"
@@ -124,6 +85,10 @@
             </el-col>
 
           </el-row>
+          <div
+            v-else
+            style="text-align:center"
+          >暂无数据</div>
         </el-tab-pane>
         <!-- 歌手详情 -->
         <el-tab-pane
@@ -157,8 +122,13 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import getFormatDate from "../../../utils/date";
+import { getFormatDate } from "../../../utils/date";
+import { like } from "../../../api";
+import AlbumSong from "./components/album-song";
 export default {
+  components: {
+    AlbumSong
+  },
   data() {
     return {
       showPlaylist: false,
@@ -177,23 +147,15 @@ export default {
   mounted() {
     console.log("---Play list=", this.list);
     console.log("---Play song=", this.song);
+    console.log(getFormatDate(new Date("2011-12-12")));
   },
   methods: {
+    toAlbumDetail(album) {
+      this.$router.push({ name: "show-albumdetail" });
+      this.$store.dispatch("handleAlbumSearch", { album });
+    },
     getDate(time) {
       return getFormatDate(new Date(time));
-    },
-    likeMusic(item) {
-      like(item.id).then(res => {
-        console.log(res, "likesuccess");
-      });
-    },
-    play(item) {
-      console.log("item.id=", item.id);
-      this.$store.dispatch("playMusic", item.id);
-    },
-    playmv(mvid) {
-      this.$store.dispatch("playMv", mvid);
-      this.$router.push({ name: "play-mv" });
     }
   }
 };
@@ -289,58 +251,5 @@ export default {
   //   background: #fafafa;
   width: 520px;
   padding: 0 30px;
-  .list {
-    .el-table {
-      background: none;
-      th {
-        background: none;
-      }
-      tr {
-        background: none;
-      }
-      tr:hover {
-        .btns {
-          .iconfont {
-            display: block;
-          }
-          .iconfont:hover {
-            color: #31c27c;
-          }
-        }
-      }
-    }
-    .name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .left {
-        .shoucang {
-          font-size: 15px;
-          margin-right: 5px;
-          cursor: pointer;
-        }
-        .shoucang:hover {
-          color: red;
-        }
-        .tag {
-          height: 20px;
-          margin-left: 5px;
-          margin-top: -2px;
-          cursor: pointer;
-        }
-      }
-      .btns {
-        display: flex;
-        align-items: center;
-        .iconfont {
-          font-size: 20px;
-          cursor: pointer;
-          margin-left: 10px;
-          color: #999;
-          display: none;
-        }
-      }
-    }
-  }
 }
 </style>

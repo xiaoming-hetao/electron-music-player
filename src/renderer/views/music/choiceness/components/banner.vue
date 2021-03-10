@@ -1,7 +1,14 @@
 <template>
   <div class="carousel">
-    <el-carousel :interval="5000" type="card" height="200px">
-      <el-carousel-item v-for="(item, index) in banner" :key="index">
+    <el-carousel
+      :interval="5000"
+      type="card"
+      height="200px"
+    >
+      <el-carousel-item
+        v-for="(item, index) in banner"
+        :key="index"
+      >
         <!-- <div class="carousel-item-image" :style="{ backgroundImage: 'url(' + item.imageUrl + ')' }" /> -->
         <img :src="item.imageUrl" />
       </el-carousel-item>

@@ -2,39 +2,77 @@
   <div>
     <div class="tracks">
       <div class="list">
-        <el-table size="small" :stripe="true" :data="songlist">
+        <el-table
+          size="small"
+          :stripe="true"
+          :data="songlist"
+        >
           <el-table-column label="音乐标题">
             <template slot-scope="scope">
               <div class="name-row">
                 <div class="left">
                   <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
                   <div style="display: inline-block; margin-left: 20px">
-                    <i @click="likeMusic(scope.row)" class="shoucang iconfont icon-shoucang"></i>
+                    <i
+                      @click="likeMusic(scope.row)"
+                      class="shoucang iconfont icon-shoucang"
+                    ></i>
                     <span>{{ scope.row.name }}</span>
-                    <img class="tag" src="../../assets/images/sq.png" />
-                    <img v-if="scope.row.mv > 0" class="tag" src="../../assets/images/mv.png" @click="playmv(scope.row.mv)" />
+                    <img
+                      class="tag"
+                      src="../../assets/images/sq.png"
+                    />
+                    <img
+                      v-if="scope.row.mv > 0"
+                      class="tag"
+                      src="../../assets/images/mv.png"
+                      @click="playmv(scope.row.mv)"
+                    />
                   </div>
                 </div>
                 <div class="btns">
-                  <i class="iconfont icon-zanting play" @click="play(scope.row)"></i>
+                  <i
+                    class="iconfont icon-zanting play"
+                    @click="play(scope.row)"
+                  ></i>
                   <i class="iconfont icon-gengduo more"></i>
                 </div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column width="200" label="歌手" prop="ar[0].name">
+          <el-table-column
+            width="200"
+            label="歌手"
+            prop="ar[0].name"
+          >
             <template slot-scope="scope">
-              <span style="width: 140px; cursor: pointer" class="line-1 hover" :title="scope.row.ar[0].name">{{
+              <span
+                style="width: 140px; cursor: pointer"
+                class="line-1 hover"
+                :title="scope.row.ar[0].name"
+              >{{
                 scope.row.ar[0].name
               }}</span>
             </template>
           </el-table-column>
-          <el-table-column width="200" label="专辑" prop="al.name">
+          <el-table-column
+            width="200"
+            label="专辑"
+            prop="al.name"
+          >
             <template slot-scope="scope">
-              <span style="width: 190px; cursor: pointer" class="line-1 hover" :title="scope.row.al.name">{{ scope.row.al.name }}</span>
+              <span
+                style="width: 190px; cursor: pointer"
+                class="line-1 hover"
+                :title="scope.row.al.name"
+              >{{ scope.row.al.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column width="60" label="时长" prop="dt">
+          <el-table-column
+            width="60"
+            label="时长"
+            prop="dt"
+          >
             <template slot-scope="scope">
               <span>{{ scope.row.dt | formatDuring }}</span>
             </template>
@@ -83,6 +121,7 @@ export default {
 .tracks {
   //   background: #fafafa;
   padding: 0 30px;
+  margin-top: 20px;
   .list {
     .el-table {
       background: none;

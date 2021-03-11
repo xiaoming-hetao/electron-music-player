@@ -21,10 +21,16 @@ export default new Router({
           name: "playlist-detail",
           component: () => import("../views/playlist/detail")
         },
+
         {
           path: "show-searchlist",
           name: "show-searchlist",
           component: () => import("../views/music/searchlist")
+        },
+        {
+          path: "show-mvlist",
+          name: "show-mvlist",
+          component: () => import("../views/music/mvlist")
         },
         {
           path: "show-singerdetail",

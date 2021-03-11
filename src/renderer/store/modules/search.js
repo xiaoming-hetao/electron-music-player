@@ -1,5 +1,5 @@
 import { search, getAlbumContent, getArtistSongs, getArtistAlbum, getArtistMV, getArtistDesc } from "../../api/search";
-
+import { newMV, recommendMV } from "../../api";
 export default {
   state: {
     list: [],
@@ -9,7 +9,9 @@ export default {
     artistInfo: {},
     hotAlbumsList: [],
     mvs: [],
-    desc: {}
+    desc: {},
+    newMVList: [],
+    recommendMVList: []
   },
   mutations: {
     SET_HOT_SEARCH_LIST: (state, data) => {
@@ -34,9 +36,26 @@ export default {
     },
     SET_ARTIST_DESC: (state, data) => {
       state.desc = data;
+    },
+    SET_NEW_MV_LIST: (state, data) => {
+      state.newMVList = data;
+    },
+    SET_RECOMEND_MV_LIST: (state, data) => {
+      state.recommendMVList = data.result;
     }
   },
   actions: {
+    // 展示mv
+    showMVList({ commit, state }, res) {
+      newMV().then(res => {
+        commit("SET_NEW_MV_LIST", res.data);
+        console.log(res, "newmv");
+      });
+      recommendMV().then(res => {
+        commit("SET_RECOMEND_MV_LIST", res);
+        console.log(res, "recommendMV");
+      });
+    },
     // 搜索相关
     handleHotSearch({ commit, state, dispatch }, res) {
       search(res.keywords, res.limit, res.offset).then(res => {
@@ -52,25 +71,6 @@ export default {
     handleArtistSearch({ commit, state, dispatch }, res) {
       getArtistAlbum(res.id, res.limit, res.offset).then(res => {
         console.log(res, "artistAlbum");
-        let handleAlbum = [];
-
-        async function handleAlbumRes(res) {
-          let albumdata = res.hotAlbums;
-
-          // 遍历每一个专辑，获取每个专辑包含的歌曲
-          for (let item of albumdata) {
-            const albumRes = await getAlbumContent(item.id);
-            item["songlist"] = albumRes.songs;
-            handleAlbum.push(item);
-          }
-        }
-        // handleAlbumRes(res);
-
-        // let data = {
-        //   singerDesc: res.artist,
-        //   hotAlbums: handleAlbum
-        // };
-
         commit("SET_ARTIST_ALBUM", res);
       });
       getArtistMV(res.id).then(res => {

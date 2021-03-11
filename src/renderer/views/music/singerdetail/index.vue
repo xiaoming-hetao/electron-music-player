@@ -156,6 +156,11 @@ export default {
     },
     getDate(time) {
       return getFormatDate(new Date(time));
+    },
+    playmv(mvid) {
+      console.log(mvid);
+      this.$store.dispatch("playMv", mvid);
+      this.$router.push({ name: "play-mv" });
     }
   }
 };
@@ -164,7 +169,7 @@ export default {
 .search-music {
   min-height: 430px;
   width: 100%;
-  overflow-x: auto;
+  overflow-y: auto;
   .album-flex-container {
     display: flex;
     margin-top: 50px;
@@ -251,5 +256,18 @@ export default {
   //   background: #fafafa;
   width: 520px;
   padding: 0 30px;
+}
+/deep/ .el-tabs {
+  .el-tabs__header {
+    padding: 0;
+    margin: 0;
+  }
+
+  .el-tabs__nav-wrap::after {
+    display: none;
+  }
+  .el-tabs__item {
+    font-size: 14px;
+  }
 }
 </style>

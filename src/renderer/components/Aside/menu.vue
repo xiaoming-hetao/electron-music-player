@@ -2,18 +2,25 @@
   <el-scrollbar class="menu-view scroll-page">
     <div class="menu-group">
       <div class="menu-title">在线音乐</div>
-      <div class="menu-item">
-        <div class="left"><i class="iconfont icon-yinle"></i>音乐馆</div>
+      <div
+        class="menu-item"
+        :class="{ active: this.$route.name === 'music' }"
+        @click="
+          () => {
+            this.$router.push({ name: 'music' });
+          }
+        "
+      >
+        <div class="left"><i class="iconfont icon-yinle"></i>发现音乐</div>
       </div>
-      <div class="menu-item">
+      <div
+        class="menu-item"
+        :class="{ active: this.$route.name === 'show-mvlist' }"
+        @click="showMVList"
+      >
         <div class="left"><i class="iconfont icon-mv"></i>MV</div>
       </div>
-      <div class="menu-item">
-        <div class="left"><i class="iconfont icon-diantai"></i>个性电台</div>
-      </div>
-      <div class="menu-item">
-        <div class="left"><i class="iconfont icon-shoucang2"></i>明日之子第二季</div>
-      </div>
+
     </div>
 
     <div class="menu-group">
@@ -88,6 +95,10 @@ import { mapState } from "vuex";
 export default {
   inject: ["reloadRouterView"],
   methods: {
+    showMVList() {
+      this.$store.dispatch("showMVList");
+      this.$router.push({ name: "show-mvlist" });
+    },
     showUserCreatePlaylist(id) {
       this.$router.push({ name: "userplaylist-detail", query: { id, isLike: false } });
       this.reloadRouterView();

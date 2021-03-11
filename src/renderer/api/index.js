@@ -13,11 +13,6 @@ export function getPlaylistDetail(id) {
   return http.get(`/playlist/detail?id=${id}`);
 }
 
-// 获取mv数据
-export function getmvDetail(mvid) {
-  return http.get(`/mv/detail?mvid=${mvid}`);
-}
-
 //获取歌词
 export function getSongLyric(id) {
   return http.get(`/lyric?id=${id}`);
@@ -39,8 +34,25 @@ export function like(id) {
   return http.get("/like?id=" + id);
 }
 
-export function toplist(idx) {
-  return http.get("/top/list?idx=" + idx);
+// mv
+
+// 最新mv
+export function newMV() {
+  return http.get(`/mv/first`);
+}
+
+// 推荐mv
+export function recommendMV() {
+  return http.get(`/personalized/mv`);
+}
+
+// 获取mv数据
+export function getmvDetail(mvid) {
+  return http.get(`/mv/detail?mvid=${mvid}`);
+}
+
+export function toplist(id) {
+  return http.get(`/playlist/detail?id=${id}`);
 }
 
 export function singerlist(cat, offset) {

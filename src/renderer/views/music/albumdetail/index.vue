@@ -170,4 +170,17 @@ export default {
     overflow-x: hidden;
   }
 }
+/deep/ .el-tabs {
+  .el-tabs__header {
+    padding: 0;
+    margin: 0;
+  }
+
+  .el-tabs__nav-wrap::after {
+    display: none;
+  }
+  .el-tabs__item {
+    font-size: 14px;
+  }
+}
 </style>

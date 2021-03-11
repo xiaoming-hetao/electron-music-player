@@ -20,14 +20,14 @@
       >
         <i class="btn el-icon-arrow-right"></i>
       </el-button>
-      <el-button
+      <!-- <el-button
         class="no-drag hover-color"
         size="mini"
         type="text"
         @click="refresh"
       >
         <i class="btn el-icon-refresh"></i>
-      </el-button>
+      </el-button> -->
 
       <div class="search no-drag">
         <el-popover
@@ -115,13 +115,11 @@
                 v-for="(songName, index) of searchHistory"
                 :key="index"
                 @close="handleTagClose(songName)"
-                @click="handleHotSearch(songName)"
-                effect="plain"
                 size="small"
                 closable
                 type="info"
               >
-                {{ songName }}
+                <span @click="handleHotSearch(songName)"> {{ songName }}</span>
               </el-tag>
             </div>
             <p>热搜榜</p>
@@ -305,9 +303,9 @@ export default {
     advance() {
       this.$router.go(1);
     },
-    refresh() {
-      this.$bus.$emit("page-refresh", this.$route.name);
-    },
+    // refresh() {
+    //   this.$bus.$emit("page-refresh", this.$route.name);
+    // },
     login() {
       if (this.user.is_login) {
         this.visible = false;

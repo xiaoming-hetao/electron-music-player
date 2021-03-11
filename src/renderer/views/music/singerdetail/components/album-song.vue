@@ -76,6 +76,11 @@ export default {
       this.$router.push({ name: "play-mv" });
     }
   },
+  mounted() {
+    getAlbumContent(this.albumId).then(res => {
+      this.songlist = res.songs;
+    });
+  },
   watch: {
     albumId(newValue, oldValue) {
       getAlbumContent(newValue).then(res => {

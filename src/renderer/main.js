@@ -7,7 +7,8 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import filters from "./filters";
-
+import { Table } from "element-ui";
+Vue.use(Table);
 Vue.use(ElementUI);
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);

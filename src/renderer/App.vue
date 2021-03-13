@@ -5,7 +5,6 @@
 </template>
 
 <script>
-const { ipcRenderer } = require("electron");
 export default {
   name: "clound-music",
   provide() {
@@ -25,21 +24,13 @@ export default {
         this.isRouteActive = true;
       });
     }
-  },
-  mounted() {
-    ipcRenderer.on("reply_likelist", (event, data) => {
-      let res = {
-        songs: data
-      };
-      this.$store.commit("SET_LIKELIST_DATA", res);
-      console.log(data, "ipcrender");
-    });
   }
 };
 </script>
 
 <style lang="scss">
 @import url(./assets/styles/public.scss);
+
 body {
   padding: 0;
   margin: 0;

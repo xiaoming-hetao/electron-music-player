@@ -8,12 +8,13 @@
         <div class="info">
           <div class="title">
             <el-tag
-              type="danger"
+              type="success"
               effect="plain"
               size="small"
             >
               专辑
-            </el-tag>{{ album.name }}
+            </el-tag>
+            <span>{{ album.name }}</span>
           </div>
           <div class="author">
             <p>歌手：<span>{{ album.artist.name}}</span></p>
@@ -126,7 +127,6 @@ export default {
         line-height: 30px;
         .el-tag {
           margin-right: 10px;
-          line-height: 30px;
         }
         font-size: 22px;
 

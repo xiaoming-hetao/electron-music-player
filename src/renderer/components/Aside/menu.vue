@@ -40,7 +40,15 @@
             style="color: #666"
           ></i>我喜欢</div>
       </div>
-      <div class="menu-item">
+      <div
+        class="menu-item"
+        :class="{ active: this.$route.name === 'show-localmusic' }"
+        @click="
+          () => {
+            this.$router.push({ name: 'show-localmusic' });
+          }
+        "
+      >
         <div class="left"><i class="iconfont icon-screen"></i>本地和下载</div>
       </div>
       <div class="menu-item">
@@ -57,15 +65,17 @@
           ></i><i class="iconfont icon-xiangxia"></i></div>
       </div>
 
-      <div
-        class="menu-item"
-        v-for="(item,index) of userCreatePlaylist"
-        :key="index"
-        @click="showUserCreatePlaylist(item.id)"
-      >
-        <div class="left">
-          <i class="iconfont icon-yinyue"></i>
-          <span>{{ item.name}}</span>
+      <div v-if="user.is_login">
+        <div
+          class="menu-item"
+          v-for="(item,index) of userCreatePlaylist"
+          :key="index"
+          @click="showUserCreatePlaylist(item.id)"
+        >
+          <div class="left">
+            <i class="iconfont icon-yinyue"></i>
+            <span>{{ item.name}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -75,15 +85,17 @@
         <div class="left">我收藏的歌单</div>
         <div class="right"><i class="iconfont icon-xiangxia"></i></div>
       </div>
-      <div
-        class="menu-item"
-        v-for="(item,index) of userLikePlaylist"
-        :key="index"
-        @click="showUserLikePlaylist(item.id)"
-      >
-        <div class="left">
-          <i class="iconfont icon-yinyue"></i>
-          <span>{{ item.name}}</span>
+      <div v-if="user.is_login">
+        <div
+          class="menu-item"
+          v-for="(item,index) of userLikePlaylist"
+          :key="index"
+          @click="showUserLikePlaylist(item.id)"
+        >
+          <div class="left">
+            <i class="iconfont icon-yinyue"></i>
+            <span>{{ item.name}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -92,6 +104,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { ipcRenderer } from "electron";
 export default {
   inject: ["reloadRouterView"],
   methods: {
@@ -110,6 +123,22 @@ export default {
     createPlaylist() {
       console.log(this.user.profile.nickname);
     }
+  },
+  created() {
+    // 每次启动向主进程获取用户数据（喜欢列表，创建和收藏的歌单）
+    const userId = JSON.parse(localStorage.getItem("profile")).userId;
+    ipcRenderer.send("get_user_data", userId);
+    ipcRenderer.on("replay_user_data", (event, data) => {
+      let likelist = {
+        songs: data.likelistData.likelist
+      };
+      let playlist = {
+        userCreatePlaylist: data.createPlaylistData.userCreatePlaylist,
+        userLikePlaylist: data.likePlaylistData.userLikePlaylist
+      };
+      this.$store.commit("SET_LIKELIST_DATA", likelist);
+      this.$store.commit("SET_PLAYLIST_DATA", playlist);
+    });
   },
   computed: {
     ...mapState({

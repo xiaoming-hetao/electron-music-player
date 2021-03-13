@@ -114,6 +114,9 @@ export default {
       this.$store.dispatch("playMv", mvid);
       this.$router.push({ name: "play-mv" });
     }
+  },
+  mounted() {
+    console.log(this.songlist, "songlist");
   }
 };
 </script>

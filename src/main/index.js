@@ -1,11 +1,14 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import db from "../lowdb/datastore";
+const child_process = require("child_process");
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== "development") {
-  global.__static = require("path").join(__dirname, "/static").replace(/\\/g, "\\\\");
+  global.__static = require("path")
+    .join(__dirname, "/static")
+    .replace(/\\/g, "\\\\");
 }
 
 let mainWindow;
@@ -25,7 +28,7 @@ function createWindow() {
   const app = express();
 
   // 跨域设置
-  app.all("*", function (req, res, next) {
+  app.all("*", function(req, res, next) {
     if (req.path !== "/" && !req.path.includes(".")) {
       res.header("Access-Control-Allow-Credentials", true);
       // 这里获取 origin 请求头 而不是用 *
@@ -42,7 +45,7 @@ function createWindow() {
 
   app.use(express.static(path.resolve(__dirname, "public")));
 
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     const proxy = req.query.proxy;
     if (proxy) {
       req.headers.cookie = req.headers.cookie + `__proxy__${proxy}`;
@@ -93,6 +96,7 @@ app.on("activate", () => {
     createWindow();
   }
 });
+// app.setName("深空音乐");
 
 ipcMain.on("close", e => {
   mainWindow.close();
@@ -100,6 +104,18 @@ ipcMain.on("close", e => {
 ipcMain.on("minimize", e => {
   mainWindow.minimize();
 });
+
+//主进程监听scanningDir，当渲染进程触发scanningDir时主进程开始进行扫描
+// ipcMain.on("scanningDir", (e, dirs) => {
+//   const cp = child_process.fork(path.join(__dirname, "scanLocalFile.js"));
+//   cp.on("message", m => {
+//     console.log("message from child: " + JSON.stringify(m));
+//     e.sender.send("scanningEnd");
+//     cp.disconnect();
+//   });
+//   cp.send(dirs);
+//   console.log(dirs, "11111");
+// });
 
 // 数据库操作
 ipcMain.on("set_user", (event, data) => {
@@ -116,7 +132,10 @@ ipcMain.on("set_user", (event, data) => {
     console.log("success");
   } else {
     // 查看用户是否存在，存在则不进行存储
-    const id = db.get("user").find({ userId: data.profile.userId }).value().userId;
+    const id = db
+      .get("user")
+      .find({ userId: data.profile.userId })
+      .value().userId;
     console.log(id);
     if (!id) {
       db.get("user")
@@ -132,16 +151,48 @@ ipcMain.on("set_user", (event, data) => {
 ipcMain.on("set_likelist", (event, data) => {
   const value = db.get("user-like").value();
   if (!value.length) {
-    db.get("user-like").insert(data).write();
+    db.get("user-like")
+      .insert(data)
+      .write();
 
     console.log(value, "user-like");
   }
 });
-ipcMain.on("get_likelist", (event, data) => {
-  const value = db.get("user-like").value();
-  if (value.length) {
-    event.reply("reply_likelist", value);
+
+ipcMain.on("set_create_playlist", (event, data) => {
+  const value = db.get("create-playlist").value();
+  if (!value.length) {
+    db.get("create-playlist")
+      .insert(data)
+      .write();
   }
+});
+
+ipcMain.on("set_like_playlist", (event, data) => {
+  const value = db.get("like-playlist").value();
+  if (!value.length) {
+    db.get("like-playlist")
+      .insert(data)
+      .write();
+  }
+});
+
+ipcMain.on("get_user_data", (event, data) => {
+  console.log(data, "get_user_data");
+  const userId = data;
+  const likelistData = db
+    .get("user-like")
+    .find({ userId })
+    .value();
+  const likePlaylistData = db
+    .get("like-playlist")
+    .find({ userId })
+    .value();
+  const createPlaylistData = db
+    .get("create-playlist")
+    .find({ userId })
+    .value();
+  event.sender.send("replay_user_data", { likelistData, likePlaylistData, createPlaylistData });
 });
 
 /**

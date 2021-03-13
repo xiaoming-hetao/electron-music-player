@@ -10,11 +10,17 @@ export default new Router({
       name: "main",
       redirect: { name: "music" },
       component: require("@/views/main").default,
+
       children: [
         {
           path: "music",
           name: "music",
           component: () => import("../views/music/index.vue")
+        },
+        {
+          path: "song-detail",
+          name: "song-detail",
+          component: () => import("../components/Songdetail")
         },
         {
           path: "playlist-detail",
@@ -36,6 +42,11 @@ export default new Router({
           path: "show-singerdetail",
           name: "show-singerdetail",
           component: () => import("../views/music/singerdetail")
+        },
+        {
+          path: "show-localmusic",
+          name: "show-localmusic",
+          component: () => import("../views/music/localmusic")
         },
         {
           path: "show-albumdetail",

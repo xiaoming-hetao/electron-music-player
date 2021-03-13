@@ -6,9 +6,11 @@ export default {
     song: {},
     music_urls: [],
     is_play: false,
+    audioDom: {},
     currentTime: 0,
     mvDetail: {},
-    mvUrl: ""
+    mvUrl: "",
+    lyric: ""
   },
   mutations: {
     SET_PLAYER_LIST: (state, data) => {

@@ -127,6 +127,7 @@ export default {
       this.loading = true;
       getPlaylistDetail(this.id).then(res => {
         this.playlist = res.playlist;
+        console.log(this.playlist, "歌单");
         this.show = true;
         this.loading = false;
       });

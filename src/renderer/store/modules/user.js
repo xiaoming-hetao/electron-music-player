@@ -92,6 +92,16 @@ export default {
           userCreatePlaylist,
           userLikePlaylist
         };
+        let createPlaylistData = {
+          userId: uid,
+          userCreatePlaylist
+        };
+        let likePlaylistData = {
+          userId: uid,
+          userLikePlaylist
+        };
+        ipcRenderer.send("set_create_playlist", createPlaylistData);
+        ipcRenderer.send("set_like_playlist", likePlaylistData);
         commit("SET_PLAYLIST_DATA", handleRes);
       });
     }

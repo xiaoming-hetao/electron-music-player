@@ -34,7 +34,7 @@
       <img
         class="cover-image"
         :src="cover"
-        @click="showSongLyric(song.id)"
+        @click="showSongLyric()"
       />
       <audio
         v-show="false"
@@ -146,19 +146,6 @@
         <i class="iconfont icon-shengyin"></i>
       </el-button>
     </div>
-
-    <el-dialog
-      :visible.sync="dialogTableVisible"
-      :fullscreen="true"
-      :modal="false"
-      width="720"
-    >
-      <songdetail
-        :songdetail="song"
-        :lyric="lyric"
-      />
-
-    </el-dialog>
   </div>
 </template>
 
@@ -176,9 +163,7 @@ export default {
       play_time: 0,
       max_time: 0,
       interval: null,
-      play_type: 1, //播放次序 0单曲循环 1列表循环 2随机播放
-      lyric: "", //歌词
-      dialogTableVisible: false
+      play_type: 1 //播放次序 0单曲循环 1列表循环 2随机播放
     };
   },
   mounted() {},
@@ -187,12 +172,18 @@ export default {
       try {
         this.$nextTick(() => {
           this.audio = this.$refs["audio"];
+          this.audio.crossOrigin = "anonymous";
           if (val) {
             this.audio.play();
+
             this.max_time = this.audio.duration;
             this.getPlayTime();
             this.audio.addEventListener("ended", () => {
               this.playEnded();
+            });
+
+            getSongLyric(this.song.id).then(res => {
+              this.$store.commit("SET_PLAYER_DATA", { lyric: res.lrc.lyric });
             });
           } else {
             this.audio.pause();
@@ -268,14 +259,12 @@ export default {
   },
   methods: {
     // 展示歌词
-    showSongLyric(id) {
-      getSongLyric(id).then(res => {
-        this.lyric = res.lrc.lyric;
-        this.dialogTableVisible = true;
-        console.log(res, "歌词");
+    showSongLyric() {
+      if (this.song.id) {
+        this.$router.push({ name: "song-detail" });
 
-        console.log(this.lyric);
-      });
+        this.$store.commit("SET_PLAYER_DATA", { audioDom: this.audio });
+      }
     },
     //播放/暂停按钮点击
     playClick() {
@@ -335,6 +324,10 @@ $height: 70px;
 .player {
   display: flex;
   align-items: center;
+  /deep/ .el-dialog {
+    // height: 525px;
+    overflow-y: auto;
+  }
   /deep/ .control {
     width: 230px;
     flex-shrink: 0;
@@ -364,6 +357,7 @@ $height: 70px;
     align-items: center;
     justify-content: center;
     .cover-image {
+      cursor: pointer;
       width: $height - 20px;
       height: $height - 20px;
       border-radius: 2px;

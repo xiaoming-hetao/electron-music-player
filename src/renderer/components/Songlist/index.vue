@@ -13,10 +13,20 @@
                 <div class="left">
                   <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
                   <div style="display: inline-block; margin-left: 20px">
+                    <img
+                      @click="unlikeMusic(scope.row)"
+                      title="取消喜欢"
+                      style=" width: 15px;height: 15px;margin-right: 5px;cursor:pointer;"
+                      src="../../assets/images/shoucang.png"
+                      v-if="likelistIds.includes(scope.row.id)"
+                    />
                     <i
+                      v-else
                       @click="likeMusic(scope.row)"
                       class="shoucang iconfont icon-shoucang"
+                      title="喜欢"
                     ></i>
+
                     <span>{{ scope.row.name }}</span>
                     <img
                       class="tag"
@@ -79,32 +89,112 @@
           </el-table-column>
         </el-table>
       </div>
-      <!-- <div style="text-align: center; margin: 20px 0">
-        <el-pagination
-          background
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :hide-on-single-page="true"
-          :page-size="pageSize"
-          layout="prev, pager, next"
-          :total="songCount"
-        >
-        </el-pagination>
-      </div> -->
+
     </div>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <p style="text-align:center;">确定将选中的歌曲从我喜欢的音乐中删除？</p>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          round
+          :loading="isLoading"
+          @click="handleUnlike"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { like } from "../../api";
+import { ipcRenderer } from "electron";
+import db from "../../../lowdb/datastore";
 export default {
   props: {
     songlist: Array
   },
+  data() {
+    return {
+      isLoading: false,
+      likelistIds: [],
+      dialogVisible: false
+    };
+  },
   methods: {
+    // 重新向数据库拉取数据
+    fetchData(userId) {
+      const value = db
+        .read()
+        .get("user-like")
+        .find({ userId })
+        .value();
+      this.$store.commit("SET_LIKELIST_DATA", { songs: value.likelist });
+    },
     likeMusic(item) {
-      like(item.id).then(res => {
-        console.log(res, "likesuccess");
-      });
+      let store = localStorage.getItem("profile");
+      if (store !== null) {
+        const userId = JSON.parse(store).userId;
+        ipcRenderer.send("like_music", { song: item, userId });
+        ipcRenderer.on("reply_like_music", (event, data) => {
+          if (data.code === 200) {
+            this.$message({
+              message: data.message,
+              type: "success",
+              center: true
+            });
+            this.fetchData(userId);
+            this.likelistIds.push(item.id);
+            localStorage.setItem("likelistIds", JSON.stringify(this.likelistIds));
+          }
+        });
+      } else {
+        this.$message({
+          message: "请先登录再进行此操作",
+          type: "info",
+          center: true
+        });
+      }
+    },
+    unlikeMusic(item) {
+      this.dialogVisible = true;
+    },
+    handleUnlike() {
+      this.isLoading = true;
+
+      let store = localStorage.getItem("profile");
+      if (store !== null) {
+        const userId = JSON.parse(store).userId;
+        ipcRenderer.send("unlike_music", { songId: this.songId, userId });
+        ipcRenderer.on("reply_unlike_music", (event, data) => {
+          if (data.code === 200) {
+            this.likelistIds.splice(this.likelistIds.indexOf(this.songId), 1);
+            localStorage.setItem("likelistIds", JSON.stringify(this.likelistIds));
+            this.fetchData(userId);
+
+            this.isLoading = false;
+            this.dialogVisible = false;
+
+            this.$message({
+              message: data.message,
+              type: "success",
+              center: true
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "请先登录再进行此操作",
+          type: "info",
+          center: true
+        });
+      }
     },
     play(item) {
       console.log("item.id=", item.id);
@@ -113,10 +203,19 @@ export default {
     playmv(mvid) {
       this.$store.dispatch("playMv", mvid);
       this.$router.push({ name: "play-mv" });
+    },
+    getLikelistIds() {
+      let store = localStorage.getItem("likelistIds");
+      if (store !== null) {
+        this.likelistIds = JSON.parse(store);
+      }
     }
   },
   mounted() {
-    console.log(this.songlist, "songlist");
+    this.getLikelistIds();
+  },
+  updated() {
+    this.getLikelistIds();
   }
 };
 </script>

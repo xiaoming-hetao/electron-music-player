@@ -39,6 +39,14 @@ export function dislikePlaylist(id) {
   return http.get(`/playlist/subscribe?t=&id=${id}`);
 }
 
+// 创建、删除歌单
+export function createPlaylist(name) {
+  return http.get(`/playlist/create?name=${name}`);
+}
+export function delPlaylist(id) {
+  return http.get(`/playlist/delete?id=${id}`);
+}
+
 /* 注册 */
 
 // 发送验证码

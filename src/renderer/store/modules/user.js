@@ -2,6 +2,7 @@ import locs from "../../utils/locs";
 import { getUserLikelist, getUserPlayList } from "../../api/user";
 import { getSongDetail } from "../../api/index";
 const { ipcRenderer } = require("electron");
+import db from "../../../lowdb/datastore";
 export default {
   state: {
     is_login: locs.get("profile") ? true : false,
@@ -24,8 +25,10 @@ export default {
     SET_LIKELIST_DATA: (state, data) => {
       state.likelist = data.songs;
     },
-    SET_PLAYLIST_DATA: (state, data) => {
+    SET_CREATE_PLAYLIST_DATA: (state, data) => {
       state.userCreatePlaylist = data.userCreatePlaylist;
+    },
+    SET_LIKE_PLAYLIST_DATA: (state, data) => {
       state.userLikePlaylist = data.userLikePlaylist;
     }
   },
@@ -38,9 +41,20 @@ export default {
       locs.set("profile", res.profile);
       commit("SET_USER_DATA", data);
 
-      // 登录之后获取用户喜欢歌曲列表，用户创建的歌单，用户收藏的歌单等
-      dispatch("SET_LIKELIST", res.profile.userId);
-      dispatch("SET_PLAYLIST", res.profile.userId);
+      // 登录后，判断用户是否第一次登录，如果是第一次登录，那么本地的用户数据表为空
+      // 可通知主进程保存从网易云api获取的用户数据，如果不是第一次登录，那么直接读取本地的用户数据
+      const uid = res.profile.userId;
+      const user = db
+        .get("user")
+        .find({ userId: uid })
+        .value();
+      if (user == null) {
+        // 登录之后获取用户喜欢歌曲列表，用户创建的歌单，用户收藏的歌单等
+        dispatch("SET_LIKELIST", uid);
+        dispatch("SET_PLAYLIST", uid);
+      } else {
+        console.log("用户不是第一次登录");
+      }
     },
     SET_LOGOUT({ commit, state }) {
       let data = {
@@ -63,6 +77,13 @@ export default {
         id = id.substr(0, id.length - 1);
         getSongDetail(id).then(res => {
           commit("SET_LIKELIST_DATA", res);
+          // 把我喜欢的音乐的id存储到本地
+          let likelistIds = [];
+          for (let item of res.songs) {
+            likelistIds.push(item.id);
+          }
+          localStorage.setItem("likelistIds", JSON.stringify(likelistIds));
+
           // 向主进程发送消息，请求把likelist存储到数据库中
           let data = {
             userId: uid,
@@ -88,10 +109,7 @@ export default {
             userLikePlaylist.push(item);
           }
         }
-        let handleRes = {
-          userCreatePlaylist,
-          userLikePlaylist
-        };
+
         let createPlaylistData = {
           userId: uid,
           userCreatePlaylist
@@ -102,7 +120,8 @@ export default {
         };
         ipcRenderer.send("set_create_playlist", createPlaylistData);
         ipcRenderer.send("set_like_playlist", likePlaylistData);
-        commit("SET_PLAYLIST_DATA", handleRes);
+        commit("SET_CREATE_PLAYLIST_DATA", { userCreatePlaylist });
+        commit("SET_LIKE_PLAYLIST_DATA", { userLikePlaylist });
       });
     }
   }

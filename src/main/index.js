@@ -77,7 +77,7 @@ function createWindow() {
   });
 
   mainWindow.loadURL(winURL);
-
+  // mainWindow.webContents.openDevTools() = false
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
@@ -119,11 +119,15 @@ ipcMain.on("minimize", e => {
 
 // 数据库操作
 ipcMain.on("set_user", (event, data) => {
-  const value = db.get("user").value();
+  const value = db
+    .read()
+    .get("user")
+    .value();
   console.log(value, "database");
   if (!value.length) {
     //第一次添加数据
-    db.get("user")
+    db.read()
+      .get("user")
       .insert({
         nickname: data.profile.nickname,
         userId: data.profile.userId
@@ -133,12 +137,14 @@ ipcMain.on("set_user", (event, data) => {
   } else {
     // 查看用户是否存在，存在则不进行存储
     const id = db
+      .read()
       .get("user")
       .find({ userId: data.profile.userId })
       .value().userId;
     console.log(id);
     if (!id) {
-      db.get("user")
+      db.read()
+        .get("user")
         .insert({
           nickname: data.profile.nickname,
           userId: data.profile.userId
@@ -149,9 +155,13 @@ ipcMain.on("set_user", (event, data) => {
 });
 
 ipcMain.on("set_likelist", (event, data) => {
-  const value = db.get("user-like").value();
+  const value = db
+    .read()
+    .get("user-like")
+    .value();
   if (!value.length) {
-    db.get("user-like")
+    db.read()
+      .get("user-like")
       .insert(data)
       .write();
 
@@ -160,10 +170,22 @@ ipcMain.on("set_likelist", (event, data) => {
 });
 
 ipcMain.on("set_create_playlist", (event, data) => {
-  const value = db.get("create-playlist").value();
+  const value = db
+    .read()
+    .get("create-playlist")
+    .value();
+  // 第一次添加
   if (!value.length) {
-    db.get("create-playlist")
+    db.read()
+      .get("create-playlist")
       .insert(data)
+      .write();
+  } else {
+    //更新歌单
+    db.read()
+      .get("create-playlist")
+      .find({ userId: data.userId })
+      .update("userCreatePlaylist", list => data.userCreatePlaylist)
       .write();
   }
 });
@@ -171,7 +193,8 @@ ipcMain.on("set_create_playlist", (event, data) => {
 ipcMain.on("set_like_playlist", (event, data) => {
   const value = db.get("like-playlist").value();
   if (!value.length) {
-    db.get("like-playlist")
+    db.read()
+      .get("like-playlist")
       .insert(data)
       .write();
   }
@@ -181,36 +204,54 @@ ipcMain.on("get_user_data", (event, data) => {
   console.log(data, "get_user_data");
   const userId = data;
   const likelistData = db
+    .read()
     .get("user-like")
     .find({ userId })
     .value();
   const likePlaylistData = db
+    .read()
     .get("like-playlist")
     .find({ userId })
     .value();
   const createPlaylistData = db
+    .read()
     .get("create-playlist")
     .find({ userId })
     .value();
-  event.sender.send("replay_user_data", { likelistData, likePlaylistData, createPlaylistData });
+  event.sender.send("reply_user_data", { likelistData, likePlaylistData, createPlaylistData });
 });
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
+// 喜欢音乐
+ipcMain.on("like_music", (event, data) => {
+  try {
+    db.read()
+      .get("user-like")
+      .find({ userId: data.userId })
+      .update("likelist", list => {
+        list.unshift(data.song);
+        return list;
+      })
+      .write();
 
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+    event.sender.send("reply_like_music", { code: 200, message: "已添加到我喜欢的音乐" });
+  } catch (err) {
+    console.log(err, "error");
+  }
+});
+// 取消喜欢
+ipcMain.on("unlike_music", (event, data) => {
+  try {
+    db.read()
+      .get("user-like")
+      .find({ userId: data.userId })
+      .update("likelist", list => {
+        const afterRemove = list.filter(item => item.id !== data.songId);
+        return afterRemove;
+      })
+      .write();
+    console.log("unlikeSuccess");
+    event.sender.send("reply_unlike_music", { code: 200, message: "取消喜欢成功" });
+  } catch (err) {
+    console.log(err, "error");
+  }
+});

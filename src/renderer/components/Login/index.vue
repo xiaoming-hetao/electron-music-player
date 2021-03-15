@@ -3,20 +3,32 @@
     @close="handleClose"
     :visible.sync="dialogVisible"
     :append-to-body="true"
+    :modal="false"
     width="340px"
     :close-on-click-modal="false"
     custom-class="login-dialog"
-    title=""
   >
     <div slot="title">
-      <span v-show="showRegister" class="dialog-title" @click="() => ((showLogin = true), (showRegister = false), (changeIcon = false))"
-        >&lt;返回登录</span
-      >
-      <span v-show="showLogin && isLoginByPhone" class="dialog-title" @click="handleLogin">扫码登录</span>
+      <span
+        v-show="showRegister"
+        class="dialog-title"
+        @click="() => ((showLogin = true), (showRegister = false), (changeIcon = false))"
+      >&lt;返回登录</span>
+      <span
+        v-show="showLogin && isLoginByPhone"
+        class="dialog-title"
+        @click="handleLogin"
+      >扫码登录</span>
     </div>
     <div class="login-body">
-      <i v-show="isLoginByPhone && !changeIcon" class="icon el-icon-mobile-phone"></i>
-      <i v-show="changeIcon" class="icon el-icon-sunny"></i>
+      <i
+        v-show="isLoginByPhone && !changeIcon"
+        class="icon el-icon-mobile-phone"
+      ></i>
+      <i
+        v-show="changeIcon"
+        class="icon el-icon-sunny"
+      ></i>
       <div v-if="showLogin">
         <div v-if="isLoginByPhone">
           <div class="from">
@@ -25,38 +37,73 @@
                 <div class="l-icon flex-c-c">
                   <i class="iconfont icon-shoujihao"></i>
                 </div>
-                <el-input :autofocus="true" v-model="phone" clearable placeholder="请输入手机号"></el-input>
+                <el-input
+                  :autofocus="true"
+                  v-model="phone"
+                  clearable
+                  placeholder="请输入手机号"
+                ></el-input>
               </div>
               <div class="input-box border-t">
                 <div class="l-icon flex-c-c">
                   <i class="iconfont icon-mima"></i>
                 </div>
-                <el-input v-model="password" type="password" clearable placeholder="请输入密码"></el-input>
+                <el-input
+                  v-model="password"
+                  type="password"
+                  clearable
+                  placeholder="请输入密码"
+                ></el-input>
               </div>
             </div>
 
             <div class="btns">
-              <el-button type="danger" :disabled="!disabled" @click="loginClick" :loading="loading">立即登录</el-button>
+              <el-button
+                type="danger"
+                :disabled="!disabled"
+                @click="loginClick"
+                :loading="loading"
+              >立即登录</el-button>
             </div>
           </div>
           <div>
-            <p style="text-align:center;cursor:pointer;text-decoration:underline;" @click="handleRegister">注册</p>
+            <p
+              style="text-align:center;cursor:pointer;text-decoration:underline;"
+              @click="handleRegister"
+            >注册</p>
           </div>
         </div>
-        <div v-else style="text-align: center;">
+        <div
+          v-else
+          style="text-align: center;"
+        >
           <p style="font-size: 24px;">扫码登录</p>
           <div class="container">
-            <img ref="qrimg" alt="二维码" src="https://music.163.com/login?codekey=7ac2dc9d-880d-482f-89ee-56dd9d501b9b" />
-            <div class="mask" v-if="codeIsExpire">
+            <img
+              ref="qrimg"
+              alt="二维码"
+              src="https://music.163.com/login?codekey=7ac2dc9d-880d-482f-89ee-56dd9d501b9b"
+            />
+            <div
+              class="mask"
+              v-if="codeIsExpire"
+            >
               <span style="color: #fff;line-height:180px;">二维码已经失效</span>
-              <div class="refresh-btn" @click="loginByQRcode">
+              <div
+                class="refresh-btn"
+                @click="loginByQRcode"
+              >
                 点击刷新
               </div>
             </div>
           </div>
           <p>使用<span style="color: #409EFF;">网易云音乐APP</span>扫码登录</p>
         </div>
-        <div style="cursor:pointer;text-align: center;" @click="() => (isLoginByPhone = true)" v-if="!isLoginByPhone">
+        <div
+          style="cursor:pointer;text-align: center;"
+          @click="() => (isLoginByPhone = true)"
+          v-if="!isLoginByPhone"
+        >
           <p>选择其他登录方式 ></p>
         </div>
       </div>

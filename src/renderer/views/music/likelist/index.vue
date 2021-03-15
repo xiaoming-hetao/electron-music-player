@@ -40,8 +40,8 @@
                   <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
                   <div style="display: inline-block; margin-left: 20px">
                     <img
+                      style=" width: 15px;height: 15px;margin-right: 5px;cursor:pointer;"
                       @click="unlikeMusic(scope.row)"
-                      class="shoucang"
                       title="取消喜欢"
                       src="../../../assets/images/shoucang.png"
                     />
@@ -107,14 +107,37 @@
         </el-table>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <p style="text-align:center;">确定将选中的歌曲从我喜欢的音乐中删除？</p>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          round
+          @click="handleUnlike"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
+import { ipcRenderer } from "electron";
+import db from "../../../../lowdb/datastore";
 export default {
   data() {
     return {
-      showPlaylist: false
+      showPlaylist: false,
+      dialogVisible: false,
+      likelistIds: []
     };
   },
   computed: {
@@ -123,27 +146,54 @@ export default {
       profile: state => state.user.profile
     })
   },
-  mounted() {
-    console.log("---Play list=", this.list);
-    console.log("---Play song=", this.song);
-    // this.$bus.$on("showPlaylist", res => {
-    //   if (this.list.length > 0) {
-    //     if (this.showPlaylist) {
-    //       this.showPlaylist = false;
-    //     } else {
-    //       this.showPlaylist = true;
-    //     }
-    //   }
-    // });
+  // mounted() {
+  //   console.log("---Play list=", this.list);
+  //   console.log("---Play song=", this.song);
 
-    this.globalClick(this.hidePlaylist);
-    this.playlistClick(() => {
-      // console.log('-----click in playlist----')
-    });
-  },
+  //   this.globalClick(this.hidePlaylist);
+  //   this.playlistClick(() => {});
+  // },
   methods: {
+    // 重新向数据库拉取数据
+    // 重新向数据库拉取数据
+    fetchData(userId) {
+      const value = db
+        .read()
+        .get("user-like")
+        .find({ userId })
+        .value();
+      this.$store.commit("SET_LIKELIST_DATA", { songs: value.likelist });
+    },
     unlikeMusic(item) {
-      like(item.id).then(res => {});
+      this.dialogVisible = true;
+    },
+    handleUnlike() {
+      let store = localStorage.getItem("profile");
+      if (store !== null) {
+        const userId = JSON.parse(store).userId;
+        ipcRenderer.send("unlike_music", { songId: this.songId, userId });
+        ipcRenderer.on("reply_unlike_music", (event, data) => {
+          if (data.code === 200) {
+            this.likelistIds.splice(this.likelistIds.indexOf(this.songId), 1);
+            localStorage.setItem("likelistIds", JSON.stringify(this.likelistIds));
+            this.fetchData(userId);
+
+            this.dialogVisible = false;
+
+            this.$message({
+              message: data.message,
+              type: "success",
+              center: true
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "请先登录再进行此操作",
+          type: "info",
+          center: true
+        });
+      }
     },
     play(item) {
       console.log("item.id=", item.id);
@@ -154,7 +204,16 @@ export default {
     },
     hidePlaylist() {
       // console.log('-----globalClick -> hidePlaylist-----',this.$refs.playlist)
+    },
+    getLikelistIds() {
+      let store = localStorage.getItem("likelistIds");
+      if (store !== null) {
+        this.likelistIds = JSON.parse(store);
+      }
     }
+  },
+  mounted() {
+    this.getLikelistIds();
   }
 };
 </script>

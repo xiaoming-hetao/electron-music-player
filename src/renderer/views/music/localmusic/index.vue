@@ -9,7 +9,7 @@
       <div class="mask"></div>
       <div class="content">
         <div class="head"><label>选择本地音乐文件夹</label><span
-            class="iconfont icon-guanbi"
+            class="el-icon-close"
             @click="addFileDialogClose"
           ></span></div>
         <div class="list">
@@ -22,7 +22,7 @@
               @click="() => {data.checked = !data.checked;}"
             >
 
-              <span>{item.path}</span>
+              <span>{{item.path}}</span>
             </div>
           </div>
 
@@ -121,7 +121,7 @@ $theme: #666;
 .addfile-dialog {
   width: calc(100vw - 50px);
   height: calc(100vh - 35px);
-  position: fixed;
+  // position: fixed;
   left: 25px;
   top: 10px;
   z-index: 999;

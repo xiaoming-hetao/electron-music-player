@@ -6,7 +6,7 @@
     >
       <el-container style="position: relative;">
         <el-aside
-          width="230px"
+          width="210px"
           class="aside"
         >
           <aside-view />

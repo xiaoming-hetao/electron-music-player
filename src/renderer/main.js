@@ -10,6 +10,8 @@ import filters from "./filters";
 import { Table } from "element-ui";
 Vue.use(Table);
 Vue.use(ElementUI);
+ElementUI.Dialog.props.closeOnClickModal.default = false;
+
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });

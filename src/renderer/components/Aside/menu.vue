@@ -99,14 +99,51 @@
         </div>
       </div>
     </div>
+
+    <el-dialog
+      title="新建歌单"
+      :visible.sync="playlistDialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <el-input
+        placeholder="请输新歌单标题"
+        size="small"
+        v-model="newplaylist"
+      >
+      </el-input>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          :disabled="!newplaylist"
+          round
+          :loading="isLoading"
+          @click="handleCreate"
+        >创 建</el-button>
+      </span>
+    </el-dialog>
   </el-scrollbar>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { ipcRenderer } from "electron";
+import { createPlaylist, delPlaylist } from "../../api/user";
 export default {
   inject: ["reloadRouterView"],
+  data() {
+    return {
+      playlistDialogVisible: false,
+      newplaylist: "",
+      isLoading: false
+    };
+  },
+
   methods: {
     showMVList() {
       this.$store.dispatch("showMVList");
@@ -121,24 +158,48 @@ export default {
       this.reloadRouterView();
     },
     createPlaylist() {
+      // 登录后才允许创建歌单
+      if (this.user.is_login) {
+        this.playlistDialogVisible = true;
+      } else {
+        this.$bus.$emit("login");
+      }
       console.log(this.user.profile.nickname);
+    },
+    handleCreate() {
+      this.isLoading = true;
+      createPlaylist(this.newplaylist).then(res => {
+        if (res.code === 200) {
+          this.$store.dispatch("SET_PLAYLIST", this.user.profile.userId);
+          this.playlistDialogVisible = false;
+          this.$message({
+            message: "创建成功",
+            type: "success",
+            center: true
+          });
+        }
+      });
     }
   },
   created() {
     // 每次启动向主进程获取用户数据（喜欢列表，创建和收藏的歌单）
-    const userId = JSON.parse(localStorage.getItem("profile")).userId;
-    ipcRenderer.send("get_user_data", userId);
-    ipcRenderer.on("replay_user_data", (event, data) => {
-      let likelist = {
-        songs: data.likelistData.likelist
-      };
-      let playlist = {
-        userCreatePlaylist: data.createPlaylistData.userCreatePlaylist,
-        userLikePlaylist: data.likePlaylistData.userLikePlaylist
-      };
-      this.$store.commit("SET_LIKELIST_DATA", likelist);
-      this.$store.commit("SET_PLAYLIST_DATA", playlist);
-    });
+    let store = localStorage.getItem("profile");
+    if (store !== null) {
+      const userId = JSON.parse(store).userId;
+      ipcRenderer.send("get_user_data", userId);
+      ipcRenderer.on("reply_user_data", (event, data) => {
+        let likelist = {
+          songs: data.likelistData.likelist
+        };
+
+        const userCreatePlaylist = data.createPlaylistData.userCreatePlaylist;
+        const userLikePlaylist = data.likePlaylistData.userLikePlaylist;
+
+        this.$store.commit("SET_LIKELIST_DATA", likelist);
+        this.$store.commit("SET_CREATE_PLAYLIST_DATA", { userCreatePlaylist });
+        this.$store.commit("SET_LIKE_PLAYLIST_DATA", { userLikePlaylist });
+      });
+    }
   },
   computed: {
     ...mapState({

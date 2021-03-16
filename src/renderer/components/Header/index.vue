@@ -20,14 +20,6 @@
       >
         <i class="btn el-icon-arrow-right"></i>
       </el-button>
-      <!-- <el-button
-        class="no-drag hover-color"
-        size="mini"
-        type="text"
-        @click="refresh"
-      >
-        <i class="btn el-icon-refresh"></i>
-      </el-button> -->
 
       <div class="search no-drag">
         <el-popover
@@ -185,19 +177,43 @@
     </div>
 
     <div class="right">
+
       <el-button
         @click="minimize"
         class="no-drag"
         size="mini"
         type="text"
+        title="最小化"
       >
         <i class="btn el-icon-minus"></i>
+      </el-button>
+
+      <el-button
+        @click="fullscreen"
+        class="no-drag"
+        size="mini"
+        type="text"
+        title="最大化"
+        v-if="!isMaximized"
+      >
+        <i class="btn el-icon-full-screen"></i>
+      </el-button>
+      <el-button
+        @click="restore"
+        class="no-drag"
+        size="mini"
+        type="text"
+        title="向下还原"
+        v-if="isMaximized"
+      >
+        <i class="btn el-icon-copy-document"></i>
       </el-button>
       <el-button
         @click="close"
         class="no-drag hover-color"
         size="mini"
         type="text"
+        title="关闭"
       >
         <i class="btn el-icon-close"></i>
       </el-button>
@@ -208,7 +224,7 @@
 <script>
 import { logout } from "../../api/user";
 import { search, searchHot, searchSuggest } from "../../api/search";
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, remote } = require("electron");
 
 export default {
   inject: ["reloadRouterView"],
@@ -220,7 +236,8 @@ export default {
       searchContent: "",
       hotSearchData: [],
       searchHistory: [],
-      searchInputData: {}
+      searchInputData: {},
+      isMaximized: false
     };
   },
   props: {
@@ -291,6 +308,14 @@ export default {
     minimize() {
       ipcRenderer.send("minimize");
     },
+    fullscreen() {
+      ipcRenderer.send("maximize");
+      this.isMaximized = true;
+    },
+    restore() {
+      ipcRenderer.send("unmaximize");
+      this.isMaximized = false;
+    },
     back() {
       console.log(this.$route.name, "routername");
       if (this.$route.name !== "music") {
@@ -303,9 +328,7 @@ export default {
     advance() {
       this.$router.go(1);
     },
-    // refresh() {
-    //   this.$bus.$emit("page-refresh", this.$route.name);
-    // },
+
     login() {
       if (this.user.is_login) {
         this.visible = false;
@@ -330,6 +353,7 @@ export default {
     }
   },
   mounted() {
+    this.isMaximized = JSON.parse(localStorage.getItem("winState")).isMaximize;
     let historyData = localStorage.getItem("searchHistory");
     if (historyData) {
       this.searchHistory = JSON.parse(historyData);
@@ -338,6 +362,14 @@ export default {
     }
     searchHot().then(res => {
       this.hotSearchData = res.data;
+    });
+
+    let win = remote.getCurrentWindow();
+    win.on("maximize", () => {
+      this.isMaximized = JSON.parse(localStorage.getItem("winState")).isMaximize;
+    });
+    win.on("unmaximize", () => {
+      this.isMaximized = JSON.parse(localStorage.getItem("winState")).isMaximize;
     });
   }
 };

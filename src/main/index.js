@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, globalShortcut } from "electron";
 import db from "../lowdb/datastore";
 const child_process = require("child_process");
 /**
@@ -66,6 +66,8 @@ function createWindow() {
     height: 700,
     useContentSize: true,
     width: 1200,
+    // 一开始先不让窗口显示出来，在App.vue组件中手动调用win.show()方法来显示窗口
+    show: false,
     frame: false,
     // resizable: false,
     skipTaskbar: false,
@@ -80,6 +82,14 @@ function createWindow() {
   // mainWindow.webContents.openDevTools() = false
   mainWindow.on("closed", () => {
     mainWindow = null;
+  });
+
+  // 禁止按F5以及Ctrl||Command+R刷新
+  globalShortcut.register("F5", () => {
+    return false;
+  });
+  globalShortcut.register("CommandOrControl+R", () => {
+    return false;
   });
 }
 
@@ -96,6 +106,11 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+app.on("will-quit", () => {
+  globalShortcut.unregister("F5");
+  globalShortcut.unregister("CommandOrControl+X");
+});
 // app.setName("深空音乐");
 
 ipcMain.on("close", e => {
@@ -103,6 +118,12 @@ ipcMain.on("close", e => {
 });
 ipcMain.on("minimize", e => {
   mainWindow.minimize();
+});
+ipcMain.on("maximize", e => {
+  mainWindow.maximize();
+});
+ipcMain.on("unmaximize", e => {
+  mainWindow.unmaximize();
 });
 
 //主进程监听scanningDir，当渲染进程触发scanningDir时主进程开始进行扫描

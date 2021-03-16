@@ -110,6 +110,13 @@ export default {
           }
         }
 
+        // 把我收藏的歌单id存储到本地
+        let likePlaylistIds = [];
+        for (let item of userLikePlaylist) {
+          likePlaylistIds.push(item.id);
+        }
+        localStorage.setItem("likePlaylistIds", JSON.stringify(likePlaylistIds));
+
         let createPlaylistData = {
           userId: uid,
           userCreatePlaylist

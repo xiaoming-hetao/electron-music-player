@@ -40,14 +40,12 @@
               icon="iconfont icon-bofangsanjiaoxing"
             >播放全部</el-button>
             <el-button
-              v-if="isLike"
+              v-if="likePlaylistIds.includes(id)"
               size="mini"
               round
+              icon="el-icon-folder-checked"
               @click="handleCancelShoucang"
-            ><i
-                class="iconfont icon-shoucang"
-                style="color: red"
-              ></i>已收藏</el-button>
+            >已收藏</el-button>
             <el-button
               v-else
               size="mini"
@@ -68,6 +66,25 @@
       <!-- 歌单详细列表 -->
       <songlist :songlist="playlist.tracks" />
     </template>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <p style="text-align:center;">确定不再收藏该歌单？</p>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          round
+          @click="handleUnlike"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </el-scrollbar>
 </template>
 
@@ -76,6 +93,8 @@ import { getPlaylistDetail, like } from "../../api";
 import { likePlaylist, dislikePlaylist } from "../../api/user";
 import songlist from "../../components/Songlist";
 import { getFormatDate } from "../../utils/date";
+import { ipcRenderer } from "electron";
+import db from "../../../lowdb/datastore";
 export default {
   components: {
     songlist
@@ -83,44 +102,89 @@ export default {
   data() {
     return {
       id: "",
-      isLike: false,
       loading: true,
+      dialogVisible: false,
       show: false,
-      playlist: []
+      playlist: {},
+      likePlaylistIds: [],
+      userId: ""
     };
   },
-  mounted() {
-    this.$bus.$on("page-refresh", name => {
-      if (name === "playlist-detail") {
-        this.getData();
-      }
-    });
-  },
-  activated() {
-    let id = this.$route.query.id;
-    this.isLike = this.$route.query.isLike;
-    if (id !== this.id) {
-      this.id = id;
-      this.getData();
-    } else {
-      this.show = true;
-    }
-  },
-  deactivated() {
-    this.show = false;
-  },
+
   methods: {
+    // 重新向数据库拉取数据
+    fetchData(userId) {
+      const value = db
+        .read()
+        .get("like-playlist")
+        .find({ userId })
+        .value();
+      this.$store.commit("SET_LIKE_PLAYLIST_DATA", { userLikePlaylist: value.userLikePlaylist });
+    },
     getDate(time) {
       return getFormatDate(new Date(time));
     },
     handleShoucang() {
-      likePlaylist(this.id).then(res => {
-        console.log(res, "likePlaylist");
-      });
+      let store = localStorage.getItem("profile");
+      if (store !== null) {
+        const userId = JSON.parse(store).userId;
+        likePlaylist(this.id).then(res => {
+          if (res.code === 200) {
+            ipcRenderer.send("like_playlist", { playlist: this.playlist, userId });
+            ipcRenderer.on("reply_like_playlist", (event, data) => {
+              if (data.code === 200) {
+                this.$message({
+                  message: data.message,
+                  type: "success",
+                  center: true
+                });
+                this.fetchData(userId);
+                this.likePlaylistIds.push(this.playlist.id);
+                localStorage.setItem("likePlaylistIds", JSON.stringify(this.likePlaylistIds));
+              }
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "请先登录再进行此操作",
+          type: "info",
+          center: true
+        });
+      }
     },
     handleCancelShoucang() {
+      let store = localStorage.getItem("profile");
+      if (store !== null) {
+        this.dialogVisible = true;
+        this.userId = JSON.parse(store).userId;
+      } else {
+        this.$message({
+          message: "请先登录再进行此操作",
+          type: "info",
+          center: true
+        });
+      }
+    },
+    handleUnlike() {
+      const userId = this.userId;
       dislikePlaylist(this.id).then(res => {
-        console.log(res, "dislikePlaylist");
+        if (res.code === 200) {
+          ipcRenderer.send("unlike_playlist", { id: this.playlist.id, userId });
+          ipcRenderer.on("reply_unlike_playlist", (event, data) => {
+            if (data.code === 200) {
+              this.$message({
+                message: data.message,
+                type: "success",
+                center: true
+              });
+              this.dialogVisible = false;
+              this.fetchData(userId);
+              this.likePlaylistIds.splice(this.likePlaylistIds.indexOf(this.playlist.id), 1);
+              localStorage.setItem("likePlaylistIds", JSON.stringify(this.likePlaylistIds));
+            }
+          });
+        }
       });
     },
     getData() {
@@ -132,19 +196,39 @@ export default {
         this.loading = false;
       });
     },
-    likeMusic(item) {
-      like(item.id).then(res => {
-        console.log(res, "like");
-      });
-    },
-    play(item) {
-      //console.log(item.id)
-      this.$store.dispatch("playMusic", item.id);
-      this.$store.commit("SET_PLAYER_LIST", this.playlist.tracks);
-    },
+
     playAll() {
       this.$store.dispatch("playPlaylist", this.playlist.id);
+    },
+    getLikePlaylistIds() {
+      let store = localStorage.getItem("likePlaylistIds");
+      if (store !== null) {
+        this.likePlaylistIds = JSON.parse(store);
+      }
     }
+  },
+  mounted() {
+    this.getLikePlaylistIds();
+    this.$bus.$on("page-refresh", name => {
+      if (name === "playlist-detail") {
+        this.getData();
+      }
+    });
+  },
+  // updated() {
+  //   this.getLikePlaylistIds();
+  // },
+  activated() {
+    let id = this.$route.query.id;
+    if (id !== this.id) {
+      this.id = id;
+      this.getData();
+    } else {
+      this.show = true;
+    }
+  },
+  deactivated() {
+    this.show = false;
   }
 };
 </script>

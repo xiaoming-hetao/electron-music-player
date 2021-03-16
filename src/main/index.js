@@ -235,7 +235,7 @@ ipcMain.on("like_music", (event, data) => {
 
     event.sender.send("reply_like_music", { code: 200, message: "已添加到我喜欢的音乐" });
   } catch (err) {
-    console.log(err, "error");
+    console.log(err, "like_music error");
   }
 });
 // 取消喜欢
@@ -249,9 +249,43 @@ ipcMain.on("unlike_music", (event, data) => {
         return afterRemove;
       })
       .write();
-    console.log("unlikeSuccess");
+
     event.sender.send("reply_unlike_music", { code: 200, message: "取消喜欢成功" });
   } catch (err) {
-    console.log(err, "error");
+    console.log(err, "unlike_music error");
+  }
+});
+
+// 收藏歌单
+ipcMain.on("like_playlist", (event, data) => {
+  try {
+    db.read()
+      .get("like-playlist")
+      .find({ userId: data.userId })
+      .update("userLikePlaylist", list => {
+        list.unshift(data.playlist);
+        return list;
+      })
+      .write();
+    event.sender.send("reply_like_playlist", { code: 200, message: "收藏成功" });
+  } catch (err) {
+    console.log(err, "like_playlist error");
+  }
+});
+
+// 取消收藏
+ipcMain.on("unlike_playlist", (event, data) => {
+  try {
+    db.read()
+      .get("like-playlist")
+      .find({ userId: data.userId })
+      .update("userLikePlaylist", list => {
+        const afterRemove = list.filter(item => item.id !== data.id);
+        return afterRemove;
+      })
+      .write();
+    event.sender.send("reply_unlike_playlist", { code: 200, message: "歌单取消收藏成功" });
+  } catch (err) {
+    console.log(err, "like_playlist error");
   }
 });

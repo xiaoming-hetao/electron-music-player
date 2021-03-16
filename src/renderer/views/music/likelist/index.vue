@@ -137,7 +137,8 @@ export default {
     return {
       showPlaylist: false,
       dialogVisible: false,
-      likelistIds: []
+      likelistIds: [],
+      songId: 0
     };
   },
   computed: {
@@ -155,7 +156,6 @@ export default {
   // },
   methods: {
     // 重新向数据库拉取数据
-    // 重新向数据库拉取数据
     fetchData(userId) {
       const value = db
         .read()
@@ -166,6 +166,7 @@ export default {
     },
     unlikeMusic(item) {
       this.dialogVisible = true;
+      this.songId = item.id;
     },
     handleUnlike() {
       let store = localStorage.getItem("profile");

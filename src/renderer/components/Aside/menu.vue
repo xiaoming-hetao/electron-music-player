@@ -150,11 +150,11 @@ export default {
       this.$router.push({ name: "show-mvlist" });
     },
     showUserCreatePlaylist(id) {
-      this.$router.push({ name: "userplaylist-detail", query: { id, isLike: false } });
+      this.$router.push({ name: "userplaylist-detail", query: { id } });
       this.reloadRouterView();
     },
     showUserLikePlaylist(id) {
-      this.$router.push({ name: "userplaylist-detail", query: { id, isLike: true } });
+      this.$router.push({ name: "userplaylist-detail", query: { id } });
       this.reloadRouterView();
     },
     createPlaylist() {

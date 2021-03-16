@@ -124,7 +124,8 @@ export default {
     return {
       isLoading: false,
       likelistIds: [],
-      dialogVisible: false
+      dialogVisible: false,
+      songId: 0
     };
   },
   methods: {
@@ -164,6 +165,7 @@ export default {
     },
     unlikeMusic(item) {
       this.dialogVisible = true;
+      this.songId = item.id;
     },
     handleUnlike() {
       this.isLoading = true;

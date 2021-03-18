@@ -1,4 +1,4 @@
-import { getMusicUrl, getPlaylistDetail, getSongDetail, getmvDetail, getmvUrl } from "../../api";
+import { getMusicUrl, getPlaylistDetail, getSongDetail, getmvDetail, getmvUrl, getSongComment } from "../../api";
 
 export default {
   state: {
@@ -63,6 +63,11 @@ export default {
           commit("SET_MV_DATA", { mvDetail: detail, mvUrl: urlData.url });
           console.log(urlData.url, "url");
         });
+      });
+    },
+    getSongComment({ commit, state }, song) {
+      getSongComment(song.id).then(res => {
+        commit("SET_SONG_COMMENT", { comments: res.comments, hotComments: res.hotComments, songDetail: song });
       });
     }
   }

@@ -55,6 +55,11 @@ export function delFromPlaylist(pid, songId) {
   return http.get(`/playlist/tracks?op=del&pid=${pid}&tracks=${songId}`);
 }
 
+// 给歌曲评论
+export function sendComment(id, content) {
+  return http.get(`/comment?t=1&type=0&id=${id}&content=${content}`);
+}
+
 /* 注册 */
 
 // 发送验证码

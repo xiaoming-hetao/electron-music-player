@@ -222,10 +222,9 @@ export default {
     },
     async getSongComment(song) {
       await getSongComment(song.id).then(res => {
-        console.log(song);
-        console.log(res);
         this.commentTotal = res.total;
-        this.$store.commit("SET_SONG_COMMENT", { comments: res.comments, hotComments: res.hotComments, songDetail: song });
+        this.$store.dispatch("getSongComment", song);
+        // this.$store.commit("SET_SONG_COMMENT", { comments: res.comments, hotComments: res.hotComments, songDetail: song });
       });
     },
     // 右键收藏歌曲到歌单

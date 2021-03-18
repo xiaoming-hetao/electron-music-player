@@ -12,8 +12,26 @@
         <span>歌手：{{songDetail.ar[0].name}}</span>
       </div>
     </div>
+
+    <div style="margin: 25px 20px 50px 0px; ">
+      <el-input
+        type="textarea"
+        :rows="3"
+        v-model="comment"
+        maxlength="140"
+        show-word-limit
+      >
+      </el-input>
+      <el-button
+        style="margin-top:10px;float:right;"
+        size="small"
+        round
+        @click="handleComment"
+      >评 论</el-button>
+    </div>
+
     <div class="hotComments">
-      <p>精彩评论</p>
+      <p style="font-weight: bold;">精彩评论</p>
 
       <el-timeline>
         <el-timeline-item
@@ -31,6 +49,13 @@
             <div style="margin-left:10px">
               <span style="color:#409EFF">{{item.user.nickname}}</span>:
               <span>{{item.content}}</span>
+              <p
+                v-if="item.beReplied.length"
+                class="aiteUser"
+              >
+                <span style="color:#409EFF">@{{item.beReplied[0].user.nickname}}</span>:
+                <span>{{item.beReplied[0].content}}</span>
+              </p>
               <p style="color:#999">{{getDate(item.time)}}</p>
             </div>
           </div>
@@ -39,7 +64,7 @@
       </el-timeline>
     </div>
     <div class="comments">
-      <p>最新评论</p>
+      <p style="font-weight: bold;">最新评论</p>
       <el-timeline>
         <el-timeline-item
           v-for="(item, index) in comments"
@@ -56,6 +81,13 @@
             <div style="margin-left:10px">
               <span style="color:#409EFF">{{item.user.nickname}}</span>:
               <span>{{item.content}}</span>
+              <p
+                v-if="item.beReplied.length"
+                class="aiteUser"
+              >
+                <span style="color:#409EFF">@{{item.beReplied[0].user.nickname}}</span>:
+                <span>{{item.beReplied[0].content}}</span>
+              </p>
               <p style="color:#999">{{getDate(item.time)}}</p>
             </div>
           </div>
@@ -67,8 +99,14 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import { sendComment } from "../../api/user";
 import { getCommentDate } from "../../utils/date";
 export default {
+  data() {
+    return {
+      comment: ""
+    };
+  },
   computed: {
     ...mapState({
       comments: state => state.player.comments,
@@ -77,6 +115,21 @@ export default {
     })
   },
   methods: {
+    handleComment() {
+      sendComment(this.songDetail.id, this.comment).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            message: "评论成功",
+            type: "success",
+            center: true
+          });
+          this.comment = "";
+          this.$store.dispatch("getSongComment", this.songDetail);
+          this.$forceUpdate();
+        }
+        console.log(res, "comment");
+      });
+    },
     getDate(timestamp) {
       return getCommentDate(new Date(timestamp));
     }
@@ -89,7 +142,20 @@ export default {
 }
 /deep/.el-timeline-item {
   margin-left: -67px;
-  padding-right: 10px;
+  padding-right: 20px;
+  p,
+  span {
+    font-size: 14px;
+  }
+  .aiteUser {
+    font-size: 14px;
+    width: 100%;
+    height: auto;
+    padding: 5px 5px;
+    line-height: 20px;
+    background: #e6e6e6;
+    border-radius: 5px;
+  }
   .el-timeline-item__tail {
     border-left: none;
   }
@@ -116,28 +182,6 @@ export default {
       width: 100px;
       height: 100px;
       border-radius: 5px;
-    }
-  }
-  .hotComments {
-    p {
-      font-weight: bold;
-    }
-    .el-timeline-item {
-      p,
-      span {
-        font-size: 14px;
-      }
-    }
-  }
-  .comments {
-    p {
-      font-weight: bold;
-    }
-    .el-timeline-item {
-      p,
-      span {
-        font-size: 14px;
-      }
     }
   }
 }

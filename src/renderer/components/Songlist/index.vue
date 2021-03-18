@@ -6,6 +6,7 @@
           size="small"
           :stripe="true"
           :data="songlist"
+          @row-contextmenu="songRightClick"
         >
           <el-table-column label="音乐标题">
             <template slot-scope="scope">
@@ -111,10 +112,32 @@
         >确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="delDialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <p style="text-align:center;">确定将选中的歌曲从歌单中删除？</p>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          round
+          @click="handleDelsong"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { ipcRenderer } from "electron";
+import { addToPlaylist, delFromPlaylist } from "../../api/user";
+import { getPlaylistDetail, getSongComment } from "../../api";
+import { ipcRenderer, screen, remote } from "electron";
+import { mapState } from "vuex";
 import db from "../../../lowdb/datastore";
 export default {
   props: {
@@ -125,7 +148,10 @@ export default {
       isLoading: false,
       likelistIds: [],
       dialogVisible: false,
-      songId: 0
+      delDialogVisible: false,
+      songId: "",
+      playlistId: "",
+      commentTotal: 0
     };
   },
   methods: {
@@ -138,6 +164,105 @@ export default {
         .value();
       this.$store.commit("SET_LIKELIST_DATA", { songs: value.likelist });
     },
+    // 右键菜单
+    async songRightClick(row) {
+      // 获取歌曲评论
+      await this.getSongComment(row);
+
+      let path = require("path");
+      const commentPath = path.join(__dirname, "../../assets/images/comment.png");
+      const playPath = path.join(__dirname, "../../assets/images/playIcon.png");
+      const shoucangPath = path.join(__dirname, "../../assets/images/add.png");
+      const deletePath = path.join(__dirname, "../../assets/images/delete.png");
+      const { Menu } = remote;
+      const that = this;
+      that.songId = row.id;
+      let menu = Menu.buildFromTemplate([
+        {
+          label: `查看评论(${that.commentTotal})`,
+          icon: commentPath,
+          click() {
+            that.$router.push({ name: "song-comment" });
+          }
+        },
+        {
+          label: "播放(Enter)",
+          icon: playPath,
+          click() {
+            that.play(row);
+          }
+        },
+        {
+          label: "下一首播放",
+          icon: playPath,
+          click() {
+            console.log("下一首播放");
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "收藏到歌单",
+          icon: shoucangPath,
+          submenu: this.playlistMenu
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "从歌单中删除",
+          icon: deletePath,
+          click() {
+            that.delDialogVisible = true;
+          }
+        }
+      ]);
+      menu.popup(remote.getCurrentWindow());
+    },
+    async getSongComment(song) {
+      await getSongComment(song.id).then(res => {
+        console.log(song);
+        console.log(res);
+        this.commentTotal = res.total;
+        this.$store.commit("SET_SONG_COMMENT", { comments: res.comments, hotComments: res.hotComments, songDetail: song });
+      });
+    },
+    // 右键收藏歌曲到歌单
+    addToPlaylist(item) {
+      addToPlaylist(item.id, this.songId).then(res => {
+        if (res.body.code === 200) {
+          this.$message({
+            message: "已收藏到歌单",
+            type: "success",
+            center: true
+          });
+        } else if (res.body.code === 502) {
+          this.$message({
+            message: "歌曲已存在",
+            type: "info",
+            center: true
+          });
+        }
+      });
+    },
+    // 右键从歌单中删除歌曲
+    handleDelsong() {
+      delFromPlaylist(this.playlistId, this.songId).then(res => {
+        if (res.body.code === 200) {
+          this.delDialogVisible = false;
+
+          setTimeout(() => {
+            getPlaylistDetail(this.playlistId).then(res => {
+              const playlist = res.playlist;
+              console.log(playlist, "111111");
+              this.$emit("updatePlaylist", playlist);
+            });
+          }, 6000);
+        }
+      });
+    },
+
     likeMusic(item) {
       let store = localStorage.getItem("profile");
       if (store !== null) {
@@ -213,8 +338,31 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      user: state => state.user,
+      userCreatePlaylist: state => state.user.userCreatePlaylist
+    }),
+    playlistMenu() {
+      let subMenu = [];
+      const that = this;
+      let path = require("path");
+      const playlistPath = path.join(__dirname, "../../assets/images/playlistIcon.png");
+      for (let item of that.userCreatePlaylist) {
+        subMenu.push({
+          label: item.name,
+          icon: playlistPath,
+          click() {
+            that.addToPlaylist(item);
+          }
+        });
+      }
+      return subMenu;
+    }
+  },
   mounted() {
     this.getLikelistIds();
+    this.playlistId = this.$route.query.id;
   },
   updated() {
     this.getLikelistIds();

@@ -10,7 +10,11 @@ export default {
     currentTime: 0,
     mvDetail: {},
     mvUrl: "",
-    lyric: ""
+    lyric: "",
+    // 歌曲评论相关
+    comments: [],
+    hotComments: [],
+    songDetail: {}
   },
   mutations: {
     SET_PLAYER_LIST: (state, data) => {
@@ -25,6 +29,12 @@ export default {
     SET_MV_DATA: (state, data) => {
       state.mvDetail = data.mvDetail;
       state.mvUrl = data.mvUrl;
+    },
+    // 歌曲评论
+    SET_SONG_COMMENT: (state, data) => {
+      state.comments = data.comments;
+      state.hotComments = data.hotComments;
+      state.songDetail = data.songDetail;
     }
   },
   actions: {

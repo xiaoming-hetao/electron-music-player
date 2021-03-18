@@ -47,6 +47,14 @@ export function delPlaylist(id) {
   return http.get(`/playlist/delete?id=${id}`);
 }
 
+// 往歌单中添加、删除歌曲
+export function addToPlaylist(pid, songId) {
+  return http.get(`/playlist/tracks?op=add&pid=${pid}&tracks=${songId}`);
+}
+export function delFromPlaylist(pid, songId) {
+  return http.get(`/playlist/tracks?op=del&pid=${pid}&tracks=${songId}`);
+}
+
 /* 注册 */
 
 // 发送验证码

@@ -20,7 +20,7 @@
           </div>
           <div class="author">
             <img :src="playlist.creator.avatarUrl" />
-            <span>{{ playlist.creator.nickname }} &emsp;{{ getDate(playlist.createTime) }}创建</span>
+            <span>{{ playlist.creator.nickname }} &emsp;{{ getDate(playlist.createTime) }}&emsp;创建</span>
 
           </div>
           <div class="desc line-1">
@@ -64,7 +64,10 @@
       </div>
 
       <!-- 歌单详细列表 -->
-      <songlist :songlist="playlist.tracks" />
+      <songlist
+        :songlist="playlist.tracks"
+        @updatePlaylist="handlePpdatePlaylist"
+      />
     </template>
     <el-dialog
       :visible.sync="dialogVisible"
@@ -123,6 +126,9 @@ export default {
     },
     getDate(time) {
       return getFormatDate(new Date(time));
+    },
+    handlePpdatePlaylist(id) {
+      console.log(id, "update");
     },
     handleShoucang() {
       let store = localStorage.getItem("profile");
@@ -191,7 +197,6 @@ export default {
       this.loading = true;
       getPlaylistDetail(this.id).then(res => {
         this.playlist = res.playlist;
-        console.log(this.playlist, "歌单");
         this.show = true;
         this.loading = false;
       });

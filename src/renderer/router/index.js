@@ -65,6 +65,11 @@ export default new Router({
           component: () => import("../components/Mvdetail")
         },
         {
+          path: "song-comment",
+          name: "song-comment",
+          component: () => import("../components/Songcomment")
+        },
+        {
           path: "userplaylist-detail",
           name: "userplaylist-detail",
           component: () => import("../views/music/userplaylist/")

@@ -18,6 +18,11 @@ export function getSongLyric(id) {
   return http.get(`/lyric?id=${id}`);
 }
 
+// 获取歌曲评论
+export function getSongComment(id, limit = 20, offset = 0) {
+  return http.get(`/comment/music?id=${id}&limit=${limit}&offset=${offset}`);
+}
+
 export function getmvUrl(mvid) {
   return http.get(`/mv/url?id=${mvid}`);
 }

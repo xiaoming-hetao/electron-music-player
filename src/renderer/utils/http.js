@@ -20,23 +20,24 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    if (response.data.code !== 200) {
-      switch (response.data.code) {
-        case 401: // 用户未登录
-          break;
-        default:
-          console.log(response.data.message);
-          Message({
-            message: response.data.message || "未知错误",
-            type: "error",
-            center: true
-          });
-          break;
-      }
-      return Promise.reject(response);
-    } else {
-      return response.data;
-    }
+    // if (response.data.code !== 200) {
+    //   switch (response.data.code) {
+    //     case 401: // 用户未登录
+    //       break;
+    //     default:
+    //       console.log(response.data.message);
+    //       Message({
+    //         message: response.data.message || "未知错误",
+    //         type: "error",
+    //         center: true
+    //       });
+    //       break;
+    //   }
+    //   return Promise.reject(response);
+    // } else {
+    //   return response.data;
+    // }
+    return response.data;
   },
   error => {
     if (error.response) {

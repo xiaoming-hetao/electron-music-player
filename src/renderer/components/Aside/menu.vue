@@ -71,6 +71,7 @@
           v-for="(item,index) of userCreatePlaylist"
           :key="index"
           @click="showUserCreatePlaylist(item.id)"
+          @contextmenu="playlistRightClick(item.id,like=false)"
         >
           <div class="left">
             <i class="iconfont icon-yinyue"></i>
@@ -91,6 +92,7 @@
           v-for="(item,index) of userLikePlaylist"
           :key="index"
           @click="showUserLikePlaylist(item.id)"
+          @contextmenu="playlistRightClick(item.id,like=true)"
         >
           <div class="left">
             <i class="iconfont icon-yinyue"></i>
@@ -127,24 +129,121 @@
         >创 建</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="delDialogVisible"
+      width="50%"
+      top="23%"
+      :modal="false"
+      center
+    >
+      <p style="text-align:center;">确定删除该歌单？</p>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          round
+          @click="handleDelPlaylist"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </el-scrollbar>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import { ipcRenderer } from "electron";
+import { ipcRenderer, remote, globalShortcut } from "electron";
 import { createPlaylist, delPlaylist } from "../../api/user";
+import db from "../../../lowdb/datastore";
+
 export default {
   inject: ["reloadRouterView"],
   data() {
     return {
       playlistDialogVisible: false,
+      delDialogVisible: false,
       newplaylist: "",
-      isLoading: false
+      isLoading: false,
+      playlistId: "",
+      like: false
     };
   },
 
   methods: {
+    // 重新向数据库拉取数据
+    fetchCreateListData(userId) {
+      const value = db
+        .read()
+        .get("create-playlist")
+        .find({ userId })
+        .value();
+      this.$store.commit("SET_CREATE_PLAYLIST_DATA", { userCreatePlaylist: value.userCreatePlaylist });
+    },
+    fetchLikeListData(userId) {
+      const value = db
+        .read()
+        .get("like-playlist")
+        .find({ userId })
+        .value();
+      this.$store.commit("SET_LIKE_PLAYLIST_DATA", { userLikePlaylist: value.userLikePlaylist });
+    },
+    // 创建右键菜单
+    playlistRightClick(id, like) {
+      const that = this;
+      let { Menu } = remote;
+      let menu = Menu.buildFromTemplate([
+        {
+          label: "播放(Enter)",
+          click() {
+            that.playAll(id);
+          }
+        },
+        {
+          label: "下一首播放",
+          click() {
+            console.log("下一首播放", id, like);
+          }
+        },
+        {
+          type: "separator"
+        },
+        {
+          label: "删除歌单(Delete)",
+
+          accelerator: "Del", //绑定快捷键
+          click() {
+            that.delDialogVisible = true;
+            that.playlistId = id;
+            that.like = like;
+          }
+        }
+      ]);
+      menu.popup(remote.getCurrentWindow());
+    },
+    handleDelPlaylist() {
+      const id = this.playlistId;
+      const like = this.like;
+      const userId = this.user.profile.userId;
+      delPlaylist(id).then(res => {
+        console.log(res, "删除歌单");
+        if (res.code === 200) {
+          ipcRenderer.send("delete_playlist", { id, like, userId });
+          ipcRenderer.on("reply_delete_playlist", (event, data) => {
+            if (data.code === 200 && data.type === "create") {
+              this.delDialogVisible = false;
+              this.fetchCreateListData(userId);
+            } else if (data.code === 200 && data.type === "like") {
+              this.delDialogVisible = false;
+              this.fetchLikeListData(userId);
+            }
+          });
+        }
+      });
+    },
+    playAll(id) {
+      this.$store.dispatch("playPlaylist", id);
+    },
     showMVList() {
       this.$store.dispatch("showMVList");
       this.$router.push({ name: "show-mvlist" });
@@ -208,6 +307,11 @@ export default {
       userLikePlaylist: state => state.user.userLikePlaylist
     })
   }
+  // mounted() {
+  //   globalShortcut.register("Del", () => {
+  //     handleDelPlaylist();
+  //   });
+  // }
 };
 </script>
 

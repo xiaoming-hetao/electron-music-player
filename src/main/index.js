@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, globalShortcut } from "electron";
+import { app, BrowserWindow, ipcMain, globalShortcut, Cookies } from "electron";
 import db from "../lowdb/datastore";
 const child_process = require("child_process");
 /**
@@ -308,5 +308,37 @@ ipcMain.on("unlike_playlist", (event, data) => {
     event.sender.send("reply_unlike_playlist", { code: 200, message: "歌单取消收藏成功" });
   } catch (err) {
     console.log(err, "like_playlist error");
+  }
+});
+
+// 删除歌单
+ipcMain.on("delete_playlist", (event, data) => {
+  const isLikelist = data.like;
+  if (isLikelist) {
+    //删除用户喜欢的歌单
+    db.read()
+      .get("like-playlist")
+      .find({ userId: data.userId })
+      .update("userLikePlaylist", list => {
+        const afterRemove = list.filter(item => item.id !== data.id);
+        return afterRemove;
+      })
+      .write();
+    event.sender.send("reply_delete_playlist", { code: 200, type: "like" });
+  } else {
+    //删除用户创建的歌单
+    try {
+      db.read()
+        .get("create-playlist")
+        .find({ userId: data.userId })
+        .update("userCreatePlaylist", list => {
+          const afterRemove = list.filter(item => item.id !== data.id);
+          return afterRemove;
+        })
+        .write();
+      event.sender.send("reply_delete_playlist", { code: 200, type: "create" });
+    } catch (err) {
+      console.log(err, "delete_playlist error");
+    }
   }
 });

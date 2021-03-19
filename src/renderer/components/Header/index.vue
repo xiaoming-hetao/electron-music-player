@@ -3,6 +3,13 @@
     class="header-view"
     :style="{ height: height }"
   >
+    <div class="avatar-div">
+      <div class="avatar">
+        <img src="../../assets/images/logo.png" />
+        <p>深空音乐</p>
+      </div>
+
+    </div>
     <div class="left flex-c-l">
       <el-button
         class="no-drag"
@@ -409,7 +416,26 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .avatar-div {
+    -webkit-app-region: drag;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .avatar {
+      display: flex;
+      height: 50px;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+  }
   /deep/ .left {
+    margin-left: 20px;
     .btn {
       font-size: 17px;
       color: #999;

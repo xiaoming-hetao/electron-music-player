@@ -65,6 +65,7 @@
           ></i><i
             class="iconfont icon-xiangxia"
             @click="handleCreateToggle"
+            ref="createToggleIcon"
           ></i></div>
       </div>
 
@@ -92,6 +93,7 @@
         <div class="left">我收藏的歌单</div>
         <div class="right"><i
             class="iconfont icon-xiangxia"
+            ref="likeToggleIcon"
             @click="handleLikeToggle"
           ></i></div>
       </div>
@@ -294,6 +296,31 @@ export default {
           });
         }
       });
+    },
+    // 侧边栏歌单的收起与展开动画
+    handleCreateToggle() {
+      this.showCreatePlaylist = !this.showCreatePlaylist;
+
+      this.$refs.createToggleIcon.classList.remove("rotate-down");
+      this.$refs.createToggleIcon.classList.remove("rotate-up");
+
+      if (this.showCreatePlaylist) {
+        this.$refs.createToggleIcon.classList.add("rotate-down");
+      } else {
+        this.$refs.createToggleIcon.classList.add("rotate-up");
+      }
+    },
+    handleLikeToggle() {
+      this.showLikePlaylist = !this.showLikePlaylist;
+
+      this.$refs.likeToggleIcon.classList.remove("rotate-down");
+      this.$refs.likeToggleIcon.classList.remove("rotate-up");
+
+      if (this.showLikePlaylist) {
+        this.$refs.likeToggleIcon.classList.add("rotate-down");
+      } else {
+        this.$refs.likeToggleIcon.classList.add("rotate-up");
+      }
     }
   },
   created() {
@@ -323,11 +350,6 @@ export default {
       userLikePlaylist: state => state.user.userLikePlaylist
     })
   }
-  // mounted() {
-  //   globalShortcut.register("Del", () => {
-  //     handleDelPlaylist();
-  //   });
-  // }
 };
 </script>
 
@@ -342,7 +364,7 @@ export default {
 .menu-view {
   flex: 1;
   overflow: hidden;
-
+  background: #fff;
   .menu-group {
     margin-bottom: 25px;
     padding: 0 20px;
@@ -390,28 +412,28 @@ export default {
       }
     }
     .menu-item:hover {
-      background: #e6e7e7;
+      background: #f7f7f3;
     }
 
     .menu-item.active {
-      background: #e6e7e7;
+      background: #f7f7f3;
     }
   }
 }
 @keyframes up {
   0% {
-    transform: rotate(90deg);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(0deg);
+    transform: rotate(-90deg);
   }
 }
 @keyframes down {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(-90deg);
   }
   100% {
-    transform: rotate(90deg);
+    transform: rotate(0deg);
   }
 }
 .rotate-down {

@@ -66,7 +66,7 @@ export default {
   flex-direction: column;
   /deep/ .el-tabs {
     height: 40px;
-    background: #fafafa;
+    background: #fff;
     .el-tabs__header {
       padding: 0;
       margin: 0;
@@ -84,7 +84,7 @@ export default {
     }
   }
   .music-body {
-    background: #f0f0f0;
+    background: #fff;
     flex: 1;
     overflow: hidden;
     display: flex;

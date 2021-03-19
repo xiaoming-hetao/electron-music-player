@@ -4,6 +4,13 @@
       class="container"
       id="main"
     >
+      <el-header
+        class="header"
+        height="70px"
+        style="-webkit-app-region: drag"
+      >
+        <header-view height="70px" />
+      </el-header>
       <el-container style="position: relative;">
         <el-aside
           width="210px"
@@ -12,13 +19,7 @@
           <aside-view />
         </el-aside>
         <el-container>
-          <el-header
-            class="header"
-            height="70px"
-            style="-webkit-app-region: drag"
-          >
-            <header-view height="70px" />
-          </el-header>
+
           <el-main class="main">
             <keep-alive>
               <router-view></router-view>
@@ -76,6 +77,7 @@ export default {
   display: flex;
   flex: 1;
   flex-shrink: 0;
+  border-left: 1px solid #ebebe5;
 }
 
 .footer {

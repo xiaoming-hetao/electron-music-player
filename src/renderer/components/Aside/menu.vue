@@ -62,10 +62,16 @@
         <div class="right"><i
             class="iconfont icon-jia-copy"
             @click="createPlaylist"
-          ></i><i class="iconfont icon-xiangxia"></i></div>
+          ></i><i
+            class="iconfont icon-xiangxia"
+            @click="handleCreateToggle"
+          ></i></div>
       </div>
 
-      <div v-if="user.is_login">
+      <div
+        v-if="user.is_login"
+        v-show="showCreatePlaylist"
+      >
         <div
           class="menu-item"
           v-for="(item,index) of userCreatePlaylist"
@@ -84,9 +90,15 @@
     <div class="menu-group">
       <div class="menu-title">
         <div class="left">我收藏的歌单</div>
-        <div class="right"><i class="iconfont icon-xiangxia"></i></div>
+        <div class="right"><i
+            class="iconfont icon-xiangxia"
+            @click="handleLikeToggle"
+          ></i></div>
       </div>
-      <div v-if="user.is_login">
+      <div
+        v-if="user.is_login"
+        v-show="showLikePlaylist"
+      >
         <div
           class="menu-item"
           v-for="(item,index) of userLikePlaylist"
@@ -166,7 +178,9 @@ export default {
       newplaylist: "",
       isLoading: false,
       playlistId: "",
-      like: false
+      like: false,
+      showCreatePlaylist: true,
+      showLikePlaylist: true
     };
   },
 
@@ -188,6 +202,8 @@ export default {
         .value();
       this.$store.commit("SET_LIKE_PLAYLIST_DATA", { userLikePlaylist: value.userLikePlaylist });
     },
+    handleCreateToggle() {},
+    handleLikeToggle() {},
     // 创建右键菜单
     playlistRightClick(id, like) {
       const that = this;
@@ -381,5 +397,29 @@ export default {
       background: #e6e7e7;
     }
   }
+}
+@keyframes up {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes down {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+.rotate-down {
+  animation: down 0.3s linear;
+  animation-fill-mode: forwards;
+}
+.rotate-up {
+  animation: up 0.3s linear;
+  animation-fill-mode: forwards;
 }
 </style>

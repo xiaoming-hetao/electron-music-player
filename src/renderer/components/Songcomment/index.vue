@@ -63,6 +63,14 @@
         </el-timeline-item>
       </el-timeline>
     </div>
+    <div style="text-align:center; ">
+      <el-button
+        size="small"
+        style="margin-top: 10px;margin-bottom:40px;"
+        round
+        @click="handleGetHotComment"
+      >更多精彩评论 ></el-button>
+    </div>
     <div class="comments">
       <p style="font-weight: bold;">最新评论</p>
       <el-timeline>
@@ -100,8 +108,10 @@
 <script>
 import { mapState } from "vuex";
 import { sendComment } from "../../api/user";
+import { getHotComment } from "../../api";
 import { getCommentDate } from "../../utils/date";
 export default {
+  inject: ["reloadRouterView"],
   data() {
     return {
       comment: ""
@@ -115,6 +125,11 @@ export default {
     })
   },
   methods: {
+    handleGetHotComment() {
+      this.$router.push({ name: "hot-comment", query: { id: this.songDetail.id } });
+      this.reloadRouterView();
+      this.$store.dispatch("getSongComment", this.songDetail);
+    },
     handleComment() {
       sendComment(this.songDetail.id, this.comment).then(res => {
         if (res.code === 200) {
@@ -125,9 +140,7 @@ export default {
           });
           this.comment = "";
           this.$store.dispatch("getSongComment", this.songDetail);
-          this.$forceUpdate();
         }
-        console.log(res, "comment");
       });
     },
     getDate(timestamp) {
@@ -145,7 +158,7 @@ export default {
   padding-right: 20px;
   p,
   span {
-    font-size: 14px;
+    font-size: 13px;
   }
   .aiteUser {
     font-size: 14px;
@@ -167,10 +180,11 @@ export default {
   min-height: 430px;
   width: 100%;
   margin-left: 20px;
-  margin-top: 20px;
+
   overflow-x: auto;
   .songDetail {
     display: flex;
+    margin-top: 20px;
     p {
       font-size: 20px;
     }

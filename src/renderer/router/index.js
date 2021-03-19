@@ -70,6 +70,11 @@ export default new Router({
           component: () => import("../components/Songcomment")
         },
         {
+          path: "hot-comment",
+          name: "hot-comment",
+          component: () => import("../components/Hotcomment")
+        },
+        {
           path: "userplaylist-detail",
           name: "userplaylist-detail",
           component: () => import("../views/music/userplaylist/")

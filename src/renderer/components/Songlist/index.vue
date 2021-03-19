@@ -7,6 +7,7 @@
           :stripe="true"
           :data="songlist"
           @row-contextmenu="songRightClick"
+          @row-dblclick="handleDBclick"
         >
           <el-table-column label="音乐标题">
             <template slot-scope="scope">
@@ -40,13 +41,6 @@
                       @click="playmv(scope.row.mv)"
                     />
                   </div>
-                </div>
-                <div class="btns">
-                  <i
-                    class="iconfont icon-zanting play"
-                    @click="play(scope.row)"
-                  ></i>
-                  <i class="iconfont icon-gengduo more"></i>
                 </div>
               </div>
             </template>
@@ -224,7 +218,6 @@ export default {
       await getSongComment(song.id).then(res => {
         this.commentTotal = res.total;
         this.$store.dispatch("getSongComment", song);
-        // this.$store.commit("SET_SONG_COMMENT", { comments: res.comments, hotComments: res.hotComments, songDetail: song });
       });
     },
     // 右键收藏歌曲到歌单
@@ -254,12 +247,14 @@ export default {
           setTimeout(() => {
             getPlaylistDetail(this.playlistId).then(res => {
               const playlist = res.playlist;
-              console.log(playlist, "111111");
               this.$emit("updatePlaylist", playlist);
             });
           }, 6000);
         }
       });
+    },
+    handleDBclick(row) {
+      this.play(row);
     },
 
     likeMusic(item) {
@@ -381,16 +376,6 @@ export default {
       }
       tr {
         background: none;
-      }
-      tr:hover {
-        .btns {
-          .iconfont {
-            display: block;
-          }
-          .iconfont:hover {
-            color: #31c27c;
-          }
-        }
       }
     }
     .name-row {

@@ -51,8 +51,8 @@
             <div v-if="searchInputData.songs">
               <p><img src="../../assets/images/song.png" />&nbsp;&nbsp;单曲</p>
               <div
-                v-for="(song, index) of searchInputData.songs"
-                :key="index"
+                v-for="(song) of searchInputData.songs"
+                :key="song.id"
                 class="search-item"
                 @click="handleHotSearch(song.name)"
               >
@@ -62,8 +62,8 @@
             <div v-if="searchInputData.albums">
               <p><img src="../../assets/images/album.png" />&nbsp;&nbsp;专辑</p>
               <div
-                v-for="(album, index) of searchInputData.albums"
-                :key="index"
+                v-for="(album) of searchInputData.albums"
+                :key="album.id"
                 class="search-item"
                 @click="handleAlbumSearch(album)"
               >
@@ -76,8 +76,8 @@
             >
               <p><img src="../../assets/images/playlist.png" />&nbsp;&nbsp;歌单</p>
               <div
-                v-for="(playlist, index) of searchInputData.playlists"
-                :key="index"
+                v-for="(playlist) of searchInputData.playlists"
+                :key="playlist.id"
                 class="search-item"
                 @click="handlePlaylistSearch(playlist.id)"
               >
@@ -87,8 +87,8 @@
             <div v-if="searchInputData.artists">
               <p><img src="../../assets/images/user.png" />&nbsp;&nbsp;歌手</p>
               <div
-                v-for="(artist, index) of searchInputData.artists"
-                :key="index"
+                v-for="(artist) of searchInputData.artists"
+                :key="artist.id"
                 class="search-item"
                 @click="handleArtistSearch(artist)"
               >
@@ -124,7 +124,7 @@
             <p>热搜榜</p>
             <div
               v-for="(item, index) of hotSearchData"
-              :key="item.score"
+              :key="index"
               @click="handleHotSearch(item.searchWord)"
               class="hot-div"
               style="margin-top: 20px; line-height: 20px"
@@ -339,8 +339,8 @@ export default {
     login() {
       if (this.user.is_login) {
         this.visible = false;
-        console.log("login");
-        this.$bus.$emit("logout");
+        // console.log("login");
+        // this.$bus.$emit("logout");
       } else {
         this.$bus.$emit("login");
       }
@@ -350,6 +350,7 @@ export default {
         if (res.code === 200) {
           this.$store.dispatch("SET_LOGOUT");
           this.visible = true;
+          this.$router.replace({ path: "/" });
         }
       });
     }

@@ -42,6 +42,12 @@ export default {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
       getSongDetail(id).then(res => {
         commit("SET_PLAYER_DATA", { song: res.songs[0] });
+        //存入播放历史
+        const data = JSON.parse(localStorage.getItem("userPlayHistory"));
+        const music = res.songs[0];
+        music["playtime"] = new Date().getTime();
+        data.push(music);
+        localStorage.setItem("userPlayHistory", JSON.stringify(data));
       });
       getMusicUrl(id).then(res => {
         commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
@@ -50,8 +56,8 @@ export default {
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {
         console.log(res, "playlistdetail");
-        commit("SET_PLAYER_LIST", res.playlist.tracks);
         dispatch("playMusic", res.playlist.tracks[0].id);
+        commit("SET_PLAYER_LIST", res.playlist.tracks);
       });
     },
     playMv({ commit, state, dispatch }, mvid) {

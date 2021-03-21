@@ -18,7 +18,7 @@ export function getUserPlayList(uid) {
 
 // 获取用户播放记录
 export function getUserPlayHistory(uid) {
-  return http.get(`/user/record?uid=${uid}&type=1`);
+  return http.get(`/user/record?uid=${uid}&type=0`);
 }
 
 // 获取用户喜欢列表

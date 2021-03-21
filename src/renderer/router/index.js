@@ -49,6 +49,11 @@ export default new Router({
           component: () => import("../views/music/localmusic")
         },
         {
+          path: "show-playhistory",
+          name: "show-playhistory",
+          component: () => import("../views/music/playhistory")
+        },
+        {
           path: "show-albumdetail",
           name: "show-albumdetail",
           component: () => import("../views/music/albumdetail")

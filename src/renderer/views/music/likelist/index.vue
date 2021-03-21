@@ -147,13 +147,9 @@ export default {
       profile: state => state.user.profile
     })
   },
-  // mounted() {
-  //   console.log("---Play list=", this.list);
-  //   console.log("---Play song=", this.song);
-
-  //   this.globalClick(this.hidePlaylist);
-  //   this.playlistClick(() => {});
-  // },
+  mounted() {
+    console.log("---Play list=", this.likelist);
+  },
   methods: {
     // 重新向数据库拉取数据
     fetchData(userId) {
@@ -222,7 +218,7 @@ export default {
 .search-music {
   min-height: 430px;
   width: 100%;
-  overflow-x: auto;
+  overflow-y: auto;
 }
 .top {
   padding: 25px 30px;

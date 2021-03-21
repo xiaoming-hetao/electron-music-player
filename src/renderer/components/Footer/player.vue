@@ -48,68 +48,61 @@
       <el-dropdown
         trigger="click"
         placement="top"
+        @command="handleCommand"
       >
-        <span class="tone-dropdown">标准<i class="el-icon-arrow-up el-icon--right"></i></span>
+        <span class="tone-dropdown">{{playType}}<i class="el-icon-arrow-up el-icon--right"></i></span>
         <el-dropdown-menu
           slot="dropdown"
           style="width: 220px"
         >
-          <el-dropdown-item>
+          <el-dropdown-item command="随机播放">
             <div class="flex-c-l">
               <div
                 class="check"
                 style="width: 30px"
               >
                 <i
+                  v-if="playType==='随机播放'"
                   class="el-icon-check"
                   style="color: #31c27c"
                 ></i>
               </div>
-              <span>标准品质</span>
+              <span>随机播放</span>
             </div>
           </el-dropdown-item>
-          <el-dropdown-item>
+          <el-dropdown-item command="单曲循环">
             <div class="flex-c-l">
               <div
                 class="check"
                 style="width: 30px"
-              ></div>
-              <span>HQ高品质</span>
+              >
+                <i
+                  v-if="playType==='单曲循环'"
+                  class="el-icon-check"
+                  style="color: #31c27c"
+                ></i>
+              </div>
+              <span>单曲循环</span>
             </div>
           </el-dropdown-item>
-          <el-dropdown-item>
+          <el-dropdown-item command="顺序播放">
             <div class="flex-c-l">
               <div
                 class="check"
                 style="width: 30px"
-              ></div>
-              <span>SQ无损品质</span>
-              <img
-                src="../../assets/images/svip.png"
-                style="margin-left: 5px; width: 22px"
-              />
-              <img
-                src="../../assets/images/sui.png"
-                style="margin-left: 5px; width: 22px"
-              />
+              >
+                <i
+                  v-if="playType==='顺序播放'"
+                  class="el-icon-check"
+                  style="color: #31c27c"
+                ></i>
+              </div>
+              <span>顺序播放</span>
             </div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-dropdown
-        class="mt-10"
-        trigger="click"
-        placement="top"
-        size="medium"
-      >
-        <span class="tone-dropdown">音效<i class="el-icon-arrow-up el-icon--right"></i></span>
-        <el-dropdown-menu
-          slot="dropdown"
-          style="width: 200px"
-        >
-          <el-dropdown-item>关闭</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+
     </div>
     <div class="info">
       <div class="top">
@@ -120,6 +113,7 @@
               class="ar_name"
               v-if="ar_name"
             > - {{ ar_name }}</span>
+
           </div>
         </div>
         <div class="time">{{ (play_time * 1000) | formatDuring }} / {{ song.dt | formatDuring }}</div>
@@ -129,6 +123,7 @@
           :show-tooltipss="true"
           v-model="play_time"
           input-size="mini"
+          :show-tooltip="false"
           :min="0"
           :max="song.dt / 1000"
           @change="playTimeChange"
@@ -136,26 +131,91 @@
       </div>
     </div>
     <div class="actions">
-      <el-button type="text">
-        <i class="iconfont icon-xiai"></i>
+      <el-button
+        type="text"
+        v-if="likelistIds.includes(this.song.id)"
+        style="margin-top:5px"
+      >
+        <img
+          @click="unlikeMusic"
+          title="取消喜欢"
+          style=" width: 15px;height: 15px;margin-right: 5px;cursor:pointer;"
+          src="../../assets/images/shoucang.png"
+        />
       </el-button>
-      <el-button type="text">
-        <i class="iconfont icon-liebiaoxunhuan"></i>
+      <el-button
+        type="text"
+        style="margin-top:5px"
+        v-if="song.name && !likelistIds.includes(this.song.id)"
+      >
+        <i
+          @click="likeMusic"
+          class="shoucang iconfont icon-shoucang"
+          title="喜欢"
+        ></i>
+
       </el-button>
-      <el-button type="text">
-        <i class="iconfont icon-shengyin"></i>
+      <el-button
+        type="text"
+        style="margin-top:4px;;margin-left:-10px"
+      >
+        <i
+          class="el-icon-bell"
+          style="font-size:18px"
+          title="静音"
+          v-if="!isVolume"
+          @click="closeVolume"
+        ></i>
+        <i
+          class="el-icon-close-notification"
+          style="font-size:18px"
+          title="恢复声音"
+          v-if="isVolume"
+          @click="restoreVolume"
+        ></i>
       </el-button>
+      <div
+        class="progress"
+        style="width:100px;"
+      >
+
+        <el-slider
+          :show-tooltip="false"
+          style="margin-top:-2px;margin-left:-5px"
+          v-model="volumeControl"
+          input-size="mini"
+          :min="0"
+          @change="volumeChange"
+        ></el-slider>
+      </div>
+      <el-popover
+        placement="top-start"
+        width="400"
+        popper-class="ls"
+        trigger="click"
+      >
+        <playlist />
+        <el-button
+          style="margin-left:10px;margin-top:5px"
+          type="text"
+          @click.native="showPlaylist"
+          slot="reference"
+        >
+          <i class="iconfont icon-liebiao"></i>
+        </el-button>
+      </el-popover>
     </div>
   </div>
 </template>
 
 <script>
 import songdetail from "../Songdetail";
-
+import playlist from "../Playlist";
 import { getSongLyric } from "../../api";
 export default {
   components: {
-    songdetail
+    songdetail,
+    playlist
   },
   data() {
     return {
@@ -163,11 +223,23 @@ export default {
       play_time: 0,
       max_time: 0,
       interval: null,
-      play_type: 1 //播放次序 0单曲循环 1列表循环 2随机播放
+      playType: "随机播放",
+      play_type: 1, //播放次序 0单曲循环 1列表循环 2随机播放
+      likelistIds: [],
+      volumeControl: 0, //音量控制
+      isVolume: false,
+      songId: ""
     };
   },
-  mounted() {},
+
   watch: {
+    playType(newVal, oldVal) {
+      if (newVal === "单曲循环") {
+        this.audio.loop = "loop";
+      } else {
+        this.audio.loop = "";
+      }
+    },
     is_play(val) {
       try {
         this.$nextTick(() => {
@@ -258,6 +330,19 @@ export default {
     }
   },
   methods: {
+    handleCommand(command) {
+      this.playType = command;
+      console.log(command);
+    },
+    closeVolume() {
+      this.isVolume = true;
+      this.audio.muted = "muted";
+    },
+    restoreVolume() {
+      this.isVolume = false;
+      this.audio.muted = "";
+      console.log(this.audio.volume);
+    },
     // 展示歌词
     showSongLyric() {
       if (this.song.id) {
@@ -265,6 +350,11 @@ export default {
 
         this.$store.commit("SET_PLAYER_DATA", { audioDom: this.audio });
       }
+    },
+    // 改变音量
+    volumeChange(val) {
+      localStorage.setItem("volumeControl", val);
+      this.audio.volume = parseInt(val) / 100;
     },
     //播放/暂停按钮点击
     playClick() {
@@ -306,7 +396,6 @@ export default {
       }
     },
     playAfter() {
-      console.log(this.after_song);
       if (this.after_song) {
         this.$store.dispatch("playMusic", this.after_song.id);
       }
@@ -314,7 +403,24 @@ export default {
     // 弹出播放列表
     showPlaylist() {
       this.$bus.$emit("showPlaylist");
+    },
+    getLikelistIds() {
+      let store = localStorage.getItem("likelistIds");
+      if (store !== null) {
+        this.likelistIds = JSON.parse(store);
+      }
+    },
+    likeMusic() {
+      this.$bus.$emit("footerLike", this.song);
+    },
+    unlikeMusic() {
+      this.$bus.$emit("footerUnlike", this.song);
     }
+  },
+  mounted() {
+    this.songId = this.song.id;
+    this.getLikelistIds();
+    this.volumeControl = parseInt(localStorage.getItem("volumeControl"));
   }
 };
 </script>
@@ -364,14 +470,13 @@ $height: 70px;
     }
   }
   /deep/ .tone {
-    width: 75px;
+    width: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
     .el-dropdown {
-      width: 35px;
       border: 1px solid #999;
       font-size: 10px;
       color: #333;
@@ -396,6 +501,7 @@ $height: 70px;
     justify-content: center;
     .top {
       font-size: 13px;
+      margin-top: 10px;
       color: #666;
       display: flex;
       justify-content: space-between;
@@ -406,35 +512,6 @@ $height: 70px;
       .time {
         font-size: 12px;
         color: #999;
-      }
-    }
-    .progress {
-      margin-top: 10px;
-      /deep/ .el-progress {
-        .el-progress-bar__outer {
-          border-radius: 0;
-        }
-        .el-progress-bar__inner {
-          border-radius: 0;
-        }
-      }
-      /deep/ .el-slider {
-        .el-slider__runway {
-          height: 2px;
-          margin: 2px 0;
-        }
-        .el-slider__bar {
-          height: 2px;
-        }
-        .el-slider__button-wrapper {
-          width: 6px;
-          height: 6px;
-          top: -10px;
-        }
-        .el-slider__button {
-          width: 2px;
-          height: 2px;
-        }
       }
     }
   }
@@ -451,6 +528,27 @@ $height: 70px;
     }
     button:hover {
       color: #31c27c;
+    }
+  }
+}
+.progress {
+  margin-top: 10px;
+
+  /deep/ .el-slider {
+    .el-slider__runway {
+      height: 3px;
+    }
+    .el-slider__bar {
+      height: 3px;
+    }
+    .el-slider__button-wrapper {
+      width: 6px;
+      height: 6px;
+      top: -8px;
+    }
+    .el-slider__button {
+      width: 3px;
+      height: 3px;
     }
   }
 }

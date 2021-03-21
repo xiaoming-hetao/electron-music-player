@@ -54,9 +54,10 @@
               <span
                 style="width: 140px; cursor: pointer"
                 class="line-1 hover"
-                :title="scope.row.ar[0].name"
+                :title="handleArtistName(scope.row)"
               >{{
-                scope.row.ar[0].name
+                
+                handleArtistName(scope.row)
               }}</span>
             </template>
           </el-table-column>
@@ -317,8 +318,16 @@ export default {
         });
       }
     },
+    handleArtistName(row) {
+      let name = "";
+      for (let item of row.ar) {
+        name += item.name + " ";
+      }
+      return name;
+    },
     play(item) {
       console.log("item.id=", item.id);
+
       this.$store.dispatch("playMusic", item.id);
     },
     playmv(mvid) {
@@ -355,8 +364,16 @@ export default {
     }
   },
   mounted() {
+    console.log(this.songlist);
     this.getLikelistIds();
     this.playlistId = this.$route.query.id;
+    const that = this;
+    that.$bus.$on("footerLike", song => {
+      that.likeMusic(song);
+    });
+    that.$bus.$on("footerUnlike", song => {
+      that.unlikeMusic(song);
+    });
   },
   updated() {
     this.getLikelistIds();

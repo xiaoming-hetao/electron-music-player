@@ -135,7 +135,7 @@ export default {
   min-height: 430px;
   width: 100%;
   margin-left: 20px;
-  overflow-x: auto;
+  overflow-y: auto;
   .hotComments {
     margin-top: 20px;
   }

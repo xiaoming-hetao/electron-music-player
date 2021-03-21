@@ -51,7 +51,16 @@
       >
         <div class="left"><i class="iconfont icon-screen"></i>本地和下载</div>
       </div>
-      <div class="menu-item">
+
+      <div
+        class="menu-item"
+        :class="{ active: this.$route.name === 'show-playhistory' }"
+        @click="
+          () => {
+            this.$router.push({ name: 'show-playhistory' });
+          }
+        "
+      >
         <div class="left"><i class="iconfont icon-lishi"></i>播放历史</div>
       </div>
     </div>

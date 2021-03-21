@@ -53,7 +53,6 @@ export default {
       this.showDesc = !this.showDesc;
       // 进来前先清除之前添加的类
       // 注意：this.$refs.descIcon获取到的是icon组件，不是dom元素
-      // 需要通过$el来获取组件中的DOM元素
       this.$refs.descIcon.classList.remove("rotate-down");
       this.$refs.descIcon.classList.remove("rotate-up");
       if (this.showDesc) {

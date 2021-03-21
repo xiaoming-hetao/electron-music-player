@@ -21,19 +21,21 @@
         <el-container>
 
           <el-main class="main">
-            <keep-alive>
+            <keep-alive v-if="isRouteActive">
               <router-view></router-view>
             </keep-alive>
           </el-main>
         </el-container>
 
       </el-container>
-      <el-footer
-        class="footer"
-        height="70px"
-      >
-        <footer-view height="70px" />
-      </el-footer>
+      <keep-alive>
+        <el-footer
+          class="footer"
+          height="70px"
+        >
+          <footer-view height="70px" />
+        </el-footer>
+      </keep-alive>
     </el-container>
     <login-view />
   </div>
@@ -52,6 +54,24 @@ export default {
     FooterView,
     LoginView,
     Playlist
+  },
+  provide() {
+    return {
+      reloadRouterView: this.reloadRouterView
+    };
+  },
+  data() {
+    return {
+      isRouteActive: true
+    };
+  },
+  methods: {
+    reloadRouterView() {
+      this.isRouteActive = false;
+      this.$nextTick(() => {
+        this.isRouteActive = true;
+      });
+    }
   }
 };
 </script>

@@ -3,7 +3,6 @@
     @close="handleClose"
     :visible.sync="dialogVisible"
     :append-to-body="true"
-    :modal="false"
     width="340px"
     :close-on-click-modal="false"
     custom-class="login-dialog"
@@ -145,7 +144,7 @@ export default {
       this.loginByQRcode();
     });
     this.$bus.$on("logout", res => {
-      this.$forceUpdate();
+      // location.reload();
     });
   },
   methods: {
@@ -208,13 +207,17 @@ export default {
           const res = await getLoginStatus();
           ipcRenderer.send("set_user", res);
 
-          const uid = res.profile.userId;
-          getUserPlayList(uid).then(res => {
-            console.log(res);
-          });
-          getUserPlayHistory(uid).then(res => {
-            console.log(res);
-          });
+          // const uid = res.profile.userId;
+          // getUserPlayList(uid).then(res => {
+          //   console.log(res);
+          // });
+
+          // 存储用户的播放记录
+          const store = localStorage.getItem("userPlayHistory");
+          if (!store) {
+            const userPlayHistory = [];
+            localStorage.setItem("userPlayHistory", JSON.stringify(userPlayHistory));
+          }
 
           this.$store.dispatch("SET_LOGIN", res);
           this.dialogVisible = false;

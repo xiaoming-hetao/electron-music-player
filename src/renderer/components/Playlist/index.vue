@@ -1,16 +1,36 @@
 <template>
-  <div class="playlist" :class="{ active: showPlaylist === true }" ref="playlist" id="playlist">
+  <div
+    class="playlist"
+    :class="{ active: showPlaylist === true }"
+    ref="playlist"
+    id="playlist"
+  >
     <div class="playlist-view">
       <div class="top">
-        <div class="title">歌曲列表</div>
+        <div class="title">播放列表</div>
       </div>
       <div class="song-view">
-        <div class="song-item" v-for="(item, index) in list" :key="index" :class="{ active: item.id === song.id }">
+        <div
+          class="song-item"
+          v-for="(item, index) in list"
+          :key="index"
+          :class="{ active: item.id === song.id }"
+        >
           <div class="name">
             {{ item.name }}
-            <img class="tag" src="../../assets/images/sq.png" />
-            <img v-if="item.mv > 0" class="tag" src="../../assets/images/mv.png" />
-            <div class="spin" v-show="item.id === song.id"><i class="iconfont icon-yinleren"></i></div>
+            <img
+              class="tag"
+              src="../../assets/images/sq.png"
+            />
+            <img
+              v-if="item.mv > 0"
+              class="tag"
+              src="../../assets/images/mv.png"
+            />
+            <div
+              class="spin"
+              v-show="item.id === song.id"
+            ><i class="iconfont icon-yinleren"></i></div>
           </div>
           <div class="info">
             <div class="singer">{{ item.ar[0].name }}</div>
@@ -18,8 +38,11 @@
           </div>
 
           <div class="icon">
-            <i class="iconfont icon-bofangsanjiaoxing" :class="{ 'icon-zanting1': item.id === song.id }" @click="play(item)"></i>
-            <i class="iconfont icon-shoucang"></i>
+            <i
+              class="iconfont icon-bofangsanjiaoxing"
+              :class="{ 'icon-zanting1': item.id === song.id }"
+              @click="play(item)"
+            ></i>
           </div>
         </div>
       </div>
@@ -71,9 +94,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .playlist {
-  height: auto;
-
-  width: 98%;
+  height: 550px;
+  overflow-y: auto;
+  width: 100%;
   background-color: transparent;
   z-index: 10;
   display: flex;
@@ -81,7 +104,7 @@ export default {
   .playlist-view {
     background-color: #fff;
 
-    width: 98%;
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -122,7 +145,7 @@ div.spin {
 }
 
 .top {
-  height: 80px;
+  height: 50px;
   background: #f8f8f8;
   display: flex;
   flex-direction: column;
@@ -136,7 +159,7 @@ div.spin {
   padding: 10px 20px;
   border-bottom: 1px #f4f4f4 solid;
   position: relative;
-
+  height: 40px;
   background: #fff;
   /*overflow: hidden;*/
   .name {

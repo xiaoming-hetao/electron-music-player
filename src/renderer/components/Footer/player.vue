@@ -25,7 +25,6 @@
       <el-button
         type="text"
         @click="playAfter"
-        :disabled="!after_song"
       >
         <i class="iconfont icon-kuaijin"></i>
       </el-button>
@@ -312,21 +311,28 @@ export default {
     },
     before_song() {
       let s_index = -1;
+      let song = null;
       this.play_list.map((item, index) => {
         if (this.song.id === item.id && index > 0) {
           s_index = index - 1;
+          song = this.play_list[s_index];
         }
       });
-      return s_index >= 0 ? this.play_list[s_index] : false;
+      // 播放列表的第一首的上一首是最后一首
+      return song ? song : this.play_list[this.play_list.length - 1];
     },
     after_song() {
       let s_index = -1;
+      let song = null;
+
       this.play_list.map((item, index) => {
         if (this.song.id === item.id && index < this.play_list.length - 1) {
           s_index = index + 1;
+          song = this.play_list[s_index];
         }
       });
-      return s_index >= 0 ? this.play_list[s_index] : false;
+      // 播放列表的最后一首的下一首是第一首
+      return song ? song : this.play_list[0];
     }
   },
   methods: {
@@ -392,12 +398,12 @@ export default {
     },
     playBefore() {
       if (this.before_song) {
-        this.$store.dispatch("playMusic", this.before_song.id);
+        this.$store.dispatch("playMusic", this.before_song);
       }
     },
     playAfter() {
       if (this.after_song) {
-        this.$store.dispatch("playMusic", this.after_song.id);
+        this.$store.dispatch("playMusic", this.after_song);
       }
     },
     // 弹出播放列表

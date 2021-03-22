@@ -78,16 +78,6 @@ export default {
       //   this.currentPage = currentPage;
       //   每次切换页面让滚动条回到顶部
       this.$refs.searchlist.scrollTop = 0;
-    },
-    likeMusic(item) {
-      like(item.id).then(res => {});
-    },
-    play(item) {
-      console.log("item.id=", item.id);
-      this.$store.dispatch("playMusic", item.id);
-    },
-    hidePlaylist() {
-      // console.log('-----globalClick -> hidePlaylist-----',this.$refs.playlist)
     }
   }
 };

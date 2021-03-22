@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     playAll(id) {
-      //   this.$store.dispatch("playPlaylist", id);
+      this.$store.dispatch("playPlaylist", id);
     },
     getDate(time) {
       return getFormatDate(new Date(time));

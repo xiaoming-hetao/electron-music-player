@@ -1,3 +1,4 @@
+import { json } from "express";
 import { getMusicUrl, getPlaylistDetail, getSongDetail, getmvDetail, getmvUrl, getSongComment } from "../../api";
 
 export default {
@@ -38,25 +39,38 @@ export default {
     }
   },
   actions: {
-    playMusic({ commit, state }, id) {
+    playMusic({ commit, state }, music) {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
-      getSongDetail(id).then(res => {
-        commit("SET_PLAYER_DATA", { song: res.songs[0] });
-        //存入播放历史
-        const data = JSON.parse(localStorage.getItem("userPlayHistory"));
-        const music = res.songs[0];
-        music["playtime"] = new Date().getTime();
-        data.push(music);
-        localStorage.setItem("userPlayHistory", JSON.stringify(data));
+      commit("SET_PLAYER_DATA", { song: music });
+
+      // 更新播放列表(要深克隆state中的list)
+      let isExist = false;
+      let data = JSON.parse(JSON.stringify(state.list));
+      // 判断当前音乐是否已经存在于播放列表中
+      data.map((item, index) => {
+        if (item.id === music.id) {
+          isExist = true;
+        }
       });
-      getMusicUrl(id).then(res => {
+      if (!isExist) {
+        data.unshift(music);
+        commit("SET_PLAYER_LIST", data);
+      }
+
+      //存入播放历史
+      const historyData = JSON.parse(localStorage.getItem("userPlayHistory"));
+      music["playtime"] = new Date().getTime();
+      historyData.unshift(music);
+      localStorage.setItem("userPlayHistory", JSON.stringify(historyData));
+
+      getMusicUrl(music.id).then(res => {
         commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
       });
     },
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {
         console.log(res, "playlistdetail");
-        dispatch("playMusic", res.playlist.tracks[0].id);
+        dispatch("playMusic", res.playlist.tracks[0]);
         commit("SET_PLAYER_LIST", res.playlist.tracks);
       });
     },

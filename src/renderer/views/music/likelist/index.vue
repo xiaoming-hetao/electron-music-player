@@ -194,14 +194,9 @@ export default {
     },
     play(item) {
       console.log("item.id=", item.id);
-      this.$store.dispatch("playMusic", item.id);
+      this.$store.dispatch("playMusic", item);
     },
-    playAll() {
-      //   this.$store.dispatch("playPlaylist", this.playlist.id);
-    },
-    hidePlaylist() {
-      // console.log('-----globalClick -> hidePlaylist-----',this.$refs.playlist)
-    },
+
     getLikelistIds() {
       let store = localStorage.getItem("likelistIds");
       if (store !== null) {

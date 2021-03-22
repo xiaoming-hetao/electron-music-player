@@ -34,7 +34,7 @@
           </div>
           <div class="info">
             <div class="singer">{{ item.ar[0].name }}</div>
-            <div class="time">{{ item.dt | formatDuring }}</div>
+
           </div>
 
           <div class="icon">
@@ -59,8 +59,8 @@ export default {
   },
   computed: {
     ...mapState({
-      list: state => state.player.list,
-      song: state => state.player.song
+      song: state => state.player.song,
+      list: state => state.player.list
     })
   },
   mounted() {
@@ -84,7 +84,7 @@ export default {
   methods: {
     play(item) {
       console.log("item.id=", item.id);
-      this.$store.dispatch("playMusic", item.id);
+      this.$store.dispatch("playMusic", item);
     },
     hidePlaylist() {
       // console.log('-----globalClick -> hidePlaylist-----',this.$refs.playlist)
@@ -146,8 +146,9 @@ div.spin {
 
 .top {
   height: 50px;
-  background: #f8f8f8;
+  background: #31c27c;
   display: flex;
+  color: #fff;
   flex-direction: column;
   justify-content: center;
   padding: 0 20px;

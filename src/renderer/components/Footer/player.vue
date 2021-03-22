@@ -250,7 +250,7 @@ export default {
           if (val) {
             this.audio.play();
             this.audio.volume = parseFloat(localStorage.getItem("volumeControl"));
-
+            console.log(this.audio.networkState, "网络状态");
             this.max_time = this.audio.duration;
             this.getPlayTime();
             this.audio.addEventListener("ended", () => {
@@ -466,6 +466,17 @@ export default {
     this.songId = this.song.id;
     this.getLikelistIds();
     this.playType = localStorage.getItem("playType") ? localStorage.getItem("playType") : "随机播放";
+    switch (this.playType) {
+      case "随机播放":
+        this.play_type = 2;
+        break;
+      case "列表循环":
+        this.play_type = 1;
+        break;
+      case "单曲循环":
+        this.play_type = 0;
+        break;
+    }
     const volume = localStorage.getItem("volumeControl") ? parseFloat(localStorage.getItem("volumeControl")) * 100 : 0;
     this.volumeControl = volume;
   }

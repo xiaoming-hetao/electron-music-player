@@ -1,4 +1,3 @@
-import { json } from "express";
 import { getMusicUrl, getPlaylistDetail, getSongDetail, getmvDetail, getmvUrl, getSongComment } from "../../api";
 
 export default {
@@ -42,6 +41,9 @@ export default {
     playMusic({ commit, state }, music) {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
       commit("SET_PLAYER_DATA", { song: music });
+      getMusicUrl(music.id).then(res => {
+        commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
+      });
 
       // 更新播放列表(要深克隆state中的list)
       let isExist = false;
@@ -58,19 +60,17 @@ export default {
       }
 
       //存入播放历史
+      let playSong = JSON.parse(JSON.stringify(music));
       const historyData = JSON.parse(localStorage.getItem("userPlayHistory"));
-      music["playtime"] = new Date().getTime();
-      historyData.unshift(music);
+      playSong["playtime"] = new Date().getTime();
+      historyData.unshift(playSong);
       localStorage.setItem("userPlayHistory", JSON.stringify(historyData));
-
-      getMusicUrl(music.id).then(res => {
-        commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
-      });
     },
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {
         console.log(res, "playlistdetail");
         dispatch("playMusic", res.playlist.tracks[0]);
+
         commit("SET_PLAYER_LIST", res.playlist.tracks);
       });
     },

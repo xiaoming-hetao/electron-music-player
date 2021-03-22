@@ -364,7 +364,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.songlist);
     this.getLikelistIds();
     this.playlistId = this.$route.query.id;
     const that = this;

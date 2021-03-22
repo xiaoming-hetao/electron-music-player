@@ -4,7 +4,6 @@
       <el-button
         type="text"
         @click="playBefore"
-        :disabled="!before_song"
       >
         <i class="iconfont icon-kuaitui"></i>
       </el-button>
@@ -84,19 +83,19 @@
               <span>单曲循环</span>
             </div>
           </el-dropdown-item>
-          <el-dropdown-item command="顺序播放">
+          <el-dropdown-item command="列表循环">
             <div class="flex-c-l">
               <div
                 class="check"
                 style="width: 30px"
               >
                 <i
-                  v-if="playType==='顺序播放'"
+                  v-if="playType==='列表循环'"
                   class="el-icon-check"
                   style="color: #31c27c"
                 ></i>
               </div>
-              <span>顺序播放</span>
+              <span>列表循环</span>
             </div>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -211,6 +210,7 @@
 import songdetail from "../Songdetail";
 import playlist from "../Playlist";
 import { getSongLyric } from "../../api";
+import { shuffle } from "../../utils/shuffle";
 export default {
   components: {
     songdetail,
@@ -233,10 +233,13 @@ export default {
 
   watch: {
     playType(newVal, oldVal) {
+      localStorage.setItem("playType", newVal);
       if (newVal === "单曲循环") {
-        this.audio.loop = "loop";
+        this.play_type = 0;
+      } else if (newVal === "随机播放") {
+        this.play_type = 2;
       } else {
-        this.audio.loop = "";
+        this.play_type = 1;
       }
     },
     is_play(val) {
@@ -246,6 +249,7 @@ export default {
           this.audio.crossOrigin = "anonymous";
           if (val) {
             this.audio.play();
+            this.audio.volume = parseFloat(localStorage.getItem("volumeControl"));
 
             this.max_time = this.audio.duration;
             this.getPlayTime();
@@ -308,36 +312,12 @@ export default {
     },
     currentTime() {
       return this.$store.state.player.currentTime;
-    },
-    before_song() {
-      let s_index = -1;
-      let song = null;
-      this.play_list.map((item, index) => {
-        if (this.song.id === item.id && index > 0) {
-          s_index = index - 1;
-          song = this.play_list[s_index];
-        }
-      });
-      // 播放列表的第一首的上一首是最后一首
-      return song ? song : this.play_list[this.play_list.length - 1];
-    },
-    after_song() {
-      let s_index = -1;
-      let song = null;
-
-      this.play_list.map((item, index) => {
-        if (this.song.id === item.id && index < this.play_list.length - 1) {
-          s_index = index + 1;
-          song = this.play_list[s_index];
-        }
-      });
-      // 播放列表的最后一首的下一首是第一首
-      return song ? song : this.play_list[0];
     }
   },
   methods: {
     handleCommand(command) {
       this.playType = command;
+
       console.log(command);
     },
     closeVolume() {
@@ -347,7 +327,6 @@ export default {
     restoreVolume() {
       this.isVolume = false;
       this.audio.muted = "";
-      console.log(this.audio.volume);
     },
     // 展示歌词
     showSongLyric() {
@@ -359,8 +338,9 @@ export default {
     },
     // 改变音量
     volumeChange(val) {
-      localStorage.setItem("volumeControl", val);
-      this.audio.volume = parseInt(val) / 100;
+      localStorage.setItem("volumeControl", val / 100);
+      // 音频volume属性的值区间为[0,1]
+      this.audio.volume = val / 100;
     },
     //播放/暂停按钮点击
     playClick() {
@@ -387,6 +367,9 @@ export default {
         case 1:
           this.playAfter();
           break;
+        case 2:
+          this.playAfter();
+          break;
       }
     },
     //重新播放
@@ -397,13 +380,69 @@ export default {
       }, 1000);
     },
     playBefore() {
-      if (this.before_song) {
-        this.$store.dispatch("playMusic", this.before_song);
+      if (this.play_type === 2) {
+        //随机播放
+        let song = null;
+        // 每次都使用洗牌算法生成一个随机的播放列表
+        let list = JSON.parse(JSON.stringify(this.play_list));
+        const shuffleData = shuffle(list);
+
+        const len = shuffleData.length;
+        song = shuffleData[Math.floor(Math.random() * len)];
+
+        // 返回打乱顺序后的数组的随机一个元素
+        this.$store.dispatch("playMusic", song);
+      } else {
+        //列表循环、单曲循环
+
+        let s_index = -1;
+        let song = null;
+        this.play_list.map((item, index) => {
+          if (this.song.id === item.id && index > 0) {
+            s_index = index - 1;
+            song = this.play_list[s_index];
+          }
+        });
+
+        // 播放列表的最后一首的下一首是第一首
+        if (song) {
+          this.$store.dispatch("playMusic", song);
+        } else {
+          this.$store.dispatch("playMusic", this.play_list[this.play_list.length - 1]);
+        }
       }
     },
     playAfter() {
-      if (this.after_song) {
-        this.$store.dispatch("playMusic", this.after_song);
+      if (this.play_type === 2) {
+        //随机播放
+        let song = null;
+        // 每次都使用洗牌算法生成一个随机的播放列表
+        let list = JSON.parse(JSON.stringify(this.play_list));
+        const shuffleData = shuffle(list);
+
+        const len = shuffleData.length;
+        song = shuffleData[Math.floor(Math.random() * len)];
+
+        // 返回打乱顺序后的数组的随机一个元素
+        this.$store.dispatch("playMusic", song);
+      } else {
+        //列表循环、单曲循环
+
+        let s_index = -1;
+        let song = null;
+
+        this.play_list.map((item, index) => {
+          if (this.song.id === item.id && index < this.play_list.length - 1) {
+            s_index = index + 1;
+            song = this.play_list[s_index];
+          }
+        });
+        // 播放列表的最后一首的下一首是第一首
+        if (song) {
+          this.$store.dispatch("playMusic", song);
+        } else {
+          this.$store.dispatch("playMusic", this.play_list[0]);
+        }
       }
     },
     // 弹出播放列表
@@ -426,7 +465,9 @@ export default {
   mounted() {
     this.songId = this.song.id;
     this.getLikelistIds();
-    this.volumeControl = parseInt(localStorage.getItem("volumeControl"));
+    this.playType = localStorage.getItem("playType") ? localStorage.getItem("playType") : "随机播放";
+    const volume = localStorage.getItem("volumeControl") ? parseFloat(localStorage.getItem("volumeControl")) * 100 : 0;
+    this.volumeControl = volume;
   }
 };
 </script>

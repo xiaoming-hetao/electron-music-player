@@ -1,228 +1,268 @@
 <template>
-  <div>
-    <div @click="() => {this.addFileDialog = true}">添加</div>
+  <div
+    class="local-music"
+    v-loading.lock="loading"
+    element-loading-text="正在扫描歌曲文件..."
+    element-loading-spinner="el-icon-loading"
+  >
 
-    <div
-      class="addfile-dialog"
-      v-if="addFileDialog"
-    >
-      <div class="mask"></div>
-      <div class="content">
-        <div class="head"><label>选择本地音乐文件夹</label><span
-            class="el-icon-close"
-            @click="addFileDialogClose"
-          ></span></div>
-        <div class="list">
-          <div
-            v-for="(item, index) of addedDir"
-            :key="index"
-          >
-            <div
-              class="row"
-              @click="() => {data.checked = !data.checked;}"
-            >
-
-              <span>{{item.path}}</span>
-            </div>
-          </div>
-
-        </div>
-        <div class="opts">
-          <div
-            class="btn confirm"
-            @click="scan"
-          >确认</div>
-          <div
-            class="btn"
-            @click="fileDialogOpen"
-          >添加文件夹</div>
-        </div>
+    <div style="margin: 20px 20px;">
+      <div style="float:left">
+        <span style="font-size:18px;font-weight:bold">本地音乐</span>&emsp;<span style="color:#999;font-size:14px">共{{localMusicList.length}}首</span>
+      </div>
+      <div style="float:right"><span style="color:#999;font-size:14px">当前目录：{{musicPath}}</span>&emsp;
+        <span
+          @click="() => {this.addFileDialog = true}"
+          style="color:#0a87fc;font-size:14px;cursor:pointer"
+        >选择目录</span>
       </div>
     </div>
+
+    <el-dialog
+      title="选择本地音乐文件夹"
+      :visible.sync="addFileDialog"
+      :modal="false"
+      center
+      top="23%"
+    >
+
+      <div class="list">
+        <div
+          v-for="(item, index) of addedDir"
+          :key="index"
+        >
+          当前所选文件目录：<span>{{item.path}}</span>
+        </div>
+
+      </div>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          size="small"
+          @click="fileDialogOpen"
+        >添加文件夹</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="scan"
+          :disabled="!addedDir.length"
+        >确 认</el-button>
+      </div>
+    </el-dialog>
+    <div class="tracks">
+      <div class="list">
+        <el-table
+          size="small"
+          :stripe="true"
+          :data="localMusicList"
+          @row-dblclick="handleDBclick"
+        >
+          <el-table-column label="音乐标题">
+            <template slot-scope="scope">
+              <div class="name-row">
+                <div class="left">
+                  <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
+                  <div style="display: inline-block; margin-left: 20px">
+                    <span>{{ handleName(scope.row) }}</span>
+
+                  </div>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="200"
+            label="歌手"
+          >
+            <template slot-scope="scope">
+              <span
+                style="width: 140px; cursor: pointer"
+                class="line-1 hover"
+                :title="scope.row.artist"
+              >{{
+                scope.row.artist
+                
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="200"
+            label="专辑"
+          >
+            <template slot-scope="scope">
+              <span
+                style="width: 190px; cursor: pointer"
+                class="line-1 hover"
+                :title="scope.row.album"
+              >{{ scope.row.album }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="150"
+            label="大小"
+          >
+            <template slot-scope="scope">
+              <span>{{  parseFloat(scope.row.size/(1024*1024)).toFixed(2) }}MB</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
 import { remote, ipcRenderer } from "electron";
-
-// import _ from "underscore";
+import db from "../../../../lowdb/localmusic";
 export default {
   data() {
     return {
       addedDir: [],
-      addFileDialog: false
+      addFileDialog: false,
+      loading: false,
+      musicPath: "",
+      localMusicList: []
     };
   },
-  mounted() {
-    ipcRenderer.on("scanningEnd", e => {
-      let localPlayList =
-        db
-          .read()
-          .get("localPlayList")
-          .value() || [];
-      let temp = [];
-      console.log(localPlayList, "localPlayList");
-      // if(localPlayList.length > 0) {
-      //     localPlayList.map((d, k) => {
-      //         if(d.form != 'local') {
-      //             temp.push(d);
-      //         }
-      //     })
-      // }
-      // store.dispatch(Actions.setPlayList(playlist));
-      // store.dispatch(Actions.setLocalPlayList(temp));
-    });
-  },
+
   methods: {
+    handleDBclick(row) {
+      this.$store.dispatch("playLocalMusic", { music: row, is_playLocal: true });
+    },
+    handleName(row) {
+      const name = row.name.split("-")[1].split(".")[0];
+      return name;
+    },
     fileDialogOpen() {
       remote.dialog.showOpenDialog(
         {
-          title: "选择添加目录",
-          properties: ["openDirectory", "multiSelections"]
+          title: "选择本地音乐文件夹",
+          properties: ["openDirectory"]
         },
         files => {
           if (!files) return;
-          let addedDir = this.addedDir;
+          let addedDir = [];
           files.map(dir => {
-            let f = false;
-            addedDir.map(d => {
-              if (d.path == dir) {
-                f = true;
-              }
+            addedDir.push({
+              path: dir
             });
-            if (!f) {
-              addedDir.push({
-                path: dir,
-                checked: false
-              });
-            }
           });
           this.addedDir = addedDir;
         }
       );
-      console.log(this.addedDir, "1122");
     },
     addFileDialogClose() {
       this.addFileDialog = false;
     },
     scan() {
+      this.loading = true;
       this.addFileDialogClose();
-
-      setTimeout(() => {
-        let addedDir = this.addedDir;
-        // 由主进程对扫描数据进行处理
-        ipcRenderer.send("scanningDir", addedDir);
-      }, 800);
+      let addedDir = this.addedDir;
+      // 由主进程对扫描数据进行处理
+      ipcRenderer.send("scanningDir", addedDir);
+      ipcRenderer.on("scanningEnd", (event, data) => {
+        const value = db
+          .read()
+          .get("local-music")
+          .value();
+        const path = db
+          .read()
+          .get("addedDir")
+          .value();
+        this.musicPath = path[0].path;
+        this.localMusicList = value;
+      });
     }
+  },
+  watch: {
+    localMusicList(newVal, oldVal) {
+      if (newVal.length) {
+        this.loading = false;
+      } else {
+        const value = db
+          .read()
+          .get("local-music")
+          .value();
+        const path = db
+          .read()
+          .get("addedDir")
+          .value();
+        this.musicPath = path[0].path;
+
+        this.localMusicList = value;
+      }
+    }
+  },
+  mounted() {
+    const value = db
+      .read()
+      .get("local-music")
+      .value();
+    const path = db
+      .read()
+      .get("addedDir")
+      .value();
+    this.musicPath = path[0].path;
+
+    this.localMusicList = value;
   }
 };
 </script>
 <style lang="scss" scoped>
-$theme: #666;
-.addfile-dialog {
-  width: calc(100vw - 50px);
-  height: calc(100vh - 35px);
-  // position: fixed;
-  left: 25px;
-  top: 10px;
-  z-index: 999;
-  .mask {
-    width: 100%;
-    height: 100%;
-    background: none;
-  }
-  .content {
-    width: 72vw;
-    height: 50vh;
-    background: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    .head {
-      width: 100%;
-      height: 38px;
-      display: flex;
-      justify-content: space-between;
-      padding: 0px 0px 0px 12px;
-      align-items: center;
-      label {
-        color: #333;
-        font-size: 12px;
-      }
-      span {
-        display: flex;
-        width: 38px;
-        justify-content: center;
-        align-items: center;
-        color: #999;
-        font-size: 20px;
-        cursor: pointer;
-        -webkit-app-region: no-drag;
-        cursor: pointer;
-      }
-    }
+.local-music {
+  min-height: 430px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .tracks {
+    //   background: #fafafa;
+
+    padding: 0 20px;
+
     .list {
-      width: 100%;
-      height: calc(100% - 38px - 50px);
-      overflow-y: auto;
-      -webkit-app-region: no-drag;
-      padding: 0px 20px 0px 12px;
-      .row {
-        width: 100%;
+      .el-table {
+        background: none;
+        th {
+          background: none;
+        }
+        tr {
+          background: none;
+        }
+      }
+      .name-row {
         display: flex;
-        height: 40px;
         align-items: center;
-        cursor: pointer;
-        .checkbox {
-          width: 40px;
-          height: 40px;
-          color: #999;
+        justify-content: space-between;
+        .left {
+          .shoucang {
+            font-size: 15px;
+            margin-right: 5px;
+            cursor: pointer;
+          }
+          .shoucang:hover {
+            color: red;
+          }
+          .tag {
+            height: 20px;
+            margin-left: 5px;
+            margin-top: -2px;
+            cursor: pointer;
+          }
+        }
+        .btns {
           display: flex;
-          justify-content: center;
           align-items: center;
-          font-size: 20px;
+          .iconfont {
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: #999;
+            display: none;
+          }
         }
-        .checked {
-          color: $theme;
-        }
-        span {
-          display: block;
-          width: calc(100% - 40px);
-          height: 40px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          line-height: 40px;
-          color: #999;
-          font-size: 12px;
-        }
-      }
-    }
-    .opts {
-      width: 100%;
-      height: 50px;
-      display: flex;
-      justify-content: flex-end;
-      padding: 0px 12px;
-      align-items: center;
-      box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.05);
-      .btn {
-        min-width: 20vw;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #e6e6e6;
-        margin-left: 15px;
-        font-size: 12px;
-        padding: 0px 10px;
-        -webkit-app-region: no-drag;
-        cursor: pointer;
-      }
-      .confirm {
-        background: $theme;
-        color: #fff;
       }
     }
   }

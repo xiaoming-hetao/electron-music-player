@@ -84,7 +84,7 @@ export default {
   methods: {
     play(item) {
       console.log("item.id=", item.id);
-      this.$store.dispatch("playMusic", item);
+      this.$store.dispatch("playMusic", { music: item, is_playLocal: false });
     },
     hidePlaylist() {
       // console.log('-----globalClick -> hidePlaylist-----',this.$refs.playlist)

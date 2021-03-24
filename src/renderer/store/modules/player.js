@@ -1,11 +1,34 @@
 import { getMusicUrl, getPlaylistDetail, getSongDetail, getmvDetail, getmvUrl, getSongComment } from "../../api";
+function updateInfo(state, commit, music) {
+  // 更新播放列表(要深克隆state中的list)
+  let isExist = false;
+  let data = JSON.parse(JSON.stringify(state.list));
+  // 判断当前音乐是否已经存在于播放列表中
+  data.map((item, index) => {
+    if (item.id === music.id) {
+      isExist = true;
+    }
+  });
+  if (!isExist) {
+    data.unshift(music);
+    commit("SET_PLAYER_LIST", data);
+  }
 
+  //存入播放历史
+  let playSong = JSON.parse(JSON.stringify(music));
+  const historyData = JSON.parse(localStorage.getItem("userPlayHistory"));
+  playSong["playtime"] = new Date().getTime();
+  historyData.unshift(playSong);
+  localStorage.setItem("userPlayHistory", JSON.stringify(historyData));
+}
 export default {
   state: {
     list: [],
     song: {},
     music_urls: [],
+    localMusic: {},
     is_play: false,
+    is_playLocal: false,
     audioDom: {},
     currentTime: 0,
     mvDetail: {},
@@ -38,38 +61,22 @@ export default {
     }
   },
   actions: {
-    playMusic({ commit, state }, music) {
+    playLocalMusic({ commit, state }, musicData) {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
-      commit("SET_PLAYER_DATA", { song: music });
-      getMusicUrl(music.id).then(res => {
+      commit("SET_PLAYER_DATA", { is_play: true, is_playLocal: musicData.is_playLocal, localMusic: musicData.music });
+    },
+    playMusic({ commit, state }, musicData) {
+      commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
+      commit("SET_PLAYER_DATA", { song: musicData.music, is_playLocal: musicData.is_playLocal });
+      getMusicUrl(musicData.music.id).then(res => {
         commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
       });
-
-      // 更新播放列表(要深克隆state中的list)
-      let isExist = false;
-      let data = JSON.parse(JSON.stringify(state.list));
-      // 判断当前音乐是否已经存在于播放列表中
-      data.map((item, index) => {
-        if (item.id === music.id) {
-          isExist = true;
-        }
-      });
-      if (!isExist) {
-        data.unshift(music);
-        commit("SET_PLAYER_LIST", data);
-      }
-
-      //存入播放历史
-      let playSong = JSON.parse(JSON.stringify(music));
-      const historyData = JSON.parse(localStorage.getItem("userPlayHistory"));
-      playSong["playtime"] = new Date().getTime();
-      historyData.unshift(playSong);
-      localStorage.setItem("userPlayHistory", JSON.stringify(historyData));
+      updateInfo(state, commit, musicData.music);
     },
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {
         console.log(res, "playlistdetail");
-        dispatch("playMusic", res.playlist.tracks[0]);
+        dispatch("playMusic", { music: res.playlist.tracks[0], is_playLocal: false });
 
         commit("SET_PLAYER_LIST", res.playlist.tracks);
       });

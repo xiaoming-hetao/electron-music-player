@@ -62,6 +62,7 @@ function createWindow() {
   /**
    * Initial window options
    */
+
   mainWindow = new BrowserWindow({
     height: 700,
     useContentSize: true,
@@ -70,6 +71,7 @@ function createWindow() {
     show: false,
     frame: false,
     // resizable: false,
+    icon: path.join(__dirname, "../renderer/assets/images/logo.png"),
     skipTaskbar: false,
     transparent: false,
     title: "electron音乐播放器",
@@ -79,7 +81,8 @@ function createWindow() {
   });
 
   mainWindow.loadURL(winURL);
-  // mainWindow.webContents.openDevTools() = false
+
+  // mainWindow.webContents.closeDevTools();
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
@@ -127,16 +130,14 @@ ipcMain.on("unmaximize", e => {
 });
 
 //主进程监听scanningDir，当渲染进程触发scanningDir时主进程开始进行扫描
-// ipcMain.on("scanningDir", (e, dirs) => {
-//   const cp = child_process.fork(path.join(__dirname, "scanLocalFile.js"));
-//   cp.on("message", m => {
-//     console.log("message from child: " + JSON.stringify(m));
-//     e.sender.send("scanningEnd");
-//     cp.disconnect();
-//   });
-//   cp.send(dirs);
-//   console.log(dirs, "11111");
-// });
+ipcMain.on("scanningDir", (e, dirs) => {
+  const cp = child_process.fork(path.join(__dirname, "scanLocalFile.js"));
+  cp.on("message", m => {
+    e.sender.send("scanningEnd", "localmusic");
+    cp.disconnect();
+  });
+  cp.send(dirs);
+});
 
 // 数据库操作
 ipcMain.on("set_user", (event, data) => {

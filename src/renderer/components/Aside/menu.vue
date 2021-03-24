@@ -8,6 +8,7 @@
         @click="
           () => {
             this.$router.push({ name: 'music' });
+            this.reloadRouterView();
           }
         "
       >
@@ -32,6 +33,7 @@
         @click="
           () => {
             this.$router.push({ name: 'show-likelist' });
+            this.reloadRouterView();
           }
         "
       >
@@ -46,6 +48,7 @@
         @click="
           () => {
             this.$router.push({ name: 'show-localmusic' });
+            this.reloadRouterView();
           }
         "
       >

@@ -196,7 +196,7 @@ export default {
       console.log("item.id=", item.id);
       this.$store.dispatch("playMusic", item);
     },
-
+    playAll() {},
     getLikelistIds() {
       let store = localStorage.getItem("likelistIds");
       if (store !== null) {

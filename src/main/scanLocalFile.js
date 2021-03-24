@@ -6,9 +6,11 @@ const fs = require("fs");
 const _ = require("underscore");
 const btoa = require("btoa");
 const path = require("path");
+const { json } = require("express");
 
-const adapter = new FileAsync("localMusic.json");
+const adapter = new FileAsync(path.join(__dirname, "/localMusic.json"));
 const db = low(adapter);
+// 初始化lodash-id，让每条记录都有一个唯一id
 
 let songItem = [];
 const extItem = ["MP3", "WAV", "APE ", "AAC", "FLAC", "OGG", "WMA"];
@@ -47,15 +49,7 @@ let scanningDir = (path, callback) => {
 
 let saveDB = data => {
   db.then(db => {
-    let playList = db.get("playList").value();
-    let newList = [];
-    playList.map((d, k) => {
-      if (d.from != "local") {
-        newList.push(d);
-      }
-    });
-    db.set("playList", newList).write();
-    db.set("localPlayList", data)
+    db.set("local-music", data)
       .write()
       .then(() => {
         process.send("");
@@ -75,6 +69,11 @@ let getFileName = path => {
     name = arr[arr.length - 1];
   }
   return name;
+};
+
+let getFileSize = path => {
+  const result = fs.statSync(path);
+  return result.size;
 };
 
 let createRandomId = () => {
@@ -110,8 +109,7 @@ process.on("message", dirs => {
     process.send("");
     return;
   }
-  let len = 0,
-    hasChecked = false;
+  let len = 0;
 
   if (!fs.existsSync("cache")) {
     fs.mkdirSync("cache");
@@ -127,8 +125,7 @@ process.on("message", dirs => {
   }
   let listItem = [];
   dirs.map(dir => {
-    if (dir.checked) {
-      hasChecked = true;
+    if (dir.path) {
       len++;
       scanningDir(dir.path, () => {
         let f = 0;
@@ -136,6 +133,7 @@ process.on("message", dirs => {
         if (len == 0) {
           songItem.map((data, k) => {
             let name = getFileName(data);
+            let fileSize = getFileSize(data);
             jsmediatags.read(data, {
               onSuccess: tag => {
                 let image = tag.tags.picture;
@@ -157,10 +155,10 @@ process.on("message", dirs => {
                         id: getUniqueId(),
                         name: name,
                         url: data,
-                        size: tag.size,
+                        size: fileSize,
                         album: tag.tags.album,
                         artist: tag.tags.artist,
-                        cover: `./${filename}`
+                        cover: `${filename}`
                         // cover: path.join(__dirname, filename),
                       },
                       listItem
@@ -173,7 +171,7 @@ process.on("message", dirs => {
                       id: getUniqueId(),
                       name: name,
                       url: data,
-                      size: tag.size,
+                      size: fileSize,
                       album: tag.tags.album,
                       artist: tag.tags.artist,
                       cover: ``
@@ -204,7 +202,5 @@ process.on("message", dirs => {
       });
     }
   });
-  if (!hasChecked) {
-    saveDB(listItem);
-  }
+  saveDB(listItem);
 });

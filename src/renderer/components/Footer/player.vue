@@ -31,16 +31,22 @@
     <div class="cover">
       <img
         class="cover-image"
-        :src="cover"
+        :src="songCover"
         @click="showSongLyric()"
       />
       <audio
         v-show="false"
         ref="audio"
-        v-if="play_url"
-        :src="play_url.url"
+        v-if="songUrl"
+        :src="songUrl"
         preload
       />
+      <!-- <audio
+        v-show="false"
+        ref="audio"
+        preload
+      /> -->
+
     </div>
     <div class="tone">
       <el-dropdown
@@ -211,6 +217,7 @@ import songdetail from "../Songdetail";
 import playlist from "../Playlist";
 import { getSongLyric } from "../../api";
 import { shuffle } from "../../utils/shuffle";
+const path = require("path");
 export default {
   components: {
     songdetail,
@@ -227,11 +234,23 @@ export default {
       likelistIds: [],
       volumeControl: 0, //音量控制
       isVolume: false,
-      songId: ""
+      songId: "",
+      local_play_url: ""
     };
   },
 
   watch: {
+    localMusicUrl(newVal, oldVal) {
+      if (newVal.length) {
+        const fs = require("fs");
+        const buf = fs.readFileSync(newVal); //读取文件，并将缓存区进行转换
+        const uint8Buffer = Uint8Array.from(buf);
+        const bolb = new Blob([uint8Buffer]); //转为一个新的Blob文件流
+        const streamUrl = window.URL.createObjectURL(bolb); //转换为url地址并直接给到audio
+        this.local_play_url = streamUrl;
+        console.log(streamUrl);
+      }
+    },
     playType(newVal, oldVal) {
       localStorage.setItem("playType", newVal);
       if (newVal === "单曲循环") {
@@ -242,15 +261,16 @@ export default {
         this.play_type = 1;
       }
     },
-    is_play(val) {
+    is_play(newVal, oldVal) {
       try {
         this.$nextTick(() => {
           this.audio = this.$refs["audio"];
-          this.audio.crossOrigin = "anonymous";
-          if (val) {
+          // this.audio.crossOrigin = "anonymous";
+
+          if (newVal) {
             this.audio.play();
             this.audio.volume = parseFloat(localStorage.getItem("volumeControl"));
-            console.log(this.audio.networkState, "网络状态");
+
             this.max_time = this.audio.duration;
             this.getPlayTime();
             this.audio.addEventListener("ended", () => {
@@ -274,6 +294,10 @@ export default {
     }
   },
   computed: {
+    // 本地音乐和在线音乐的信息分开为不同的计算属性
+    is_playLocal() {
+      return this.$store.state.player.is_playLocal;
+    },
     play_list() {
       return this.$store.state.player.list;
     },
@@ -283,29 +307,72 @@ export default {
     music_urls() {
       return this.$store.state.player.music_urls;
     },
+    localMusic() {
+      return this.$store.state.player.localMusic;
+    },
+    localMusicUrl() {
+      return this.$store.state.player.localMusic.url;
+    },
+    localMusicCover() {
+      const localMusicPicUrl = "../../../../" + this.localMusic.cover;
+      return localMusicPicUrl;
+    },
+    defaultCover() {
+      return "http://p3.music.126.net/4MweH6c68gCe893Xk3vIQA==/109951165605589048.jpg?param=140y140";
+    },
     cover() {
-      try {
+      if (this.song.al) {
         return this.song.al.picUrl;
-      } catch (e) {
-        return "http://p3.music.126.net/4MweH6c68gCe893Xk3vIQA==/109951165605589048.jpg?param=140y140";
+      } else {
+        return "";
+      }
+    },
+    songCover() {
+      if (!this.is_play && !this.is_playLocal && !this.cover) {
+        return this.defaultCover;
+      } else if (this.is_playLocal) {
+        return this.localMusicCover;
+      } else {
+        return this.cover;
+      }
+    },
+    // 判断当前应播放线上音乐还是本地音乐
+    songUrl() {
+      if (!this.is_playLocal) {
+        return this.play_url;
+      } else {
+        return this.local_play_url;
       }
     },
     name() {
       try {
-        return this.song.name || "深空音乐，畅听无限";
+        if (!this.is_playLocal && this.song["name"]) {
+          return this.song.name;
+        } else if (this.is_playLocal && this.localMusic["name"]) {
+          const localMusicName = this.localMusic.name.split(".")[0].split("-")[1];
+          return localMusicName;
+        } else {
+          return "深空音乐，畅听无限";
+        }
       } catch (e) {
         return "深空音乐，畅听无限";
       }
     },
     ar_name() {
       try {
-        return this.song.ar[0].name;
+        if (!this.is_playLocal && this.song.ar[0]["name"]) {
+          return this.song.ar[0].name;
+        } else if (this.is_playLocal && this.localMusic["artist"]) {
+          return this.localMusic.artist;
+        } else {
+          return false;
+        }
       } catch (e) {
         return false;
       }
     },
     play_url() {
-      return this.music_urls[0] || false;
+      return this.music_urls[0] ? this.music_urls[0].url : false;
     },
     is_play() {
       return this.$store.state.player.is_play;
@@ -391,7 +458,7 @@ export default {
         song = shuffleData[Math.floor(Math.random() * len)];
 
         // 返回打乱顺序后的数组的随机一个元素
-        this.$store.dispatch("playMusic", song);
+        this.$store.dispatch("playMusic", { music: song, is_playLocal: false });
       } else {
         //列表循环、单曲循环
 
@@ -406,13 +473,14 @@ export default {
 
         // 播放列表的最后一首的下一首是第一首
         if (song) {
-          this.$store.dispatch("playMusic", song);
+          this.$store.dispatch("playMusic", { music: song, is_playLocal: false });
         } else {
-          this.$store.dispatch("playMusic", this.play_list[this.play_list.length - 1]);
+          this.$store.dispatch("playMusic", { music: this.play_list[this.play_list.length - 1], is_playLocal: false });
         }
       }
     },
     playAfter() {
+      console.log(this.play_type);
       if (this.play_type === 2) {
         //随机播放
         let song = null;
@@ -424,7 +492,7 @@ export default {
         song = shuffleData[Math.floor(Math.random() * len)];
 
         // 返回打乱顺序后的数组的随机一个元素
-        this.$store.dispatch("playMusic", song);
+        this.$store.dispatch("playMusic", { music: song, is_playLocal: false });
       } else {
         //列表循环、单曲循环
 
@@ -439,9 +507,9 @@ export default {
         });
         // 播放列表的最后一首的下一首是第一首
         if (song) {
-          this.$store.dispatch("playMusic", song);
+          this.$store.dispatch("playMusic", { music: song, is_playLocal: false });
         } else {
-          this.$store.dispatch("playMusic", this.play_list[0]);
+          this.$store.dispatch("playMusic", { music: this.play_list[0], is_playLocal: false });
         }
       }
     },

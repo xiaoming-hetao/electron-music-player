@@ -26,6 +26,11 @@ db._.mixin(LodashId);
 /* 初始化数据表*/
 
 // 用户表
+if (!db.has("local-music").value()) {
+  db.set("local-music", {}).write();
+}
+
+// 用户表
 if (!db.has("user").value()) {
   db.set("user", []).write();
 }

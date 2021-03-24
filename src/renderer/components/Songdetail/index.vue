@@ -137,7 +137,8 @@ export default {
       source.connect(analyser);
       analyser.connect(audioContext.destination);
 
-      function draw(array) {
+      const that = this;
+      function draw(array, width, height) {
         ctx.clearRect(0, 0, width, height);
         //array的长度为1024, 总共取10个关键点,关键点左右边各取五个点作为过渡,波浪更为自然;
         let waveArr1 = [],
@@ -167,11 +168,11 @@ export default {
         waveArr2.map((data, k) => {
           waveArr2[k] = data * 1.8;
         });
-        let waveWidth = Math.ceil(this.width / (waveArr1.length - 3));
-        let waveWidth2 = Math.ceil(this.width / (waveArr2.length - 3));
+        let waveWidth = Math.ceil(width / (waveArr1.length - 3));
+        let waveWidth2 = Math.ceil(width / (waveArr2.length - 3));
         ctx.beginPath();
         ctx.fillStyle = "rgba(102,102,102,0.4)";
-        ctx.moveTo(-waveWidth2, this.baseY - waveArr2[0]);
+        ctx.moveTo(-waveWidth2, that.baseY - waveArr2[0]);
         for (let i = 1; i < waveArr2.length - 2; i++) {
           let p0 = { x: (i - 1) * waveWidth2, y: waveArr2[i - 1] };
           let p1 = { x: i * waveWidth2, y: waveArr2[i] };
@@ -189,19 +190,19 @@ export default {
             CGPoint.y =
               0.5 *
               (2 * p1.y + (p2.y - p0.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * tt + (3 * p1.y - p0.y - 3 * p2.y + p3.y) * ttt);
-            ctx.lineTo(CGPoint.x, this.baseY - CGPoint.y);
+            ctx.lineTo(CGPoint.x, that.baseY - CGPoint.y);
           }
-          ctx.lineTo(p2.x, this.baseY - p2.y);
+          ctx.lineTo(p2.x, that.baseY - p2.y);
         }
-        ctx.lineTo((waveArr2.length - 1) * waveWidth2, this.baseY - waveArr2[waveArr2.length - 1]);
-        ctx.lineTo(width + waveWidth2, this.baseY);
+        ctx.lineTo((waveArr2.length - 1) * waveWidth2, that.baseY - waveArr2[waveArr2.length - 1]);
+        ctx.lineTo(width + waveWidth2, that.baseY);
         ctx.lineTo(width + waveWidth2, height);
         ctx.lineTo(-1 * waveWidth2, height);
         ctx.fill();
 
         ctx.beginPath();
         ctx.fillStyle = "rgba(102,102,102,0.8)";
-        ctx.moveTo(-waveWidth * 2, this.baseY - waveArr1[0]);
+        ctx.moveTo(-waveWidth * 2, that.baseY - waveArr1[0]);
         for (let i = 1; i < waveArr1.length - 2; i++) {
           let p0 = { x: (i - 2) * waveWidth, y: waveArr1[i - 1] };
           let p1 = { x: (i - 1) * waveWidth, y: waveArr1[i] };
@@ -219,25 +220,26 @@ export default {
             CGPoint.y =
               0.5 *
               (2 * p1.y + (p2.y - p0.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * tt + (3 * p1.y - p0.y - 3 * p2.y + p3.y) * ttt);
-            ctx.lineTo(CGPoint.x, this.baseY - CGPoint.y);
+            ctx.lineTo(CGPoint.x, that.baseY - CGPoint.y);
           }
-          ctx.lineTo(p2.x, this.baseY - p2.y);
+          ctx.lineTo(p2.x, that.baseY - p2.y);
         }
-        ctx.lineTo(waveArr1.length * waveWidth, this.baseY - waveArr1[waveArr1.length - 1]);
-        ctx.lineTo(width + waveWidth * 2, this.baseY);
+        ctx.lineTo(waveArr1.length * waveWidth, that.baseY - waveArr1[waveArr1.length - 1]);
+        ctx.lineTo(width + waveWidth * 2, that.baseY);
         ctx.lineTo(width + waveWidth * 2, height);
         ctx.lineTo(-2 * waveWidth, height);
         ctx.fill();
         console.log("draw");
       }
+
       function animate() {
         function con() {
           let array = new Uint8Array(analyser.frequencyBinCount);
           analyser.getByteFrequencyData(array);
           draw(array);
-          this.timer = requestAnimationFrame(con);
+          that.timer = requestAnimationFrame(con);
         }
-        this.timer = requestAnimationFrame(con);
+        that.timer = requestAnimationFrame(con);
         console.log("animate");
       }
       animate();

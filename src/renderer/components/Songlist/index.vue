@@ -327,8 +327,7 @@ export default {
     },
     play(item) {
       console.log("item.id=", item.id);
-
-      this.$store.dispatch("playMusic", item);
+      this.$store.dispatch("playMusic", { music: item, is_playLocal: false });
     },
     playmv(mvid) {
       this.$store.dispatch("playMv", mvid);

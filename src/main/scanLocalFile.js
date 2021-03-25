@@ -68,7 +68,7 @@ let getFileName = path => {
   if (arr.length > 1) {
     name = arr[arr.length - 1];
   }
-  return name;
+  return name.split(".")[0].split("-")[1];
 };
 
 let getFileSize = path => {
@@ -152,14 +152,20 @@ process.on("message", dirs => {
                     done(
                       f,
                       {
-                        id: getUniqueId(),
-                        name: name,
+                        al: {
+                          name: tag.tags.album,
+                          picUrl: "../../../../" + `${filename}`
+                        },
+
+                        ar: [
+                          {
+                            name: tag.tags.artist
+                          }
+                        ],
                         url: data,
+                        id: getUniqueId(),
                         size: fileSize,
-                        album: tag.tags.album,
-                        artist: tag.tags.artist,
-                        cover: `${filename}`
-                        // cover: path.join(__dirname, filename),
+                        name: name
                       },
                       listItem
                     );
@@ -168,13 +174,20 @@ process.on("message", dirs => {
                   done(
                     f,
                     {
-                      id: getUniqueId(),
-                      name: name,
+                      al: {
+                        name: tag.tags.album,
+                        picUrl: "../../" + `${filename}`
+                      },
+
+                      ar: [
+                        {
+                          name: tag.tags.artist
+                        }
+                      ],
                       url: data,
+                      id: getUniqueId(),
                       size: fileSize,
-                      album: tag.tags.album,
-                      artist: tag.tags.artist,
-                      cover: ``
+                      name: name
                     },
                     listItem
                   );
@@ -185,13 +198,20 @@ process.on("message", dirs => {
                 done(
                   f,
                   {
-                    id: getUniqueId(),
-                    name: name,
+                    al: {
+                      name: tag.tags.album,
+                      picUrl: "../../" + `${filename}`
+                    },
+
+                    ar: [
+                      {
+                        name: tag.tags.artist
+                      }
+                    ],
                     url: data,
-                    size: "",
-                    album: "",
-                    artist: "",
-                    cover: ""
+                    id: getUniqueId(),
+                    size: fileSize,
+                    name: name
                   },
                   listItem
                 );

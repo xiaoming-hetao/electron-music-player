@@ -31,14 +31,14 @@
     <div class="cover">
       <img
         class="cover-image"
-        :src="songCover"
+        :src="cover"
         @click="showSongLyric()"
       />
       <audio
         v-show="false"
         ref="audio"
-        v-if="songUrl"
-        :src="songUrl"
+        v-if="play_url"
+        :src="play_url"
         preload
       />
       <!-- <audio
@@ -219,6 +219,7 @@ import { getSongLyric } from "../../api";
 import { shuffle } from "../../utils/shuffle";
 const path = require("path");
 export default {
+  inject: ["reloadRouterView"],
   components: {
     songdetail,
     playlist
@@ -234,23 +235,11 @@ export default {
       likelistIds: [],
       volumeControl: 0, //音量控制
       isVolume: false,
-      songId: "",
-      local_play_url: ""
+      songId: ""
     };
   },
 
   watch: {
-    localMusicUrl(newVal, oldVal) {
-      if (newVal.length) {
-        const fs = require("fs");
-        const buf = fs.readFileSync(newVal); //读取文件，并将缓存区进行转换
-        const uint8Buffer = Uint8Array.from(buf);
-        const bolb = new Blob([uint8Buffer]); //转为一个新的Blob文件流
-        const streamUrl = window.URL.createObjectURL(bolb); //转换为url地址并直接给到audio
-        this.local_play_url = streamUrl;
-        console.log(streamUrl);
-      }
-    },
     playType(newVal, oldVal) {
       localStorage.setItem("playType", newVal);
       if (newVal === "单曲循环") {
@@ -265,7 +254,7 @@ export default {
       try {
         this.$nextTick(() => {
           this.audio = this.$refs["audio"];
-          // this.audio.crossOrigin = "anonymous";
+          this.audio.crossOrigin = "anonymous";
 
           if (newVal) {
             this.audio.play();
@@ -277,9 +266,13 @@ export default {
               this.playEnded();
             });
 
-            getSongLyric(this.song.id).then(res => {
-              this.$store.commit("SET_PLAYER_DATA", { lyric: res.lrc.lyric });
-            });
+            if (!this.is_playLocal) {
+              getSongLyric(this.song.id).then(res => {
+                this.$store.commit("SET_PLAYER_DATA", { lyric: res.lrc.lyric });
+              });
+            } else {
+              this.$store.commit("SET_PLAYER_DATA", { lyric: "" });
+            }
           } else {
             this.audio.pause();
             clearInterval(this.interval);
@@ -307,70 +300,29 @@ export default {
     music_urls() {
       return this.$store.state.player.music_urls;
     },
-    localMusic() {
-      return this.$store.state.player.localMusic;
-    },
-    localMusicUrl() {
-      return this.$store.state.player.localMusic.url;
-    },
-    localMusicCover() {
-      const localMusicPicUrl = "../../../../" + this.localMusic.cover;
-      return localMusicPicUrl;
-    },
-    defaultCover() {
-      return "http://p3.music.126.net/4MweH6c68gCe893Xk3vIQA==/109951165605589048.jpg?param=140y140";
-    },
+
     cover() {
-      if (this.song.al) {
+      try {
         return this.song.al.picUrl;
-      } else {
-        return "";
-      }
-    },
-    songCover() {
-      if (!this.is_play && !this.is_playLocal && !this.cover) {
-        return this.defaultCover;
-      } else if (this.is_playLocal) {
-        return this.localMusicCover;
-      } else {
-        return this.cover;
-      }
-    },
-    // 判断当前应播放线上音乐还是本地音乐
-    songUrl() {
-      if (!this.is_playLocal) {
-        return this.play_url;
-      } else {
-        return this.local_play_url;
+      } catch (e) {
+        return "http://p3.music.126.net/4MweH6c68gCe893Xk3vIQA==/109951165605589048.jpg?param=140y140";
       }
     },
     name() {
       try {
-        if (!this.is_playLocal && this.song["name"]) {
-          return this.song.name;
-        } else if (this.is_playLocal && this.localMusic["name"]) {
-          const localMusicName = this.localMusic.name.split(".")[0].split("-")[1];
-          return localMusicName;
-        } else {
-          return "深空音乐，畅听无限";
-        }
+        return this.song.name || "深空音乐，畅听无限";
       } catch (e) {
         return "深空音乐，畅听无限";
       }
     },
     ar_name() {
       try {
-        if (!this.is_playLocal && this.song.ar[0]["name"]) {
-          return this.song.ar[0].name;
-        } else if (this.is_playLocal && this.localMusic["artist"]) {
-          return this.localMusic.artist;
-        } else {
-          return false;
-        }
+        return this.song.ar[0].name;
       } catch (e) {
         return false;
       }
     },
+
     play_url() {
       return this.music_urls[0] ? this.music_urls[0].url : false;
     },
@@ -399,8 +351,8 @@ export default {
     showSongLyric() {
       if (this.song.id) {
         this.$router.push({ name: "song-detail" });
-
         this.$store.commit("SET_PLAYER_DATA", { audioDom: this.audio });
+        this.reloadRouterView();
       }
     },
     // 改变音量
@@ -480,7 +432,6 @@ export default {
       }
     },
     playAfter() {
-      console.log(this.play_type);
       if (this.play_type === 2) {
         //随机播放
         let song = null;

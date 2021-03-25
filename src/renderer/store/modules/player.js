@@ -63,15 +63,27 @@ export default {
   actions: {
     playLocalMusic({ commit, state }, musicData) {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
-      commit("SET_PLAYER_DATA", { is_play: true, is_playLocal: musicData.is_playLocal, localMusic: musicData.music });
+      commit("SET_PLAYER_DATA", { song: musicData.music, is_playLocal: musicData.is_playLocal });
+      // 解析本地音乐的url为数据流
+      const fs = require("fs");
+      const buf = fs.readFileSync(musicData.music.url); //读取文件，并将缓存区进行转换
+      const uint8Buffer = Uint8Array.from(buf);
+      const bolb = new Blob([uint8Buffer]); //转为一个新的Blob文件流
+      // window.URL.createObjectURL方法可以解析本息磁盘文件的路径，让浏览器可以识别并使用对应的资源
+      const streamUrl = window.URL.createObjectURL(bolb); //转换为url地址并直接给到audio
+      setTimeout(() => {
+        commit("SET_PLAYER_DATA", { music_urls: [{ url: streamUrl }], is_play: true });
+      }, 1000);
     },
     playMusic({ commit, state }, musicData) {
       commit("SET_PLAYER_DATA", { is_play: false, currentTime: 0 });
       commit("SET_PLAYER_DATA", { song: musicData.music, is_playLocal: musicData.is_playLocal });
+
+      updateInfo(state, commit, musicData.music);
+
       getMusicUrl(musicData.music.id).then(res => {
         commit("SET_PLAYER_DATA", { music_urls: res.data, is_play: true });
       });
-      updateInfo(state, commit, musicData.music);
     },
     playPlaylist({ commit, state, dispatch }, id) {
       getPlaylistDetail(id).then(res => {

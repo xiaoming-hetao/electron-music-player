@@ -66,9 +66,9 @@
                 <div class="left">
                   <span style="color: #dbdbdb">{{ scope.$index &lt; 9 ? "0" + (scope.$index + 1) : scope.$index + 1 }}</span>
                   <div style="display: inline-block; margin-left: 20px">
-                    <span>{{ handleName(scope.row) }}</span>
-
+                    <span>{{ scope.row.name }}</span>
                   </div>
+
                 </div>
               </div>
             </template>
@@ -76,28 +76,29 @@
           <el-table-column
             width="200"
             label="歌手"
+            prop="ar[0].name"
           >
             <template slot-scope="scope">
               <span
                 style="width: 140px; cursor: pointer"
                 class="line-1 hover"
-                :title="scope.row.artist"
+                :title="scope.row.ar[0].name"
               >{{
-                scope.row.artist
-                
+                scope.row.ar[0].name
               }}</span>
             </template>
           </el-table-column>
           <el-table-column
             width="200"
             label="专辑"
+            prop="al.name"
           >
             <template slot-scope="scope">
               <span
                 style="width: 190px; cursor: pointer"
                 class="line-1 hover"
-                :title="scope.row.album"
-              >{{ scope.row.album }}</span>
+                :title="scope.row.al.name"
+              >{{ scope.row.al.name }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -109,6 +110,7 @@
             </template>
           </el-table-column>
         </el-table>
+
       </div>
     </div>
 
@@ -130,11 +132,11 @@ export default {
 
   methods: {
     handleDBclick(row) {
-      this.$store.dispatch("playLocalMusic", { music: row, is_playLocal: true });
+      console.log(typeof row);
+      this.play(row);
     },
-    handleName(row) {
-      const name = row.name.split("-")[1].split(".")[0];
-      return name;
+    play(row) {
+      this.$store.dispatch("playLocalMusic", { music: row, is_playLocal: true });
     },
     fileDialogOpen() {
       remote.dialog.showOpenDialog(

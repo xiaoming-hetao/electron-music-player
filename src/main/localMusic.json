@@ -6,715 +6,1188 @@
   ],
   "local-music": [
     {
-      "id": "4qbk18v7hn",
-      "name": "DAOKO,米津玄師 - 打上花火.mp3",
-      "url": "C:\\CloudMusic/DAOKO,米津玄師 - 打上花火.mp3",
-      "size": 11799864,
-      "album": "打上花火",
-      "artist": "DAOKO/米津玄師",
-      "cover": "cache/albumCover/57b0-1616574705369-35630.jpeg"
-    },
-    {
-      "id": "ajf81dran8",
-      "name": "Akie秋绘 - 打上花火（Cover DAOKO ／ 米津玄師）.mp3",
-      "url": "C:\\CloudMusic/Akie秋绘 - 打上花火（Cover DAOKO ／ 米津玄師）.mp3",
-      "size": 11868513,
-      "album": "打上花火",
-      "artist": "Akie秋绘",
-      "cover": "cache/albumCover/83a3-1616574705490-39585.jpeg"
-    },
-    {
-      "id": "wktcuqerya",
-      "name": "CADY耳东 - 山海（Cover 草东没有派对）（华晨宇版）.mp3",
+      "al": {
+        "name": "山海",
+        "picUrl": "../../../../cache/albumCover/7587-1616579449125-60955.jpeg"
+      },
+      "ar": [
+        {
+          "name": "CADY耳东"
+        }
+      ],
       "url": "C:\\CloudMusic/CADY耳东 - 山海（Cover 草东没有派对）（华晨宇版）.mp3",
+      "id": "752x0ha6n",
       "size": 12429016,
-      "album": "山海",
-      "artist": "CADY耳东",
-      "cover": "cache/albumCover/5e7e-1616574705615-63095.jpeg"
+      "name": " 山海（Cover 草东没有派对）（华晨宇版）"
     },
     {
-      "id": "sdnpfm9q1q",
-      "name": "G.E.M.邓紫棋 - 泡沫.mp3",
-      "url": "C:\\CloudMusic/G.E.M.邓紫棋 - 泡沫.mp3",
-      "size": 10950728,
-      "album": "The Best of G.E.M. 2008-2012",
-      "artist": "G.E.M.邓紫棋",
-      "cover": "cache/albumCover/70d0-1616574705721-24774.jpeg"
+      "al": {
+        "name": "打上花火",
+        "picUrl": "../../../../cache/albumCover/c8c6-1616579449173-15838.jpeg"
+      },
+      "ar": [
+        {
+          "name": "DAOKO/米津玄師"
+        }
+      ],
+      "url": "C:\\CloudMusic/DAOKO,米津玄師 - 打上花火.mp3",
+      "id": "ldza5q5cgu",
+      "size": 11799864,
+      "name": " 打上花火"
     },
     {
-      "id": "15m8z4n5i7",
-      "name": "Matteo - Panama.mp3",
+      "al": {
+        "name": "Panama",
+        "picUrl": "../../../../cache/albumCover/3caf-1616579449405-13021.jpeg"
+      },
+      "ar": [
+        {
+          "name": "Matteo"
+        }
+      ],
       "url": "C:\\CloudMusic/Matteo - Panama.mp3",
+      "id": "1dl675msbb",
       "size": 8072880,
-      "album": "Panama",
-      "artist": "Matteo",
-      "cover": "cache/albumCover/2c84-1616574705881-80289.jpeg"
+      "name": " Panama"
     },
     {
-      "id": "mkii1ha9h",
-      "name": "Our Last Night - Sunrise.mp3",
-      "url": "C:\\CloudMusic/Our Last Night - Sunrise.mp3",
-      "size": 9321537,
-      "album": "Oak Island",
-      "artist": "Our Last Night",
-      "cover": "cache/albumCover/84fd-1616574706185-67577.jpeg"
+      "al": {
+        "name": "打上花火",
+        "picUrl": "../../../../cache/albumCover/6e74-1616579449318-78640.jpeg"
+      },
+      "ar": [
+        {
+          "name": "Akie秋绘"
+        }
+      ],
+      "url": "C:\\CloudMusic/Akie秋绘 - 打上花火（Cover DAOKO ／ 米津玄師）.mp3",
+      "id": "zbdob8xe2q",
+      "size": 11868513,
+      "name": " 打上花火（Cover DAOKO ／ 米津玄師）"
     },
     {
-      "id": "ceny4sjiow",
-      "name": "Westlife - Soledad.mp3",
+      "al": {
+        "name": "The Best of G.E.M. 2008-2012",
+        "picUrl": "../../../../cache/albumCover/508e-1616579449506-69631.jpeg"
+      },
+      "ar": [
+        {
+          "name": "G.E.M.邓紫棋"
+        }
+      ],
+      "url": "C:\\CloudMusic/G.E.M.邓紫棋 - 泡沫.mp3",
+      "id": "rwdqmphlqc",
+      "size": 10950728
+    },
+    {
+      "al": {
+        "name": "Coast to Coast",
+        "picUrl": "../../../../cache/albumCover/504c-1616579450072-45350.jpeg"
+      },
+      "ar": [
+        {
+          "name": "Westlife"
+        }
+      ],
       "url": "C:\\CloudMusic/Westlife - Soledad.mp3",
+      "id": "k4m5zpg9g",
       "size": 10169323,
-      "album": "Coast to Coast",
-      "artist": "Westlife",
-      "cover": "cache/albumCover/6dde-1616574706312-87358.jpeg"
+      "name": " Soledad"
     },
     {
-      "id": "5q9bo8j0l",
-      "name": "October - Time To Love.mp3",
+      "al": {
+        "name": "A Good Year",
+        "picUrl": "../../../../cache/albumCover/913c-1616579449755-05600.jpeg"
+      },
+      "ar": [
+        {
+          "name": "October"
+        }
+      ],
       "url": "C:\\CloudMusic/October - Time To Love.mp3",
+      "id": "l43fvuim14",
       "size": 10166727,
-      "album": "A Good Year",
-      "artist": "October",
-      "cover": "cache/albumCover/f0aa-1616574706010-39947.jpeg"
+      "name": " Time To Love"
     },
     {
-      "id": "pm6p6jea7",
-      "name": "任贤齐 - 伤心太平洋.mp3",
-      "url": "C:\\CloudMusic/任贤齐 - 伤心太平洋.mp3",
-      "size": 10921961,
-      "album": "新台湾男人",
-      "artist": "任贤齐",
-      "cover": "cache/albumCover/53f6-1616574706886-11553.jpeg"
-    },
-    {
-      "id": "gj4cxwyyfn",
-      "name": "买辣椒也用券 - 起风了（Cover 高橋優）.mp3",
-      "url": "C:\\CloudMusic/买辣椒也用券 - 起风了（Cover 高橋優）.mp3",
-      "size": 13090014,
-      "album": "起风了（Cover 高橋優-《ヤキモチ》）",
-      "artist": "买辣椒也用券",
-      "cover": "cache/albumCover/2698-1616574706818-94576.jpeg"
-    },
-    {
-      "id": "j6eswdestm",
-      "name": "三輪学 - いつまでも一绪にいよう.mp3",
+      "al": {
+        "name": "『ピアノの森の満开の下』オリジナルサウンドトラック",
+        "picUrl": "../../../../cache/albumCover/5b3e-1616579450326-51989.jpeg"
+      },
+      "ar": [
+        {
+          "name": "三輪学"
+        }
+      ],
       "url": "C:\\CloudMusic/三輪学 - いつまでも一绪にいよう.mp3",
+      "id": "wbmj8921iq",
       "size": 9055000,
-      "album": "『ピアノの森の満开の下』オリジナルサウンドトラック",
-      "artist": "三輪学",
-      "cover": "cache/albumCover/916e-1616574706619-66266.jpeg"
+      "name": " いつまでも一绪にいよう"
     },
     {
-      "id": "8ni3yah489",
-      "name": "华晨宇 - 寒鸦少年.mp3",
-      "url": "C:\\CloudMusic/华晨宇 - 寒鸦少年.mp3",
-      "size": 12668005,
-      "album": "寒鸦少年",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/363d-1616574707115-89378.jpeg"
+      "al": {
+        "name": "起风了（Cover 高橋優-《ヤキモチ》）",
+        "picUrl": "../../../../cache/albumCover/6422-1616579450572-04652.jpeg"
+      },
+      "ar": [
+        {
+          "name": "买辣椒也用券"
+        }
+      ],
+      "url": "C:\\CloudMusic/买辣椒也用券 - 起风了（Cover 高橋優）.mp3",
+      "id": "eu6kc3i89d",
+      "size": 13090014,
+      "name": " 起风了（Cover 高橋優）"
     },
     {
-      "id": "ozhcmusa3",
-      "name": "华晨宇 - Here We Are.mp3",
+      "al": {
+        "name": "新台湾男人",
+        "picUrl": "../../../../cache/albumCover/436e-1616579450664-56979.jpeg"
+      },
+      "ar": [
+        {
+          "name": "任贤齐"
+        }
+      ],
+      "url": "C:\\CloudMusic/任贤齐 - 伤心太平洋.mp3",
+      "id": "7qhp26malf",
+      "size": 10921961,
+      "name": " 伤心太平洋"
+    },
+    {
+      "al": {
+        "name": "Here We Are",
+        "picUrl": "../../../../cache/albumCover/117d-1616579450875-83661.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
       "url": "C:\\CloudMusic/华晨宇 - Here We Are.mp3",
+      "id": "aclckpia08",
       "size": 11827610,
-      "album": "Here We Are",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/5d9a-1616574707065-54572.jpeg"
+      "name": " Here We Are"
     },
     {
-      "id": "tkg7avop1k",
-      "name": "伦桑,橙光音乐 - 山有木兮-橙光游戏《人鱼传说之长生烛》主题曲.mp3",
+      "al": {
+        "name": "人鱼传说之长生烛·橙光OST",
+        "picUrl": "../../../../cache/albumCover/3691-1616579450790-58738.jpeg"
+      },
+      "ar": [
+        {
+          "name": "伦桑/橙光音乐"
+        }
+      ],
       "url": "C:\\CloudMusic/伦桑,橙光音乐 - 山有木兮-橙光游戏《人鱼传说之长生烛》主题曲.mp3",
+      "id": "oudvvgeoc",
       "size": 10414106,
-      "album": "人鱼传说之长生烛·橙光OST",
-      "artist": "伦桑/橙光音乐",
-      "cover": "cache/albumCover/4da1-1616574706981-24332.jpeg"
+      "name": " 山有木兮"
     },
     {
-      "id": "fmmjmldkpk",
-      "name": "华晨宇 - 我管你.mp3",
+      "al": {
+        "name": "寒鸦少年",
+        "picUrl": "../../../../cache/albumCover/7ce5-1616579450923-31467.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
+      "url": "C:\\CloudMusic/华晨宇 - 寒鸦少年.mp3",
+      "id": "99zl7xj0x",
+      "size": 12668005,
+      "name": " 寒鸦少年"
+    },
+    {
+      "al": {
+        "name": "异类",
+        "picUrl": "../../../../cache/albumCover/1e69-1616579451157-17279.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
       "url": "C:\\CloudMusic/华晨宇 - 我管你.mp3",
+      "id": "fepvpq1xpi",
       "size": 10811656,
-      "album": "异类",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/6cf7-1616574707351-45671.jpeg"
+      "name": " 我管你"
     },
     {
-      "id": "slclu9wn9",
-      "name": "华晨宇 - 好想爱这个世界啊.mp3",
-      "url": "C:\\CloudMusic/华晨宇 - 好想爱这个世界啊.mp3",
-      "size": 10738482,
-      "album": "好想爱这个世界啊",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/8d19-1616574707187-19326.jpeg"
-    },
-    {
-      "id": "oc2ecthkeg",
-      "name": "华晨宇 - 寻.mp3",
+      "al": {
+        "name": "寻",
+        "picUrl": "../../../../cache/albumCover/619f-1616579451101-00118.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
       "url": "C:\\CloudMusic/华晨宇 - 寻.mp3",
+      "id": "3gjlky6oah",
       "size": 10995671,
-      "album": "寻",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/3855-1616574707296-26844.jpeg"
+      "name": " 寻"
     },
     {
-      "id": "7w09mtlc8",
-      "name": "华晨宇 - 无聊人.mp3",
+      "al": {
+        "name": "好想爱这个世界啊",
+        "picUrl": "../../../../cache/albumCover/8ab0-1616579450993-99117.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
+      "url": "C:\\CloudMusic/华晨宇 - 好想爱这个世界啊.mp3",
+      "id": "9cdle2jeur",
+      "size": 10738482,
+      "name": " 好想爱这个世界啊"
+    },
+    {
+      "al": {
+        "name": "Oak Island",
+        "picUrl": "../../../../cache/albumCover/2fba-1616579449941-71951.jpeg"
+      },
+      "ar": [
+        {
+          "name": "Our Last Night"
+        }
+      ],
+      "url": "C:\\CloudMusic/Our Last Night - Sunrise.mp3",
+      "id": "5ly052rag",
+      "size": 9321537,
+      "name": " Sunrise"
+    },
+    {
+      "al": {
+        "name": "无聊人",
+        "picUrl": "../../../../cache/albumCover/69c2-1616579451205-04531.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
       "url": "C:\\CloudMusic/华晨宇 - 无聊人.mp3",
+      "id": "8m9v6k8ufh",
       "size": 9345459,
-      "album": "无聊人",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/722a-1616574707399-78863.jpeg"
+      "name": " 无聊人"
     },
     {
-      "id": "6gp74evnye",
-      "name": "华晨宇 - 蜉蝣.mp3",
-      "url": "C:\\CloudMusic/华晨宇 - 蜉蝣.mp3",
-      "size": 12453138,
-      "album": "异类",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/8f37-1616574707535-35267.jpeg"
-    },
-    {
-      "id": "d450t10i6",
-      "name": "华晨宇 - 烟火里的尘埃.mp3",
+      "al": {
+        "name": "烟火里的尘埃",
+        "picUrl": "../../../../cache/albumCover/8962-1616579451266-09436.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
       "url": "C:\\CloudMusic/华晨宇 - 烟火里的尘埃.mp3",
+      "id": "rhd8onwufw",
       "size": 13078765,
-      "album": "烟火里的尘埃",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/9436-1616574707461-28459.jpeg"
+      "name": " 烟火里的尘埃"
     },
     {
-      "id": "wetc5h1062",
-      "name": "华晨宇 - 齐天大圣.mp3",
-      "url": "C:\\CloudMusic/华晨宇 - 齐天大圣.mp3",
-      "size": 10301998,
-      "album": "天籁之战 第七期",
-      "artist": "华晨宇",
-      "cover": "cache/albumCover/885a-1616574707586-35858.jpeg"
+      "al": {
+        "name": "异类",
+        "picUrl": "../../../../cache/albumCover/50a1-1616579451324-98011.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
+      "url": "C:\\CloudMusic/华晨宇 - 蜉蝣.mp3",
+      "id": "8mdeow968h",
+      "size": 12453138,
+      "name": " 蜉蝣"
     },
     {
-      "id": "ojc6g1lzwh",
-      "name": "奇然 - 殿书.mp3",
-      "url": "C:\\CloudMusic/奇然 - 殿书.mp3",
-      "size": 10593602,
-      "album": "殿书",
-      "artist": "奇然",
-      "cover": "cache/albumCover/423d-1616574707684-38194.jpeg"
-    },
-    {
-      "id": "ww6eu3hnac",
-      "name": "大壮 - 我们不一样.mp3",
-      "url": "C:\\CloudMusic/大壮 - 我们不一样.mp3",
-      "size": 10983186,
-      "album": "我们不一样",
-      "artist": "大壮",
-      "cover": "cache/albumCover/63e0-1616574707639-24490.jpeg"
-    },
-    {
-      "id": "xqhzvdjp2x",
-      "name": "呦猫UNEKO - 梦回还.mp3",
-      "url": "C:\\CloudMusic/呦猫UNEKO - 梦回还.mp3",
-      "size": 10205979,
-      "album": "狐妖小红娘 动画原声带",
-      "artist": "呦猫UNEKO",
-      "cover": "cache/albumCover/5895-1616574707736-28555.jpeg"
-    },
-    {
-      "id": "drimk1elj",
-      "name": "忍 - Bless Me with Wings.mp3",
-      "url": "C:\\CloudMusic/忍 - Bless Me with Wings.mp3",
-      "size": 5538492,
-      "album": "いろとりどりのヒカリ Theme Songs Plus",
-      "artist": "忍",
-      "cover": "cache/albumCover/2f17-1616574707801-10581.jpeg"
-    },
-    {
-      "id": "scevt53hoo",
-      "name": "卢小旭,奇然,檀烧 - 不负时光.mp3",
+      "al": {
+        "name": "不负时光",
+        "picUrl": "../../../../cache/albumCover/4942-1616579451449-02320.jpeg"
+      },
+      "ar": [
+        {
+          "name": "卢小旭/奇然/檀烧/绯村柯北/HITA/梦璟SAYA/小爱的妈/Aki阿杰/银临/陈鹏杰/猫饭/ZHUCOOL/贰婶/许多葵/smile_小千/不才/吾恩/清弄/流浪的蛙蛙/阿杰729/萧忆情Alex/云之泣/橙翼/灰老板"
+        }
+      ],
       "url": "C:\\CloudMusic/卢小旭,奇然,檀烧 - 不负时光.mp3",
+      "id": "ki0772jl4",
       "size": 10643481,
-      "album": "不负时光",
-      "artist": "卢小旭/奇然/檀烧/绯村柯北/HITA/梦璟SAYA/小爱的妈/Aki阿杰/银临/陈鹏杰/猫饭/ZHUCOOL/贰婶/许多葵/smile_小千/不才/吾恩/清弄/流浪的蛙蛙/阿杰729/萧忆情Alex/云之泣/橙翼/灰老板",
-      "cover": "cache/albumCover/3e68-1616574707870-10377.jpeg"
+      "name": " 不负时光"
     },
     {
-      "id": "kyw0nxzp7",
-      "name": "李袁杰 - 离人愁.mp3",
-      "url": "C:\\CloudMusic/李袁杰 - 离人愁.mp3",
-      "size": 10065227,
-      "album": "离人愁",
-      "artist": "李袁杰",
-      "cover": "cache/albumCover/195e-1616574707929-33607.jpeg"
+      "al": {
+        "name": "狐妖小红娘 动画原声带",
+        "picUrl": "../../../../cache/albumCover/8df4-1616579451518-71026.jpeg"
+      },
+      "ar": [
+        {
+          "name": "呦猫UNEKO"
+        }
+      ],
+      "url": "C:\\CloudMusic/呦猫UNEKO - 梦回还.mp3",
+      "id": "ejrmlqh6mf",
+      "size": 10205979,
+      "name": " 梦回还"
     },
     {
-      "id": "c27y85vnaf",
-      "name": "旅行团乐队- 孔阳 - 爱YOU READY , 爱我READY.mp3",
-      "url": "C:\\CloudMusic/旅行团乐队- 孔阳 - 爱YOU READY , 爱我READY.mp3",
-      "size": 8793273,
-      "album": "狐妖小红娘 动画原声带",
-      "artist": "旅行团乐队- 孔阳",
-      "cover": "cache/albumCover/557b-1616574707982-65354.jpeg"
+      "al": {
+        "name": "我们不一样",
+        "picUrl": "../../../../cache/albumCover/6ac5-1616579451586-74856.jpeg"
+      },
+      "ar": [
+        {
+          "name": "大壮"
+        }
+      ],
+      "url": "C:\\CloudMusic/大壮 - 我们不一样.mp3",
+      "id": "ol6e1zmtvq",
+      "size": 10983186,
+      "name": " 我们不一样"
     },
     {
-      "id": "gw9bsfufdl",
-      "name": "河图 - 不良人.mp3",
-      "url": "C:\\CloudMusic/河图 - 不良人.mp3",
-      "size": 6954936,
-      "album": "不良人",
-      "artist": "河图",
-      "cover": "cache/albumCover/3765-1616574708063-20706.jpeg"
+      "al": {
+        "name": "殿书",
+        "picUrl": "../../../../cache/albumCover/3271-1616579451636-60913.jpeg"
+      },
+      "ar": [
+        {
+          "name": "奇然"
+        }
+      ],
+      "url": "C:\\CloudMusic/奇然 - 殿书.mp3",
+      "id": "521bu1tbd",
+      "size": 10593602,
+      "name": " 殿书"
     },
     {
-      "id": "xesrawe2i",
-      "name": "王慧江 - 张靓颖李荣浩 - 西游记之女儿国（王慧江 remix）.mp3",
-      "url": "C:\\CloudMusic/王慧江 - 张靓颖李荣浩 - 西游记之女儿国（王慧江 remix）.mp3",
-      "size": 4476819,
-      "album": "影视音乐",
-      "artist": "王慧江",
-      "cover": "cache/albumCover/76a6-1616574708109-32049.jpeg"
+      "al": {
+        "name": "天籁之战 第七期",
+        "picUrl": "../../../../cache/albumCover/7bdd-1616579451379-52930.jpeg"
+      },
+      "ar": [
+        {
+          "name": "华晨宇"
+        }
+      ],
+      "url": "C:\\CloudMusic/华晨宇 - 齐天大圣.mp3",
+      "id": "1kblgbdijj",
+      "size": 10301998,
+      "name": " 齐天大圣"
     },
     {
-      "id": "18f38fc2x9",
-      "name": "绯村柯北,灰老板 - 东流.mp3",
-      "url": "C:\\CloudMusic/绯村柯北,灰老板 - 东流.mp3",
-      "size": 8514263,
-      "album": "热门华语268",
-      "artist": "绯村柯北/灰老板",
-      "cover": "cache/albumCover/fb54-1616574708177-97943.jpeg"
+      "al": {
+        "name": "いろとりどりのヒカリ Theme Songs Plus",
+        "picUrl": "../../../../cache/albumCover/3e34-1616579451854-45228.jpeg"
+      },
+      "ar": [
+        {
+          "name": "忍"
+        }
+      ],
+      "url": "C:\\CloudMusic/忍 - Bless Me with Wings.mp3",
+      "id": "hkmoz4pcsf",
+      "size": 5538492,
+      "name": " Bless Me with Wings"
     },
     {
-      "id": "lm3rqxpqm9",
-      "name": "薛之谦 - Stay Here.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - Stay Here.mp3",
-      "size": 12153467,
-      "album": "一半",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/6733-1616574708202-05058.jpeg"
-    },
-    {
-      "id": "ujknaajvxj",
-      "name": "薛之谦 - 像风一样.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 像风一样.mp3",
-      "size": 10286737,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/453a-1616574708229-60021.jpeg"
-    },
-    {
-      "id": "5gmvc3hhuc",
-      "name": "薛之谦 - 刚刚好.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 刚刚好.mp3",
-      "size": 10181619,
-      "album": "初学者",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/87de-1616574708268-15966.jpeg"
-    },
-    {
-      "id": "u68mp4dh43",
-      "name": "薛之谦 - 动物世界.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 动物世界.mp3",
-      "size": 9320426,
-      "album": "动物世界",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/c1e8-1616574708335-60933.jpeg"
-    },
-    {
-      "id": "5buu2ti1an",
-      "name": "薛之谦 - 哑巴.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 哑巴.mp3",
-      "size": 10566250,
-      "album": "哑巴",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/19a9-1616574708372-45238.jpeg"
-    },
-    {
-      "id": "ps04pqjuol",
-      "name": "薛之谦 - 怪咖.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 怪咖.mp3",
-      "size": 10150158,
-      "album": "怪咖",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/232a-1616574708567-70769.jpeg"
-    },
-    {
-      "id": "a1fewmdr7",
-      "name": "薛之谦 - 意外.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 意外.mp3",
-      "size": 11808066,
-      "album": "意外",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/5fa8-1616574708633-62458.jpeg"
-    },
-    {
-      "id": "9xpz83epmu",
-      "name": "薛之谦 - 慢半拍.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 慢半拍.mp3",
-      "size": 9972578,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/7659-1616574708729-69554.jpeg"
-    },
-    {
-      "id": "pn18grwce5",
-      "name": "薛之谦 - 我好像在哪见过你.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 我好像在哪见过你.mp3",
-      "size": 11328991,
-      "album": "初学者",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/26da-1616574708804-63638.jpeg"
-    },
-    {
-      "id": "jcmf9dtpjc",
-      "name": "薛之谦 - 我害怕.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 我害怕.mp3",
-      "size": 10032827,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/91cf-1616574708846-32644.jpeg"
-    },
-    {
-      "id": "o6dl8ypye",
-      "name": "薛之谦 - 方圆几里.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 方圆几里.mp3",
-      "size": 10853117,
-      "album": "意外",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/47f3-1616574708906-48488.jpeg"
-    },
-    {
-      "id": "fb5izz8x9s",
-      "name": "薛之谦 - 木偶人.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 木偶人.mp3",
-      "size": 11771212,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/8500-1616574709009-98062.jpeg"
-    },
-    {
-      "id": "zjxirmqv6",
-      "name": "薛之谦 - 火星人来过.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 火星人来过.mp3",
-      "size": 8760143,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/de51-1616574709075-58801.jpeg"
-    },
-    {
-      "id": "rmfu8gsceo",
-      "name": "薛之谦 - 天份.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 天份.mp3",
-      "size": 10339421,
-      "album": "怪咖",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/438c-1616574708455-27147.jpeg"
-    },
-    {
-      "id": "amz9pip5yc",
-      "name": "薛之谦 - 病态.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 病态.mp3",
-      "size": 11492202,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/32be-1616574709463-82603.jpeg"
-    },
-    {
-      "id": "czqzvgrbex",
-      "name": "薛之谦 - 笑场.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 笑场.mp3",
-      "size": 11204855,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/5cab-1616574709562-46752.jpeg"
-    },
-    {
-      "id": "2ktb0clvg8",
-      "name": "薛之谦 - 狐狸.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 狐狸.mp3",
-      "size": 9546430,
-      "album": "狐狸",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/78e4-1616574709114-78704.jpeg"
-    },
-    {
-      "id": "g11xr11snw",
-      "name": "薛之谦 - 背过手.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 背过手.mp3",
-      "size": 10731841,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/92cc-1616574709627-49902.jpeg"
-    },
-    {
-      "id": "5iv63ytegp",
-      "name": "薛之谦 - 环.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 环.mp3",
-      "size": 10521270,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/1854-1616574709249-82969.jpeg"
-    },
-    {
-      "id": "rm1asq6uz8",
-      "name": "薛之谦 - 别.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 别.mp3",
-      "size": 8708935,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/400c-1616574708307-97116.jpeg"
-    },
-    {
-      "id": "424fxbw7rq",
-      "name": "薛之谦 - 那是你离开了北京的生活.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 那是你离开了北京的生活.mp3",
-      "size": 10896678,
-      "album": "那是你离开了北京的生活",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/73ec-1616574709760-57121.jpeg"
-    },
-    {
-      "id": "b9dbeel7gn",
-      "name": "薛之谦 - 这么久没见.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 这么久没见.mp3",
-      "size": 12123346,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/8929-1616574709687-65570.jpeg"
-    },
-    {
-      "id": "aigsdx4dlj",
-      "name": "薛之谦 - 野心.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 野心.mp3",
-      "size": 9099134,
-      "album": "天外来物",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/fc3e-1616574709830-47376.jpeg"
-    },
-    {
-      "id": "nzq2fmdshm",
-      "name": "薛之谦 - 骆驼.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 骆驼.mp3",
-      "size": 11156068,
-      "album": "渡",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/1490-1616574709999-38072.jpeg"
-    },
-    {
-      "id": "1csz057gr",
-      "name": "薛之谦 - 陪你去流浪.mp3",
-      "url": "C:\\CloudMusic/薛之谦 - 陪你去流浪.mp3",
-      "size": 11280114,
-      "album": "尘",
-      "artist": "薛之谦",
-      "cover": "cache/albumCover/5bc4-1616574709934-59030.jpeg"
-    },
-    {
-      "id": "hjay7tyzyj",
-      "name": "许嵩 - 内线.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 内线.mp3",
-      "size": 10018262,
-      "album": "自定义",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/53a0-1616574710050-87386.jpeg"
-    },
-    {
-      "id": "drdc96lkz",
-      "name": "许嵩 - 最佳歌手.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 最佳歌手.mp3",
-      "size": 10903900,
-      "album": "青年晚报",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/1506-1616574710537-22254.jpeg"
-    },
-    {
-      "id": "hv44lokdt",
-      "name": "许嵩 - 多余的解释.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 多余的解释.mp3",
-      "size": 11203202,
-      "album": "自定义",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/66fd-1616574710364-14695.jpeg"
-    },
-    {
-      "id": "33mr96txnu",
-      "name": "许嵩 - 江湖.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 江湖.mp3",
-      "size": 10831615,
-      "album": "江湖",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/4975-1616574710582-63430.jpeg"
-    },
-    {
-      "id": "b85ops94jg",
-      "name": "许嵩 - 山水之间.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 山水之间.mp3",
-      "size": 11409582,
-      "album": "不如吃茶去",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/7354-1616574710441-96194.jpeg"
-    },
-    {
-      "id": "dyb4micr3i",
-      "name": "许嵩 - 老古董.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 老古董.mp3",
-      "size": 10004550,
-      "album": "老古董",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/8a1f-1616574710761-89647.jpeg"
-    },
-    {
-      "id": "m3c2nc74yf",
-      "name": "贾昱 - 无与伦比的美丽.mp3",
-      "url": "C:\\CloudMusic/贾昱 - 无与伦比的美丽.mp3",
-      "size": 5768416,
-      "album": "2017快乐男声全国赛 第六期",
-      "artist": "贾昱",
-      "cover": "cache/albumCover/5d5b-1616574710816-78086.jpeg"
-    },
-    {
-      "id": "333wbqxqwom",
-      "name": "许嵩 - 绝代风华.mp3",
-      "url": "C:\\CloudMusic/许嵩 - 绝代风华.mp3",
-      "size": 10585070,
-      "album": "绝代风华",
-      "artist": "许嵩",
-      "cover": "cache/albumCover/4e4d-1616574710658-56481.jpeg"
-    },
-    {
-      "id": "piaoo3u1q",
-      "name": "赵海洋 - 夜空的寂静.mp3",
-      "url": "C:\\CloudMusic/赵海洋 - 夜空的寂静.mp3",
-      "size": 6415522,
-      "album": "热门华语246",
-      "artist": "赵海洋",
-      "cover": "cache/albumCover/932c-1616574710862-75833.jpeg"
-    },
-    {
-      "id": "e8nrgoofra",
-      "name": "邓旭方 - 当时.mp3",
-      "url": "C:\\CloudMusic/邓旭方 - 当时.mp3",
-      "size": 9262796,
-      "album": "我是江小白 第二季 动画原声大碟",
-      "artist": "邓旭方",
-      "cover": "cache/albumCover/3f33-1616574710933-68407.jpeg"
-    },
-    {
-      "id": "emzab8r0h6",
-      "name": "邓旭方 - 心愿.mp3",
-      "url": "C:\\CloudMusic/邓旭方 - 心愿.mp3",
-      "size": 9610747,
-      "album": "我是江小白 第二季 动画原声大碟",
-      "artist": "邓旭方",
-      "cover": "cache/albumCover/47fc-1616574711012-73229.jpeg"
-    },
-    {
-      "id": "yihasx9z5",
-      "name": "阿兰 - 离兮.mp3",
-      "url": "C:\\CloudMusic/阿兰 - 离兮.mp3",
-      "size": 12229155,
-      "album": "离兮",
-      "artist": "阿兰",
-      "cover": "cache/albumCover/37f2-1616574711069-44046.jpeg"
-    },
-    {
-      "id": "66mo8c0iz7",
-      "name": "陈奕迅 - 无条件.mp3",
-      "url": "C:\\CloudMusic/陈奕迅 - 无条件.mp3",
-      "size": 9275865,
-      "album": "准备中",
-      "artist": "陈奕迅",
-      "cover": "cache/albumCover/566e-1616574711169-59503.jpeg"
-    },
-    {
-      "id": "th4l4pomx",
-      "name": "薛之谦,黄龄 - 来日方长.mp3",
-      "url": "C:\\CloudMusic/薛之谦,黄龄 - 来日方长.mp3",
-      "size": 9539615,
-      "album": "来日方长",
-      "artist": "薛之谦/黄龄",
-      "cover": "cache/albumCover/4119-1616574711121-90020.jpeg"
-    },
-    {
-      "id": "6t149tk2ye",
-      "name": "霍尊 - 天行九歌.mp3",
-      "url": "C:\\CloudMusic/霍尊 - 天行九歌.mp3",
-      "size": 9540100,
-      "album": "天行九歌",
-      "artist": "霍尊",
-      "cover": "cache/albumCover/3857-1616574711215-07658.jpeg"
-    },
-    {
-      "id": "c3964qehgl",
-      "name": "薛之谦,刘惜君 - 聊表心意.mp3",
-      "url": "C:\\CloudMusic/薛之谦,刘惜君 - 聊表心意.mp3",
-      "size": 13406276,
-      "album": "尘",
-      "artist": "薛之谦/刘惜君",
-      "cover": "cache/albumCover/3212-1616574710185-27539.jpeg"
-    },
-    {
-      "id": "od6f4455at",
-      "name": "鲸鱼 - 浥轻尘.mp3",
-      "url": "C:\\CloudMusic/鲸鱼 - 浥轻尘.mp3",
-      "size": 11157814,
-      "album": "《狐妖小红娘》同人曲",
-      "artist": "鲸鱼",
-      "cover": "cache/albumCover/3f2f-1616574711312-06045.jpeg"
-    },
-    {
-      "id": "lnsrz26mgb",
-      "name": "磯村由纪子 - 風の住む街.mp3",
-      "url": "C:\\CloudMusic/磯村由纪子 - 風の住む街.mp3",
-      "size": 11560552,
-      "album": "風の住む街",
-      "artist": "磯村由纪子",
-      "cover": "cache/albumCover/8f16-1616574708148-69202.jpeg"
-    },
-    {
-      "id": "qbpeixc0ym",
-      "name": "西楼 - 孩子（Demo）.mp3",
-      "url": "C:\\CloudMusic/西楼 - 孩子（Demo）.mp3",
-      "size": 10822499,
-      "album": "孩子",
-      "artist": "西楼",
-      "cover": "cache/albumCover/88ca-1616574710023-51671.jpeg"
-    },
-    {
-      "id": "ro8k6mbob7",
-      "name": "黄雨篱 - 有话对你说.mp3",
-      "url": "C:\\CloudMusic/黄雨篱 - 有话对你说.mp3",
-      "size": 8513631,
-      "album": "我是江小白 第二季 动画原声大碟",
-      "artist": "黄雨篱",
-      "cover": "cache/albumCover/2c10-1616574711365-10004.jpeg"
-    },
-    {
-      "id": "4upd7rpw2p",
-      "name": "黄雨篱 - Stay With Me.mp3",
-      "url": "C:\\CloudMusic/黄雨篱 - Stay With Me.mp3",
-      "size": 13129286,
-      "album": "Stay With Me",
-      "artist": "黄雨篱",
-      "cover": "cache/albumCover/72e9-1616574711411-23029.jpeg"
-    },
-    {
-      "id": "bx2lpmvilw",
-      "name": "黄龄,许嵩 - 惊鸿一面.mp3",
-      "url": "C:\\CloudMusic/黄龄,许嵩 - 惊鸿一面.mp3",
-      "size": 10621759,
-      "album": "不如吃茶去",
-      "artist": "黄龄/许嵩",
-      "cover": "cache/albumCover/913b-1616574711483-11673.jpeg"
-    },
-    {
-      "id": "1n5clapuc",
-      "name": "广东雨神 - 广东十年爱情故事.mp3",
+      "al": {
+        "name": "广东十年爱情故事",
+        "picUrl": "../../../../cache/albumCover/97ca-1616579451725-53716.jpeg"
+      },
+      "ar": [
+        {
+          "name": "广东雨神"
+        }
+      ],
       "url": "C:\\CloudMusic/广东雨神 - 广东十年爱情故事.mp3",
+      "id": "fw7i8y8ppam",
       "size": 8987293,
-      "album": "广东十年爱情故事",
-      "artist": "广东雨神",
-      "cover": "cache/albumCover/7eb2-1616574711610-26075.jpeg"
+      "name": " 广东十年爱情故事"
+    },
+    {
+      "al": {
+        "name": "狐妖小红娘 动画原声带",
+        "picUrl": "../../../../cache/albumCover/7d81-1616579451919-11109.jpeg"
+      },
+      "ar": [
+        {
+          "name": "旅行团乐队- 孔阳"
+        }
+      ],
+      "url": "C:\\CloudMusic/旅行团乐队- 孔阳 - 爱YOU READY , 爱我READY.mp3",
+      "id": "nj8u0wfgks",
+      "size": 8793273,
+      "name": " 孔阳 "
+    },
+    {
+      "al": {
+        "name": "离人愁",
+        "picUrl": "../../../../cache/albumCover/4b7f-1616579451975-12048.jpeg"
+      },
+      "ar": [
+        {
+          "name": "李袁杰"
+        }
+      ],
+      "url": "C:\\CloudMusic/李袁杰 - 离人愁.mp3",
+      "id": "d0bq6ukfnm",
+      "size": 10065227,
+      "name": " 离人愁"
+    },
+    {
+      "al": {
+        "name": "影视音乐",
+        "picUrl": "../../../../cache/albumCover/4249-1616579452046-27367.jpeg"
+      },
+      "ar": [
+        {
+          "name": "王慧江"
+        }
+      ],
+      "url": "C:\\CloudMusic/王慧江 - 张靓颖李荣浩 - 西游记之女儿国（王慧江 remix）.mp3",
+      "id": "m3xcxialgd",
+      "size": 4476819,
+      "name": " 张靓颖李荣浩 "
+    },
+    {
+      "al": {
+        "name": "不良人",
+        "picUrl": "../../../../cache/albumCover/741e-1616579452014-97933.jpeg"
+      },
+      "ar": [
+        {
+          "name": "河图"
+        }
+      ],
+      "url": "C:\\CloudMusic/河图 - 不良人.mp3",
+      "id": "9b9mkd90p",
+      "size": 6954936,
+      "name": " 不良人"
+    },
+    {
+      "al": {
+        "name": "風の住む街",
+        "picUrl": "../../../../cache/albumCover/525a-1616579452071-53845.jpeg"
+      },
+      "ar": [
+        {
+          "name": "磯村由纪子"
+        }
+      ],
+      "url": "C:\\CloudMusic/磯村由纪子 - 風の住む街.mp3",
+      "id": "8glx1f0oxq",
+      "size": 11560552,
+      "name": " 風の住む街"
+    },
+    {
+      "al": {
+        "name": "热门华语268",
+        "picUrl": "../../../../cache/albumCover/1164-1616579452102-68697.jpeg"
+      },
+      "ar": [
+        {
+          "name": "绯村柯北/灰老板"
+        }
+      ],
+      "url": "C:\\CloudMusic/绯村柯北,灰老板 - 东流.mp3",
+      "id": "ch65p87vzl",
+      "size": 8514263,
+      "name": " 东流"
+    },
+    {
+      "al": {
+        "name": "一半",
+        "picUrl": "../../../../cache/albumCover/266c-1616579452131-22574.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - Stay Here.mp3",
+      "id": "ld7y9cecj",
+      "size": 12153467,
+      "name": " Stay Here"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/5517-1616579452160-11137.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 像风一样.mp3",
+      "id": "3i5g8tlwd",
+      "size": 10286737,
+      "name": " 像风一样"
+    },
+    {
+      "al": {
+        "name": "初学者",
+        "picUrl": "../../../../cache/albumCover/4895-1616579452199-65837.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 刚刚好.mp3",
+      "id": "kpcqztdw",
+      "size": 10181619,
+      "name": " 刚刚好"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/6c2f-1616579452243-77820.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 别.mp3",
+      "id": "psprudavz",
+      "size": 8708935,
+      "name": " 别"
+    },
+    {
+      "al": {
+        "name": "动物世界",
+        "picUrl": "../../../../cache/albumCover/2624-1616579452273-28304.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 动物世界.mp3",
+      "id": "jn0m4t4vwl",
+      "size": 9320426,
+      "name": " 动物世界"
+    },
+    {
+      "al": {
+        "name": "怪咖",
+        "picUrl": "../../../../cache/albumCover/4df6-1616579452533-75371.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 怪咖.mp3",
+      "id": "ytxqq90e7c",
+      "size": 10150158,
+      "name": " 怪咖"
+    },
+    {
+      "al": {
+        "name": "怪咖",
+        "picUrl": "../../../../cache/albumCover/91ca-1616579452409-55825.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 天份.mp3",
+      "id": "nfq8ygxzp8",
+      "size": 10339421,
+      "name": " 天份"
+    },
+    {
+      "al": {
+        "name": "意外",
+        "picUrl": "../../../../cache/albumCover/544c-1616579452603-27572.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 意外.mp3",
+      "id": "psk502a3kk",
+      "size": 11808066,
+      "name": " 意外"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/446f-1616579452833-07575.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 我害怕.mp3",
+      "id": "vs8mzf2yy4",
+      "size": 10032827,
+      "name": " 我害怕"
+    },
+    {
+      "al": {
+        "name": "初学者",
+        "picUrl": "../../../../cache/albumCover/1e07-1616579452792-19650.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 我好像在哪见过你.mp3",
+      "id": "0edaeovz1n",
+      "size": 11328991,
+      "name": " 我好像在哪见过你"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/8f3a-1616579452716-67441.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 慢半拍.mp3",
+      "id": "l1z0tlcfsm",
+      "size": 9972578,
+      "name": " 慢半拍"
+    },
+    {
+      "al": {
+        "name": "意外",
+        "picUrl": "../../../../cache/albumCover/77ad-1616579452898-34839.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 方圆几里.mp3",
+      "id": "5x75o5zsja",
+      "size": 10853117,
+      "name": " 方圆几里"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/630e-1616579453003-23817.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 木偶人.mp3",
+      "id": "zqfxkuwpd5",
+      "size": 11771212,
+      "name": " 木偶人"
+    },
+    {
+      "al": {
+        "name": "狐狸",
+        "picUrl": "../../../../cache/albumCover/59e5-1616579453112-29122.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 狐狸.mp3",
+      "id": "feupn0hel8",
+      "size": 9546430,
+      "name": " 狐狸"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/8f9c-1616579453651-35394.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 笑场.mp3",
+      "id": "kbso3rvzd",
+      "size": 11204855,
+      "name": " 笑场"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/ebb5-1616579453547-37836.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 病态.mp3",
+      "id": "ut4k7fxvpj",
+      "size": 11492202,
+      "name": " 病态"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/7a31-1616579453257-86109.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 环.mp3",
+      "id": "zf2a4g4n7n",
+      "size": 10521270,
+      "name": " 环"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/3a8a-1616579453723-89767.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 背过手.mp3",
+      "id": "5y54nd3r9m",
+      "size": 10731841,
+      "name": " 背过手"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/7475-1616579453787-28861.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 这么久没见.mp3",
+      "id": "xn30ksef7k",
+      "size": 12123346,
+      "name": " 这么久没见"
+    },
+    {
+      "al": {
+        "name": "那是你离开了北京的生活",
+        "picUrl": "../../../../cache/albumCover/1710-1616579453865-70784.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 那是你离开了北京的生活.mp3",
+      "id": "v17icu3c9",
+      "size": 10896678,
+      "name": " 那是你离开了北京的生活"
+    },
+    {
+      "al": {
+        "name": "天外来物",
+        "picUrl": "../../../../cache/albumCover/3cd4-1616579453939-81319.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 野心.mp3",
+      "id": "r3o44423g",
+      "size": 9099134,
+      "name": " 野心"
+    },
+    {
+      "al": {
+        "name": "孩子",
+        "picUrl": "../../../../cache/albumCover/8442-1616579454150-31201.jpeg"
+      },
+      "ar": [
+        {
+          "name": "西楼"
+        }
+      ],
+      "url": "C:\\CloudMusic/西楼 - 孩子（Demo）.mp3",
+      "id": "m6xmyqtuge",
+      "size": 10822499,
+      "name": " 孩子（Demo）"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/78a9-1616579454127-17335.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 骆驼.mp3",
+      "id": "uy07pkedwe",
+      "size": 11156068,
+      "name": " 骆驼"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/2528-1616579454051-35329.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 陪你去流浪.mp3",
+      "id": "0xuh9ywpz",
+      "size": 11280114,
+      "name": " 陪你去流浪"
+    },
+    {
+      "al": {
+        "name": "来日方长",
+        "picUrl": "../../../../cache/albumCover/7321-1616579454185-73557.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦/黄龄"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦,黄龄 - 来日方长.mp3",
+      "id": "3ztrfqbtnp",
+      "size": 9539615,
+      "name": " 来日方长"
+    },
+    {
+      "al": {
+        "name": "自定义",
+        "picUrl": "../../../../cache/albumCover/1aca-1616579454526-50077.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 内线.mp3",
+      "id": "8o48zwb5",
+      "size": 10018262,
+      "name": " 内线"
+    },
+    {
+      "al": {
+        "name": "自定义",
+        "picUrl": "../../../../cache/albumCover/147a-1616579454572-58584.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 多余的解释.mp3",
+      "id": "t38i0yu9jj",
+      "size": 11203202,
+      "name": " 多余的解释"
+    },
+    {
+      "al": {
+        "name": "尘",
+        "picUrl": "../../../../cache/albumCover/81c3-1616579454329-02009.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦/刘惜君"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦,刘惜君 - 聊表心意.mp3",
+      "id": "fxmrn6ett",
+      "size": 13406276,
+      "name": " 聊表心意"
+    },
+    {
+      "al": {
+        "name": "江湖",
+        "picUrl": "../../../../cache/albumCover/71d0-1616579454786-80582.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 江湖.mp3",
+      "id": "ne4wyvjg5",
+      "size": 10831615,
+      "name": " 江湖"
+    },
+    {
+      "al": {
+        "name": "不如吃茶去",
+        "picUrl": "../../../../cache/albumCover/6154-1616579454649-79307.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 山水之间.mp3",
+      "id": "bg0ubq86l",
+      "size": 11409582,
+      "name": " 山水之间"
+    },
+    {
+      "al": {
+        "name": "老古董",
+        "picUrl": "../../../../cache/albumCover/6481-1616579454956-49353.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 老古董.mp3",
+      "id": "j048d0dlet",
+      "size": 10004550,
+      "name": " 老古董"
+    },
+    {
+      "al": {
+        "name": "2017快乐男声全国赛 第六期",
+        "picUrl": "../../../../cache/albumCover/54bc-1616579455010-50751.jpeg"
+      },
+      "ar": [
+        {
+          "name": "贾昱"
+        }
+      ],
+      "url": "C:\\CloudMusic/贾昱 - 无与伦比的美丽.mp3",
+      "id": "ar3vb9q8d",
+      "size": 5768416,
+      "name": " 无与伦比的美丽"
+    },
+    {
+      "al": {
+        "name": "绝代风华",
+        "picUrl": "../../../../cache/albumCover/2473-1616579454857-52222.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 绝代风华.mp3",
+      "id": "auo9re4hop",
+      "size": 10585070,
+      "name": " 绝代风华"
+    },
+    {
+      "al": {
+        "name": "青年晚报",
+        "picUrl": "../../../../cache/albumCover/156f-1616579454741-96824.jpeg"
+      },
+      "ar": [
+        {
+          "name": "许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/许嵩 - 最佳歌手.mp3",
+      "id": "kq4iolh5w",
+      "size": 10903900,
+      "name": " 最佳歌手"
+    },
+    {
+      "al": {
+        "name": "热门华语246",
+        "picUrl": "../../../../cache/albumCover/93a2-1616579455055-56995.jpeg"
+      },
+      "ar": [
+        {
+          "name": "赵海洋"
+        }
+      ],
+      "url": "C:\\CloudMusic/赵海洋 - 夜空的寂静.mp3",
+      "id": "39szijk0ea",
+      "size": 6415522,
+      "name": " 夜空的寂静"
+    },
+    {
+      "al": {
+        "name": "我是江小白 第二季 动画原声大碟",
+        "picUrl": "../../../../cache/albumCover/248f-1616579455112-41478.jpeg"
+      },
+      "ar": [
+        {
+          "name": "邓旭方"
+        }
+      ],
+      "url": "C:\\CloudMusic/邓旭方 - 当时.mp3",
+      "id": "248rcuvzat",
+      "size": 9262796,
+      "name": " 当时"
+    },
+    {
+      "al": {
+        "name": "离兮",
+        "picUrl": "../../../../cache/albumCover/390b-1616579455235-64108.jpeg"
+      },
+      "ar": [
+        {
+          "name": "阿兰"
+        }
+      ],
+      "url": "C:\\CloudMusic/阿兰 - 离兮.mp3",
+      "id": "dfu75pu5mh",
+      "size": 12229155,
+      "name": " 离兮"
+    },
+    {
+      "al": {
+        "name": "我是江小白 第二季 动画原声大碟",
+        "picUrl": "../../../../cache/albumCover/716d-1616579455180-11205.jpeg"
+      },
+      "ar": [
+        {
+          "name": "邓旭方"
+        }
+      ],
+      "url": "C:\\CloudMusic/邓旭方 - 心愿.mp3",
+      "id": "44coozf7at",
+      "size": 9610747,
+      "name": " 心愿"
+    },
+    {
+      "al": {
+        "name": "准备中",
+        "picUrl": "../../../../cache/albumCover/422a-1616579455276-85283.jpeg"
+      },
+      "ar": [
+        {
+          "name": "陈奕迅"
+        }
+      ],
+      "url": "C:\\CloudMusic/陈奕迅 - 无条件.mp3",
+      "id": "itl5okys4g",
+      "size": 9275865,
+      "name": " 无条件"
+    },
+    {
+      "al": {
+        "name": "天行九歌",
+        "picUrl": "../../../../cache/albumCover/1cbf-1616579455327-25110.jpeg"
+      },
+      "ar": [
+        {
+          "name": "霍尊"
+        }
+      ],
+      "url": "C:\\CloudMusic/霍尊 - 天行九歌.mp3",
+      "id": "0fwnvu8m4g",
+      "size": 9540100,
+      "name": " 天行九歌"
+    },
+    {
+      "al": {
+        "name": "哑巴",
+        "picUrl": "../../../../cache/albumCover/5849-1616579452310-52322.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 哑巴.mp3",
+      "id": "jqmq2g753u",
+      "size": 10566250,
+      "name": " 哑巴"
+    },
+    {
+      "al": {
+        "name": "渡",
+        "picUrl": "../../../../cache/albumCover/2bdf-1616579453070-21360.jpeg"
+      },
+      "ar": [
+        {
+          "name": "薛之谦"
+        }
+      ],
+      "url": "C:\\CloudMusic/薛之谦 - 火星人来过.mp3",
+      "id": "46ak413l8e",
+      "size": 8760143,
+      "name": " 火星人来过"
+    },
+    {
+      "al": {
+        "name": "《狐妖小红娘》同人曲",
+        "picUrl": "../../../../cache/albumCover/3d37-1616579455370-17199.jpeg"
+      },
+      "ar": [
+        {
+          "name": "鲸鱼"
+        }
+      ],
+      "url": "C:\\CloudMusic/鲸鱼 - 浥轻尘.mp3",
+      "id": "ytj90fh7ca",
+      "size": 11157814,
+      "name": " 浥轻尘"
+    },
+    {
+      "al": {
+        "name": "Stay With Me",
+        "picUrl": "../../../../cache/albumCover/182a-1616579455393-15288.jpeg"
+      },
+      "ar": [
+        {
+          "name": "黄雨篱"
+        }
+      ],
+      "url": "C:\\CloudMusic/黄雨篱 - Stay With Me.mp3",
+      "id": "9cx50b3sns",
+      "size": 13129286,
+      "name": " Stay With Me"
+    },
+    {
+      "al": {
+        "name": "我是江小白 第二季 动画原声大碟",
+        "picUrl": "../../../../cache/albumCover/69b7-1616579455451-11109.jpeg"
+      },
+      "ar": [
+        {
+          "name": "黄雨篱"
+        }
+      ],
+      "url": "C:\\CloudMusic/黄雨篱 - 有话对你说.mp3",
+      "id": "218xzgtq9ot",
+      "size": 8513631,
+      "name": " 有话对你说"
+    },
+    {
+      "al": {
+        "name": "不如吃茶去",
+        "picUrl": "../../../../cache/albumCover/8714-1616579455541-38811.jpeg"
+      },
+      "ar": [
+        {
+          "name": "黄龄/许嵩"
+        }
+      ],
+      "url": "C:\\CloudMusic/黄龄,许嵩 - 惊鸿一面.mp3",
+      "id": "ix7a7iowyr",
+      "size": 10621759,
+      "name": " 惊鸿一面"
     }
   ]
 }

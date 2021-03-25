@@ -255,6 +255,7 @@ export default {
       });
     },
     handleDBclick(row) {
+      console.log(typeof row);
       this.play(row);
     },
 

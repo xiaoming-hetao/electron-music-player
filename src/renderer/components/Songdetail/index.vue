@@ -66,7 +66,7 @@
             height="30"
             alt="收起"
             style="cursor: pointer;margin-top:20px;margin-left:20px"
-            @click="()=> {this.$router.go(-1);}"
+            @click="handleShouqi"
           ></div>
       </div>
     </section>
@@ -84,7 +84,9 @@ export default {
       cur: 0,
       currentTime: 0,
       mousein: false,
-      audioDom: ""
+      audioDom: "",
+      baseY: 260,
+      audioContext: ""
     };
   },
 
@@ -100,48 +102,60 @@ export default {
     },
     songdetail() {
       return this.$store.state.player.song;
+    },
+    is_playLocal() {
+      return this.$store.state.player.is_playLocal;
     }
   },
 
   methods: {
     onLoadAudio(audio) {
+      // 创建音频上下文
       var context = new (window.AudioContext || window.webkitAudioContext)();
+      this.audioContext = context;
+      // 创建分析器，用于获取音频的频率数据
       var analyser = context.createAnalyser();
       analyser.fftSize = 512;
-      var source = context.createMediaElementSource(audio);
 
-      source.connect(analyser);
-      analyser.connect(context.destination);
-
-      var bufferLength = analyser.frequencyBinCount;
-      var dataArray = new Uint8Array(bufferLength);
+      // 设置音频节点，关联到 AudioContext 上，作为整个音频分析过程的输入
+      var source = context.createMediaElementSource(audio); //通过<audio>节点创建音频源
+      source.connect(analyser); //将音频源关联到分析器
+      analyser.connect(context.destination); //把分析器关联到输出设备
 
       var canvas = document.getElementById("waveCanvas");
       canvas.width = window.innerWidth;
-      canvas.height = 270;
+      canvas.height = 300;
 
       var ctx = canvas.getContext("2d");
       var WIDTH = canvas.width;
       var HEIGHT = canvas.height;
+
+      var bufferLength = analyser.frequencyBinCount;
+      var dataArray = new Uint8Array(bufferLength);
 
       var barWidth = (WIDTH / bufferLength) * 1.5;
       var barHeight;
 
       function renderFrame() {
         requestAnimationFrame(renderFrame);
-
+        // 获取频率数据
+        // getByteFrequencyData 是对已有的数组元素进行赋值，而不是创建后返回新的数组。
         analyser.getByteFrequencyData(dataArray);
 
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
         for (var i = 0, x = 0; i < bufferLength; i++) {
+          // 根据频率值映射一个矩形的高度
           barHeight = dataArray[i];
 
-          var r = barHeight + 25 * (i / bufferLength);
-          var g = 250 * (i / bufferLength);
-          var b = 50;
+          // 根据每个矩形的高度映射一个背景色，使用渐变效果
+          var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(1, "#0f00f0");
+          gradient.addColorStop(0.5, "#ff0ff0");
+          gradient.addColorStop(0, "#f00f00");
+          ctx.fillStyle = gradient; //填充
 
-          ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+          // ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
           ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
           x += barWidth + 2;
@@ -149,21 +163,19 @@ export default {
       }
 
       renderFrame();
-      // setInterval(renderFrame, 44);
+    },
+    handleShouqi() {
+      this.$router.go(-1);
+      // if (this.is_playLocal) {
+      //   this.audioContext.close();
+      // }
     }
   },
-  watch: {
-    audioDom(newVal, oldVal) {
-      console.log(newVal, "1");
-      console.log(oldVal, "2");
-      if (newVal !== oldVal) {
-        this.onLoadAudio(newVal);
-      }
-    }
-  },
+
   mounted() {
-    this.audioDom = this.audio;
-    this.onLoadAudio(this.audio);
+    if (this.is_playLocal) {
+      this.onLoadAudio(this.audio);
+    }
   }
 };
 </script>
